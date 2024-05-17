@@ -6,20 +6,30 @@ public class Item {
     private LocalDate expData; // Assuming Time is a valid type for expData
     private String location;
     private boolean damaged;
-    private double supPrice;
+    private double boughtPrice;
     private double soldPrice;
     private LocalDate sellDate;
 
     // Constructor for items
-    public Item(LocalDate expData, double supPrice) {
+    public Item(LocalDate expData, double boughtPrice) {
         this.id = id++;
         this.expData = expData;
         this.location = "Warehouse";
         this.damaged = false;
-        this.supPrice = supPrice;
+        this.boughtPrice = boughtPrice;
         this.soldPrice = -1;
     }
     
+    public String toString()
+    {
+        return "Item id: " + this.id + "\n"
+                + "Experation date: " + this.expData + "\n "
+                + "Location: " + this.location + "\n"
+                + "Damaged: " + this.damaged + "\n"
+                + "Bought price: " + this.boughtPrice + "\n"
+                + "Sold price: " + this.soldPrice + "\n"
+                + "Sell date: " + this.sellDate.toString() + "\n";
+    }
     // Getters
     public int getId() {
         return id;
@@ -33,8 +43,8 @@ public class Item {
     public boolean isDamaged() {
         return damaged;
     }
-    public double getSupPrice() {
-        return supPrice;
+    public double getboughtPrice() {
+        return boughtPrice;
     }
     public LocalDate getSellDate() {
         return sellDate;
@@ -52,8 +62,8 @@ public class Item {
     public void setDamage(boolean damage) {
         this.damaged = damage;
     }
-    public void setSupPrice(double supPrice) {
-        this.supPrice = supPrice;
+    public void setboughtPrice(double boughtPrice) {
+        this.boughtPrice = boughtPrice;
     }
     public void setsoldPrice(double price){
         this.soldPrice = price;

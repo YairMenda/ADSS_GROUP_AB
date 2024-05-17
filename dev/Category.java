@@ -46,6 +46,17 @@ public class Category {
         return this.subCategories.get(subCategory).getProducts();
     }
 
+    //get all products by specific size
+    public LinkedList<Product> getProductsBySize(int size)
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for (SubCategory sc : this.subCategories.values()) 
+        {
+            result.addAll(sc.getProductsBySize(size));   
+        }
+        return result;
+    }
+
     //get list of products from all sub categories
     public LinkedList<Product> getAllProducts()
     {

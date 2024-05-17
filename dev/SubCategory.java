@@ -2,6 +2,7 @@ package dev;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SubCategory {
 
@@ -40,6 +41,19 @@ public class SubCategory {
         return new LinkedList<>(products.values());
     }
 
+    //get all products by specific size
+    public LinkedList<Product> getProductsBySize(int size)
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for (Product p : this.products.values()) 
+        {
+            if(p.getSize() == size)
+            {
+                result.add(p);
+            }
+        }
+        return result;
+    }
     //return list of damaged items
     public LinkedList<Item> getDamagedItems()
     {
@@ -61,6 +75,7 @@ public class SubCategory {
         return expItems;
     }
     
+    //get Product by specific name
     public Product getProduct(String pName)
     {
         for(Product p : products.values()){
@@ -69,6 +84,5 @@ public class SubCategory {
         }
         return null;
     }
-
 
 }

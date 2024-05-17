@@ -53,8 +53,19 @@ public class Storage {
         return categories.get(categoryName).getAllProducts();
     }
 
-     public LinkedList<Product> getProductsBySubCategory(String categoryName, String subCategory){
+    public LinkedList<Product> getProductsBySubCategory(String categoryName, String subCategory){
         return this.categories.get(categoryName).getProductsBySubCategory(subCategory);
+    }
+
+    //get all products by specific size
+    public LinkedList<Product> getProdcutsBySize(int size)
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for (Category c : this.categories.values())
+        {
+            result.addAll(c.getProductsBySize(size));
+        }
+        return result;
     }
     //return report of products by specific category
     public ProductReport reportByCategory(String categoryName){

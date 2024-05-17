@@ -92,6 +92,18 @@ public class Product {
         }
         return damagedList;
     }
+
+    public String toString()
+    {
+        return "Product name: " + this.productName + "\n "
+                + "Category: " + this.category + "\n "
+                + "Sub category: " + this.subCategory + "\n "
+                + "Supplier name: " + this.supplierName + "\n " 
+                + "Product size: " + this.size + "\n "
+                + "Quantity left: " + this.itemsLeft() + "\n "
+                + "Sold count: " + this.soldItems.size() + "\n ";
+    }
+
     // Getters
     public String getProductName() {
         return productName;
