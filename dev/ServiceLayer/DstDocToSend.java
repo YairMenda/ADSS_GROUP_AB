@@ -14,4 +14,34 @@ public class DstDocToSend {
         this.items=items;
     }
 
+
+    public int getDocNumber() {
+        return docNumber;
+    }
+
+
+    public void setDocNumber(int docNumber) {
+        this.docNumber = docNumber;
+    }
+
+
+    public int getDeliveryNumber() {
+        return deliveryNumber;
+    }
+
+
+    public void setDeliveryNumber(int deliveryNumber) {
+        this.deliveryNumber = deliveryNumber;
+    }
+
+
+    public List<Integer> getItems() {
+        return items;
+    }
+
+
+    public void setItems(List<Integer> items) {
+        this.items = items;
+    }
+
 }

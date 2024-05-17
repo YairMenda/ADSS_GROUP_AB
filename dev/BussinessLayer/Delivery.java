@@ -9,10 +9,14 @@ public class Delivery {
     private double truckWeight;
     private String driverName;
     private Site origin;
-    private List<String> destinations;
-    private String deliveryStatus;
+    private List<Site> destinations;
+    private status deliveryStatus;
+    private List<DstDoc> destinationDocs;
 
-    public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber,double truckWeight, String driverName,site origin, List<String> destinations)
+    enum status {waiting,approved,complete};
+
+    public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber,double truckWeight
+    , String driverName,Site origin, List<Site> destinations)
     {
         this.deliveryNumber=deliveryNumber;
         this.date=date;
@@ -21,8 +25,9 @@ public class Delivery {
         this.driverName=driverName;
         this.origin=origin;
         this.destinations=destinations;
-        //deliveryStatus= ????
-
+        deliveryStatus = status.waiting;
+        this.destinationDocs = new LinkedList<DstDoc>();
+        
     }
 
     public int getDeliveryNumber() {
@@ -81,23 +86,93 @@ public class Delivery {
         this.origin = origin;
     }
 
-    public List<String> getDestinations() {
+    public List<Site> getDestinations() {
         return destinations;
     }
 
-    public void setDestinations(List<String> destinations) {
+    public void setDestinations(List<Site> destinations) {
         this.destinations = destinations;
     }
 
-    public String getDeliveryStatus() {
+    public List<DstDoc> geDstDocs()
+    {
+        return this.destinationDocs;
+    }
+
+    public status getDeliveryStatus() {
         return deliveryStatus;
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
+    public void approveDelivery()
+    {
+        deliveryStatus = status.approved; 
     }
-    
 
-    
+    public void completeDelivery()
+    {
+        deliveryStatus = status.complete; 
+    }
 
-}
+    public boolean addDstDoc(DstDoc dd)
+    {
+        if (openToChanges()){
+            destinationDocs.add(dd);
+            return true;
+        }
+        return false;
+   
+    }
+
+    public boolean removeDstDoc(int docNumber){
+        if (openToChanges()){
+            for (DstDoc dd : destinationDocs) {
+                if (dd.getDocNumber()==docNumber){
+                    destinationDocs.remove(dd);
+                    return true;
+                }
+                
+            }
+            
+        }
+        return false;
+   
+    }
+
+
+
+    public boolean remove(Site site){
+        if (openToChanges()){
+             for(DstDoc dd: destinationDocs){
+                 if (dd.getDestination() == site){
+                   destinationDocs.remove(dd);
+                }
+            destinations.remove(site);
+             return true;
+             }
+          }
+         return false;
+    }
+
+    public boolean openToChanges(){
+        return deliveryStatus==status.approved;
+    }
+
+
+    public void removeProductsByDocNumber(int dstDocNumber,List<Integer> deletedProducts)
+    {
+        geDstDocByNumber(dstDocNumber).removeProducts(deletedProducts);
+    }
+
+    public DstDoc geDstDocByNumber(int dstDocNumber)
+    {
+        for (DstDoc d: destinationDocs)
+        {
+            if (d.getDocNumber()==dstDocNumber)
+                return d;
+        }
+
+        return null; 
+    }
+    }
+
+
