@@ -1,4 +1,5 @@
 package ServiceLayer;
+import BussinessLayer.*;
 import java.util.*;
 
 
@@ -10,20 +11,30 @@ public class DeliveryToSend {
     private int truckNumber;
     private double truckWeight;
     private String driverName;
-    private String origin;
-    private List<String> destinations;
-    private String deliveryStatus;
+    private SiteToSend origin;
+    private List<SiteToSend> destinations;
+    private Delivery.status deliveryStatus;
+    private List<DstDocToSend> destinationDocs;
 
-    public DeliveryToSend(int deliveryNumber,Date date, Date depTime , int truckNumber,double truckWeight, String driverName,String origin, List<String> destinations,String deliveryStatus)
+    public DeliveryToSend(Delivery other)
     {
-        this.deliveryNumber=deliveryNumber;
-        this.date=date;
-        this.departureTime=depTime;
-        this.truckNumber=truckNumber;
-        this.driverName=driverName;
-        this.origin=origin;
-        this.destinations=destinations;
-        this.deliveryStatus=deliveryStatus;
+        this.deliveryNumber=other.getDeliveryNumber();
+        this.date=other.getDate();
+        this.departureTime=other.getDepartureTime();
+        this.truckNumber=other.getTruckNumber();
+        this.driverName=other.getDriverName();
+        this.origin=new SiteToSend(other.getOrigin());
+        destinations= new LinkedList<>();
+        List<Site> l = other.getDestinations();
+        for(Site s:l){
+            destinations.add(new SiteToSend(s));
+        }
+        destinationDocs= new LinkedList<>();
+        List<DstDoc> docs = other.geDstDocs();
+        for(DstDoc dd:docs){
+            destinationDocs.add(new DstDocToSend(dd));
+        }
+        this.deliveryStatus=other.getDeliveryStatus();
 
     }
 
@@ -75,27 +86,27 @@ public class DeliveryToSend {
         this.driverName = driverName;
     }
 
-    public String getOrigin() {
+    public SiteToSend getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public void setOrigin(SiteToSend origin) {
         this.origin = origin;
     }
 
-    public List<String> getDestinations() {
+    public List<SiteToSend> getDestinations() {
         return destinations;
     }
 
-    public void setDestinations(List<String> destinations) {
+    public void setDestinations(List<SiteToSend> destinations) {
         this.destinations = destinations;
     }
 
-    public String getDeliveryStatus() {
+    public Delivery.status getDeliveryStatus() {
         return deliveryStatus;
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
+    public void setDeliveryStatus(Delivery.status deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
 }

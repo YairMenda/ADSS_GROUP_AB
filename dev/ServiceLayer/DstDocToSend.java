@@ -1,17 +1,20 @@
 package ServiceLayer;
 
+import BussinessLayer.DstDoc;
 import java.util.List;
 
 public class DstDocToSend {
     private int docNumber;
     private int deliveryNumber;
     private List<Integer> items;
+    private SiteToSend destination;
     
 
-    public DstDocToSend(int docNumber, int deliveryNumber, List<Integer> items){
-        this.docNumber=docNumber;
-        this.deliveryNumber=deliveryNumber;
-        this.items=items;
+    public DstDocToSend(DstDoc doc){
+        this.docNumber = doc.getDocNumber();
+        this.deliveryNumber=doc.getDeliveryNumber();
+        this.items=doc.getItems();
+        this.destination=new SiteToSend(doc.getDestination());
     }
 
 
@@ -44,4 +47,7 @@ public class DstDocToSend {
         this.items = items;
     }
 
+    public SiteToSend getDestination(){
+        return destination;
+    }
 }

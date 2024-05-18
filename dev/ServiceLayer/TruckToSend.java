@@ -1,4 +1,6 @@
 package ServiceLayer;
+import BussinessLayer.*;
+
 
 public class TruckToSend {
 
@@ -6,50 +8,31 @@ public class TruckToSend {
     private String model;
     private double weightWithoutCargo;
     private double maxWeight;
-    private char licenseCategory;
-    private boolean availability;
+    private String licenseCategory;
+    private DeliveryDatesToSend dates;
 
 
 
 
-public TruckToSend(int licenseNumber, String model, double weightWithoutCargo,double maxWeight,char licenseCategory)
+public TruckToSend(Truck other)
 {
-   this.licenseNumber=licenseNumber;
-   this.model=model;
-   this.weightWithoutCargo=weightWithoutCargo;
-   this.maxWeight=maxWeight;
-   this.licenseCategory=licenseCategory;
-   this.availability=false;
+   this.licenseNumber=other.getLicenseNumber();
+   this.model=other.getModel();
+   this.weightWithoutCargo=other.getWeightWithoutCargo();
+   this.maxWeight=other.getMaxWeight();
+   this.licenseCategory=other.getLicenseCategory();
+   this.dates= new DeliveryDatesToSend(other.getFutureDeliveryDates());
+   
 }
-
-
 
 
 public int getLicenseNumber() {
     return licenseNumber;
 }
 
-
-
-
-public void setLicenseNumber(int licenseNumber) {
-    this.licenseNumber = licenseNumber;
-}
-
-
-
-
 public String getModel() {
     return model;
 }
-
-
-
-
-public void setModel(String model) {
-    this.model = model;
-}
-
 
 
 
@@ -58,52 +41,16 @@ public double getWeightWithoutCargo() {
 }
 
 
-
-
-public void setWeightWithoutCargo(double weightWithoutCargo) {
-    this.weightWithoutCargo = weightWithoutCargo;
-}
-
-
-
-
 public double getMaxWeight() {
     return maxWeight;
 }
 
 
-
-
-public void setMaxWeight(double maxWeight) {
-    this.maxWeight = maxWeight;
-}
-
-
-
-
-public char getLicenseCategory() {
+public String getLicenseCategory() {
     return licenseCategory;
 }
-
-
-
-
-public void setLicenseCategory(char licenseCategory) {
-    this.licenseCategory = licenseCategory;
-}
-
-
-
-
-public boolean isAvailability() {
-    return availability;
-}
-
-
-
-
-public void setAvailability(boolean availability) {
-    this.availability = availability;
+public DeliveryDatesToSend getDates(){
+    return dates;
 }
 
 }

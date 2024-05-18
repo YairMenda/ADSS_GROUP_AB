@@ -11,6 +11,10 @@ public class DeliveryDates {
         this.dates = new LinkedList<Date>();
     }
 
+    public List<Date> getDates(){
+        return dates;
+    }
+
     public boolean isAvailable(Date d)
     {
         boolean available = true;

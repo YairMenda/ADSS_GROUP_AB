@@ -13,7 +13,7 @@ public class Delivery {
     private status deliveryStatus;
     private List<DstDoc> destinationDocs;
 
-    enum status {waiting,approved,complete};
+    public static enum status {waiting,approved,complete};
 
     public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber,double truckWeight
     , String driverName,Site origin, List<Site> destinations)
@@ -22,6 +22,7 @@ public class Delivery {
         this.date=date;
         this.departureTime=depTime;
         this.truckNumber=truckNumber;
+        this.truckWeight=-1;
         this.driverName=driverName;
         this.origin=origin;
         this.destinations=destinations;
@@ -173,6 +174,13 @@ public class Delivery {
 
         return null; 
     }
+
+    //replaces the truck and  cancels the last weight
+    public void replaceTruck(int newTruckNumber){
+        this.truckNumber= newTruckNumber;
+        this.truckWeight=-1;
+    }
+
     }
 
 

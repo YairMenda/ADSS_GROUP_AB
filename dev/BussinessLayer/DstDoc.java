@@ -21,11 +21,10 @@ public class DstDoc {
             items.remove(i);
     }
 
-}
-
     public int getDocNumber() {
         return docNumber;
     }
+
 
     public void setDocNumber(int docNumber) {
         this.docNumber = docNumber;
@@ -54,3 +53,4 @@ public class DstDoc {
     public void setDestination(Site destination) {
         this.destination = destination;
     }
+}

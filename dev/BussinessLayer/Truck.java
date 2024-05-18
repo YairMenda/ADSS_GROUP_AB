@@ -32,6 +32,16 @@ public double getMaxWeight(){
 public String getLicenseCategory(){
     return licenseCategory;
 }
+public double getWeightWithoutCargo(){
+    return weightWithoutCargo;
+}
+public String getModel(){
+    return model;
+}
+
+public DeliveryDates getFutureDeliveryDates(){
+     return futureDeliveryDates;
+    }
 
 
 public boolean isAvailable(Date date){
@@ -51,5 +61,5 @@ public void removeDelivery(Date date)
 {
     futureDeliveryDates.removeDelivery(date);
 }
-
+ 
 }

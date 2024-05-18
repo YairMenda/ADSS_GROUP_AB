@@ -1,15 +1,15 @@
 package ServiceLayer;
-
+import BussinessLayer.*;
 public class SiteToSend {
     private String address;
     private String phoneNumber;
     private String ContactName;
 
-    public SiteToSend(String address,String phoneNumber,String ContactName)
+    public SiteToSend(Site other)
     {
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.ContactName = ContactName;
+        this.address = other.getAddress();
+        this.phoneNumber = other.getContactName();
+        this.ContactName = other.getPhoneNumber();
     }
 
     public String getAddress() {

@@ -1,16 +1,19 @@
 package ServiceLayer;
+import BussinessLayer.*;
 import java.util.List;
 
 public class DriverToSend {
 
     private String name;
     private List<String> licenses;
-    
-    public DriverToSend(String name, List<String> licenses)
+    private DeliveryDatesToSend dates;
+
+    public DriverToSend(Driver d)
     {
 
-        this.name = name;
-        this.licenses = licenses;
+        this.name = d.getName();
+        this.licenses = d.getLicenses();
+        this.dates= new DeliveryDatesToSend(d.getFutureDeliveryDates());
     }
 
 

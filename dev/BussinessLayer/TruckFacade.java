@@ -33,15 +33,16 @@ public List<Truck> getAvialibleTrucks(Date date){
 }
 
 
-public void addTruck(Truck t){
+public void addTruck(int licenseNumber, String model, double weightWithoutCargo,double maxWeight,String licenseCategory){
+
     boolean exist=false;
     for (Truck truck:trucks){
-        if (t.getLicenseNumber()==truck.getLicenseNumber()){
+        if (licenseNumber==truck.getLicenseNumber()){
             exist=true;
         }
     }
     if(!exist)
-        trucks.add(t);
+        trucks.add(new Truck(licenseNumber, model,  weightWithoutCargo, maxWeight, licenseCategory));
 }
 
 

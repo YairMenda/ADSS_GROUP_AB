@@ -1,5 +1,4 @@
 package BussinessLayer;
-import java.util.List;
 import java.util.*;
 
 
@@ -23,6 +22,14 @@ public class Driver {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<String> getLicenses(){
+        return licenses;
+    }
+
+    public DeliveryDates getFutureDeliveryDates(){
+        return futureDeliveryDates;
     }
 
 
