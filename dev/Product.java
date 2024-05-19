@@ -166,5 +166,18 @@ public class Product {
         items.add(new Item(expDate,boughtPrice));
     }
 
+    public boolean deleteItem(int id)
+    {
+        for (Item item : items) 
+        {
+            if(item.getId() == id)
+            {
+                this.items.remove(item);
+                return true;
+            }
+        }
+        return false;
+    }
+
     
 }

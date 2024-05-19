@@ -74,6 +74,22 @@ public class SubCategory {
 
         return expItems;
     }
+
+    public void addItem(String productName, double boughtPrice)
+    {
+        this.products.get(productName).addItem(LocalDate.now(), boughtPrice);
+    }
+
+    public boolean deleteItem(String productName, int id)
+    {
+        return this.products.get(productName).deleteItem(id);
+    }
+
+    //handles the sale of an item
+    public void sellItem(String productName, int itemId, double price)
+    {
+        this.products.get(productName).sellItem(itemId, price);
+    }
     
     //get Product by specific name
     public Product getProduct(String pName)

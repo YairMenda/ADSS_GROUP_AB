@@ -1,5 +1,6 @@
 package dev;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -57,6 +58,16 @@ public class Category {
         return result;
     }
 
+    public void addItem(String subCategory, String productName, double boughtPrice)
+    {
+        this.subCategories.get(subCategory).addItem(productName, boughtPrice);
+    }
+
+    public boolean deleteItem(String subCategory, String productName, int id)
+    {
+        return this.subCategories.get(subCategory).deleteItem(productName, id);
+    }
+
     //get list of products from all sub categories
     public LinkedList<Product> getAllProducts()
     {
@@ -87,6 +98,11 @@ public class Category {
             expItems.addAll(sc.getExpiredItems());
         }
         return expItems;
+    }
+
+    public void sellItem(String subCategory, String productName, int itemId, double price)
+    {
+        this.subCategories.get(subCategory).sellItem(productName, itemId, price);
     }
 
     public Product getProduct(String pName)

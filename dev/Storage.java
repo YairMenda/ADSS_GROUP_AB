@@ -68,14 +68,15 @@ public class Storage {
         return result;
     }
     //return report of products by specific category
-    public ProductReport reportByCategory(String categoryName){
-        return new ProductReport(categories.get(categoryName).getAllProducts(), categoryName);
+    public ProductReport reportByCategory(String categoryName)
+    {
+        return new ProductReport(getProductsByCategory(categoryName), categoryName);
     }
 
     //return report of products by specific sub category
     public ProductReport reportBySubCategory(String categoryName, String subCategory)
     {
-        return new ProductReport(this.categories.get(categoryName).getProductsBySubCategory(subCategory), subCategory);
+        return new ProductReport(getProductsBySubCategory(categoryName, subCategory), subCategory);
     }
 
 
@@ -83,11 +84,8 @@ public class Storage {
     public ItemReport reportByBadItems()
     {
         LinkedList<Item> items = new LinkedList<>();
-        for(Category c : categories.values()){
-            items.addAll(c.getExpiredItems());
-            items.addAll(c.getDamagedItems());
-        }
-
+        items.addAll(getDamagedItems());
+        items.addAll(getExpiredItems());
         return new ItemReport(items, "Bad items ");
 
     }
@@ -104,5 +102,40 @@ public class Storage {
             }
         }
         return null;
+    }
+
+    public void addItem(String category, String subCategory, String productName, double boughtPrice)
+    {
+        this.categories.get(category).addItem(subCategory, productName, boughtPrice);
+    }
+
+    public boolean deleteItem(String category, String subCategory, String productName, int id)
+    {
+        return this.categories.get(category).deleteItem(subCategory, productName, id);
+    }
+
+    // return list of damaged items
+    public LinkedList<Item> getExpiredItems()
+    {
+        LinkedList<Item> expItems = new LinkedList<>();
+        for(Category c : this.categories.values()){
+            expItems.addAll(c.getExpiredItems());
+        }
+        return expItems;
+    }
+
+    // return list of damaged items
+    public LinkedList<Item> getDamagedItems()
+    {
+        LinkedList<Item> dmgItems = new LinkedList<>();
+        for(Category c : categories.values()){
+            dmgItems.addAll(c.getDamagedItems());
+        }
+        return dmgItems;
+    }
+
+    public void sellItem(String category,String subCategory, String productName, int itemId, double price)
+    {
+        this.categories.get(category).sellItem(subCategory, productName, itemId, price);
     }
 }
