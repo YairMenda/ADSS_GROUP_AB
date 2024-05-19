@@ -17,6 +17,13 @@ public DeliveryFacade(TruckFacade tf , DriverFacade df, SiteFacade sf)
     this.tf = tf;
     this.df = df;
     this.sf = sf;
+    //needs to handle Deliverys ID
+}
+
+
+
+public void addNewDelivery(Date date, Date depTime , int truckNumber, String driverName,Site origin){
+    throw new UnsupportedOperationException();
 }
 
 public boolean weightUpdate(int deliveryNumber,double weight)

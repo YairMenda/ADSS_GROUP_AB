@@ -20,5 +20,11 @@ public class DriverService {
 
 
 
+    public String addNewLicenseToDriver(String driverName, String license){
+        throw new UnsupportedOperationException();
+    }
+
+
+
     
 }

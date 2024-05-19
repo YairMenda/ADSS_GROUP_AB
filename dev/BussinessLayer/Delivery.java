@@ -15,7 +15,7 @@ public class Delivery {
 
     public static enum status {waiting,approved,complete};
 
-    public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber,double truckWeight
+    public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber
     , String driverName,Site origin, List<Site> destinations)
     {
         this.deliveryNumber=deliveryNumber;
