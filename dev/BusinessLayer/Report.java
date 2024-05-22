@@ -1,4 +1,4 @@
-package dev;
+package dev.BusinessLayer;
 
 public abstract class Report {
     

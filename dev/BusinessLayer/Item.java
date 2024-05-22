@@ -1,8 +1,9 @@
-package dev;
+package dev.BusinessLayer;
 import java.time.LocalDate; // import the LocalDate class
 
 public class Item {
-    private static int id = 1;
+    private static int idNum = 1;
+    private int id;
     private LocalDate expData; // Assuming Time is a valid type for expData
     private String location;
     private boolean damaged;
@@ -12,7 +13,7 @@ public class Item {
 
     // Constructor for items
     public Item(LocalDate expData, double boughtPrice) {
-        this.id = id++;
+        this.id = idNum++;
         this.expData = expData;
         this.location = "Warehouse";
         this.damaged = false;

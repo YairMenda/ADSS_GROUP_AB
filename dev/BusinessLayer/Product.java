@@ -1,4 +1,4 @@
-package dev;
+package dev.BusinessLayer;
 import java.util.List;
 import java.util.LinkedList;
 import java.time.LocalDate;
@@ -6,25 +6,32 @@ import java.time.temporal.ChronoUnit;
 
 
 public class Product {
+    private static int productIdNum = 0;
+    private int productId;
     private String productName;
     private String category;
     private String subCategory;
     private String supplierName; // Changed to String assuming 'supplierName' should be textual
+    private double price;
+    private double supplierPrice;
     private List<Item> items;
     private List<Item> soldItems;
     private double size;
-    private double discount; // -1 equals no discount
+    private Discount discount; // -1 equals no discount
 
     // Constructor
-    public Product(String productName, String category, String subCategory, String supplierName,
-                    double size) {
+    public Product(int productId, String productName, String category, String subCategory, String supplierName,
+                    double size , double price, double supplierPrice) {
+        this.productId = productIdNum++;
         this.productName = productName;
         this.category = category;
         this.subCategory = subCategory;
         this.supplierName = supplierName;
+        this.price = price;
+        this.supplierPrice = supplierPrice;
         this.items = new LinkedList<Item>();
         this.size = size;
-        this.discount = -1;
+        this.discount = new Discount(supplierPrice,this.price);
     }
 
     //Calculates the total decent items left
@@ -38,13 +45,15 @@ public class Product {
     }
 
     //handles the sale of an item
-    public void sellItem(int itemId, double price){
+    public void sellItem(int itemId){
         for (Item i : items) {
             if(i.getId() == itemId){
-                i.setsoldPrice(price);
+                i.setsoldPrice(getStoragePrice());
                 i.setSellDate(LocalDate.now());
                 items.remove(i);
                 soldItems.add(i);
+                if(needsAlert())
+                    System.out.println("Product " + productName + " is reaching its end! \n Only " + itemsLeft() + " \n The average selling rate of this item is " + avgSoldInMonth());
             }
         }
     }
@@ -64,11 +73,15 @@ public class Product {
         return (totalSold / daysFromFirstSell) * 30;
     }
 
-    public LinkedList<Item> getExpiredItems(){
+    public LinkedList<Item> getExpiredItems(boolean drop){
         LinkedList<Item> exProducts = new LinkedList<>();
         for(Item i : items){
-            if(i.isExpired())
+            if(i.isExpired()){
                 exProducts.add(i);
+                if(drop)
+                    items.remove(i);
+
+            }
         }
         return exProducts;
     }
@@ -78,9 +91,9 @@ public class Product {
         return itemsLeft() <= avgSoldInMonth(); 
     }
 
-
+    
     // return list of damaged items
-    public LinkedList<Item> getDamagedProducts()
+    public LinkedList<Item> getDamagedItems(boolean drop)
     {
         LinkedList<Item> damagedList = new LinkedList<>();
         for (Item it : this.items)
@@ -88,9 +101,16 @@ public class Product {
             if(it.isDamaged())
             {
                 damagedList.add(it);
+                if(drop)
+                    items.remove(it);
             }
         }
         return damagedList;
+    }
+
+    public void addItem(LocalDate expDate)
+    {
+        items.add(new Item(expDate,getSupplierPrice()));
     }
 
     public String toString()
@@ -100,15 +120,48 @@ public class Product {
                 + "Sub category: " + this.subCategory + "\n "
                 + "Supplier name: " + this.supplierName + "\n " 
                 + "Product size: " + this.size + "\n "
+                + "Product price: " + this.getStoragePrice() + "\n "
+                + "Discount days left: " + this.discount.getdaysLeft() + "\n "
                 + "Quantity left: " + this.itemsLeft() + "\n "
-                + "Sold count: " + this.soldItems.size() + "\n ";
+                + "Sold count: " + this.soldItems.size() + "\n "; 
+    }
+
+    //set new product price by specific discount
+    public void setStorageDiscount(int storageDiscount, int days)
+    {
+        this.discount.setStorageDiscount(this.price*(1-(storageDiscount/100)), days);
+    }
+
+    //set new supplier price by specific discount
+    public void setSupplierDiscount(int supplierDiscount)
+    {
+        this.discount.setSupplierDiscount(this.supplierPrice*(1-(supplierDiscount/100)));
+    }
+
+    //update discount by days left
+    public void updateDiscount(int discount)
+    {
+        this.discount.updateDiscount(this.price);  
+    }
+
+    public double getStoragePrice()
+    {
+        return this.discount.getStorageDiscountPrice();
+    }
+
+    public double getSupplierPrice()
+    {
+        return this.discount.getSupplierDiscountPrice();
     }
 
     // Getters
     public String getProductName() {
         return productName;
     }
-
+    public int getId(){
+        return this.productId;
+    }
+    
     public String getCategory() {
         return category;
     }
@@ -127,10 +180,6 @@ public class Product {
 
     public double getSize() {
         return size;
-    }
-
-    public double getDiscount() {
-        return discount;
     }
 
     // Setters
@@ -156,14 +205,6 @@ public class Product {
 
     public void setSize(double size) {
         this.size = size;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
-    public void addItem(LocalDate expDate, double boughtPrice){
-        items.add(new Item(expDate,boughtPrice));
     }
 
     public boolean deleteItem(int id)

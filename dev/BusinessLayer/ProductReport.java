@@ -1,4 +1,4 @@
-package dev;
+package dev.BusinessLayer;
 import java.util.LinkedList;
 
 public class ProductReport extends Report{

@@ -1,4 +1,4 @@
-package dev;
+package dev.BusinessLayer;
 import java.util.LinkedList;
 import java.util.HashMap;
 
@@ -37,16 +37,10 @@ public class Storage {
         return this.categories.get(category).deleteSubCategory(SubCategory);
     }
 
-    //trying add product by calling category::addproduct
-    public boolean addProduct(String category, String productName, String subCategory, String supplierName, double size)
-    {
-        return this.categories.get(category).addProduct(productName, subCategory, supplierName, size);
-    }
-
     //trying delete product by calling category::deleteProduct
-    public boolean deleteProduct(String category, String subCategory, String productName)
+    public boolean deleteProduct(String category, String subCategory, int productId)
     {
-        return this.categories.get(category).deleteProduct(subCategory, productName);
+        return this.categories.get(category).deleteProduct(subCategory, productId);
     }
 
     public LinkedList<Product> getProductsByCategory(String categoryName){
@@ -84,18 +78,18 @@ public class Storage {
     public ItemReport reportByBadItems()
     {
         LinkedList<Item> items = new LinkedList<>();
-        items.addAll(getDamagedItems());
-        items.addAll(getExpiredItems());
+        items.addAll(getDamagedItems(true));
+        items.addAll(getExpiredItems(true));
         return new ItemReport(items, "Bad items ");
 
     }
 
     // return Product by specific name
-    public Product getProduct(String pName)
+    public Product getProduct(int id)
     {
         Product p;
         for(Category c : categories.values()){
-            p = c.getProduct(pName);
+            p = c.getProduct(id);
             if(p != null)
             {
                 return p;
@@ -104,38 +98,51 @@ public class Storage {
         return null;
     }
 
-    public void addItem(String category, String subCategory, String productName, double boughtPrice)
+    public void addProduct(String category, String subCategory,String productName, int productId, String supplierName,
+     double size, double price ,double supplierPrice)
     {
-        this.categories.get(category).addItem(subCategory, productName, boughtPrice);
+        this.categories.get(category).addProduct(subCategory, productName, productId, supplierName, size, price, supplierPrice);
     }
 
-    public boolean deleteItem(String category, String subCategory, String productName, int id)
+
+    public boolean deleteItem(int productId, int id)
     {
-        return this.categories.get(category).deleteItem(subCategory, productName, id);
+        return getProduct(productId).deleteItem(id);
     }
 
     // return list of damaged items
-    public LinkedList<Item> getExpiredItems()
+    public LinkedList<Item> getExpiredItems(boolean drop)
     {
         LinkedList<Item> expItems = new LinkedList<>();
         for(Category c : this.categories.values()){
-            expItems.addAll(c.getExpiredItems());
+            expItems.addAll(c.getExpiredItems(drop));
         }
         return expItems;
     }
 
     // return list of damaged items
-    public LinkedList<Item> getDamagedItems()
+    public LinkedList<Item> getDamagedItems(boolean drop)
     {
         LinkedList<Item> dmgItems = new LinkedList<>();
         for(Category c : categories.values()){
-            dmgItems.addAll(c.getDamagedItems());
+            dmgItems.addAll(c.getDamagedItems(drop));
         }
         return dmgItems;
     }
 
-    public void sellItem(String category,String subCategory, String productName, int itemId, double price)
+
+    public boolean doesCatExists(String catName){
+        return this.categories.containsKey(catName);
+    }
+
+    public boolean doesSubCatExists(String catName, String sCatName){
+        if(!this.categories.containsKey(catName))
+            return false;
+        return this.categories.get(catName).doesSubCatExists(sCatName);
+    }
+
+    public void sellItem(int productId, int itemId)
     {
-        this.categories.get(category).sellItem(subCategory, productName, itemId, price);
+        getProduct(productId).sellItem(itemId);
     }
 }

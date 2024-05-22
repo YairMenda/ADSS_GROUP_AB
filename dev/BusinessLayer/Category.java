@@ -1,6 +1,5 @@
-package dev;
+package dev.BusinessLayer;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -29,16 +28,11 @@ public class Category {
         return this.subCategories.remove(subCategory) != null;
     }
 
-    //trying adding product by calling subcategory::addProduct
-    public boolean addProduct(String productName, String subCategory, String supplierName, double size)
-    {
-        return this.subCategories.get(subCategory).addProduct(productName, supplierName, size);
-    }
 
     //trying deleting product by calling subcategory::deleteProdcut
-    public boolean deleteProduct(String subCategory, String productName)
+    public boolean deleteProduct(String subCategory, int productId)
     {
-        return this.subCategories.get(subCategory).deleteProduct(productName);
+        return this.subCategories.get(subCategory).deleteProduct(productId);
     }
 
     //get list of products from specific sub category
@@ -58,15 +52,16 @@ public class Category {
         return result;
     }
 
-    public void addItem(String subCategory, String productName, double boughtPrice)
-    {
-        this.subCategories.get(subCategory).addItem(productName, boughtPrice);
+    public boolean doesSubCatExists(String sCatName){
+        return this.subCategories.containsKey(sCatName);
     }
 
-    public boolean deleteItem(String subCategory, String productName, int id)
+    public void addProduct(String subCategory, String productName,int prodcutId, String supplierName, double size, double price ,
+    double supplierPrice)
     {
-        return this.subCategories.get(subCategory).deleteItem(productName, id);
+        this.subCategories.get(subCategory).addProduct(prodcutId, productName, supplierName, size, price, supplierPrice);;
     }
+
 
     //get list of products from all sub categories
     public LinkedList<Product> getAllProducts()
@@ -81,40 +76,37 @@ public class Category {
     }
 
     // return list of damaged items
-    public LinkedList<Item> getDamagedItems()
+    public LinkedList<Item> getDamagedItems(boolean drop)
     {
         LinkedList<Item> dmgItems = new LinkedList<>();
         for(SubCategory sc : subCategories.values()){
-            dmgItems.addAll(sc.getDamagedItems());
+            dmgItems.addAll(sc.getDamagedItems(drop));
         }
         return dmgItems;
     }
 
     //return list of expired items
-    public LinkedList<Item> getExpiredItems()
+    public LinkedList<Item> getExpiredItems(boolean drop)
     {
         LinkedList<Item> expItems = new LinkedList<>();
         for(SubCategory sc : subCategories.values()){
-            expItems.addAll(sc.getExpiredItems());
+            expItems.addAll(sc.getExpiredItems(drop));
         }
         return expItems;
     }
 
-    public void sellItem(String subCategory, String productName, int itemId, double price)
-    {
-        this.subCategories.get(subCategory).sellItem(productName, itemId, price);
-    }
-
-    public Product getProduct(String pName)
+    public Product getProduct(int id)
     {
         Product p;
         for(SubCategory sc : subCategories.values()){
-            p = sc.getProduct(pName);
+            p = sc.getProduct(id);
             if(p != null){
                 return p;
             }
         }
         return null;
     }
+
+
     
 }
