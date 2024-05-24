@@ -32,7 +32,6 @@ public class StorageService {
         }
     }
 
-    
 
     public String deleteSubCategory(String storageName, String categoryName, String subCategoryName) {
         try {
@@ -69,6 +68,39 @@ public class StorageService {
             return createResponse(null, e.toString());
         }
     }
+
+    public String reportByCategory(String storageName, String categoryName) {
+        try {
+            return createResponse(storageFacade.reportByCategory(storageName, categoryName).toString(), null);
+        } catch (Exception e) {
+            return createResponse(null, e.toString());
+        }
+    }
+
+    public String reportBySubCategory(String storageName, String categoryName, String subCategory) {
+        try {
+            return createResponse(storageFacade.reportBySubCategory(storageName, categoryName, subCategory).toString(), null);
+        } catch (Exception e) {
+            return createResponse(null, e.toString());
+        }
+    }
+
+    public String reportByBadItems(String storageName) {
+        try {
+            return createResponse(storageFacade.reportByBadItems(storageName).toString(), null);
+        } catch (Exception e) {
+            return createResponse(null, e.toString());
+        }
+    }
+
+    public String getProductsBySize(String storageName, int size) {
+        try {
+            return createResponse(storageFacade.getProdcutsBySize(storageName, size).toString(), null);
+        } catch (Exception e) {
+            return createResponse(null, e.toString());
+        }
+    }
+
 
     public String deleteCategory(String storageName, String categoryName) {
         try {
@@ -143,6 +175,6 @@ public class StorageService {
         if (error != null) {
             response.addProperty("error", error);
         }*/
-        return "A json response with result, error";
+        return "A json response with result/error";
     }
 }

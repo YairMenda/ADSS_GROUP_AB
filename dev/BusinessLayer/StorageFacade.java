@@ -50,8 +50,8 @@ public class StorageFacade {
     //Menash - to remove - DONE
     public boolean addSubCategory(String storageName, String categoryName ,String subCategoryName) throws Exception
     {
-        if(storages.get(storageName).doesCatExists(categoryName))
-            throw new Exception ("Category already exist");
+        if(!storages.get(storageName).doesCatExists(categoryName))
+            throw new Exception ("Category doesnt exist");
         if(storages.get(storageName).doesSubCatExists(categoryName, subCategoryName))
             throw new Exception ("Sub Category already exist");
         return this.storages.get(storageName).addSubCategory(categoryName, subCategoryName);
