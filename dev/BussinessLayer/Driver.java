@@ -1,16 +1,22 @@
 package BussinessLayer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
 public class Driver {
 
+    private String id;
+    public String getId() {
+        return id;
+    }
+
     private String name;
     private List<String> licenses;
     private DeliveryDates futureDeliveryDates;
     
-    public Driver(String name, List<String> licenses)
+    public Driver(String id, String name, List<String> licenses)
     {
-
+        this.id = id;
         this.name = name;
         this.licenses = licenses;
         this.futureDeliveryDates= new DeliveryDates();
@@ -49,21 +55,21 @@ public class Driver {
 
 
 
-    public boolean isAvailable(Date date){
+    public boolean isAvailable(LocalDateTime date){
         return futureDeliveryDates.isAvailable(date);
     }
 
-    public void deliveryAcomplishment(Date date){
+    public void deliveryAcomplishment(LocalDateTime date){
         futureDeliveryDates.deliveryAcomplishment(date);
     }
 
 
-//assumes isAvailable(date)==true
-public void addDelivery(Date date){
-    futureDeliveryDates.addDelivery(date);
+public void addDelivery(LocalDateTime date)throws Exception{
+    if (!futureDeliveryDates.addDelivery(date))
+        throw new Exception("The driver with id - " + getId() + "is not avaliable");
 }
 
-public void removeDelivery(Date date){
+public void removeDelivery(LocalDateTime date){
     futureDeliveryDates.removeDelivery(date);
 }
 

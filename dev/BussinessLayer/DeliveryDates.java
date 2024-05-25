@@ -2,38 +2,33 @@ package BussinessLayer;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class DeliveryDates {
-    List<Date> dates;
+    List<LocalDateTime> dates;
     
     public DeliveryDates()
     {
-        this.dates = new LinkedList<Date>();
+        this.dates = new LinkedList<LocalDateTime>();
     }
 
-    public List<Date> getDates(){
+    public List<LocalDateTime> getDates(){
         return dates;
     }
 
-    public boolean isAvailable(Date d)
+    public boolean isAvailable(LocalDateTime date)
     {
         boolean available = true;
-
-        for (Date date : dates)
-        {
-            if (date.compareTo(d) == 0)
-            {
+        for (LocalDateTime d : dates)
+            if (Duration.between(d,date).toHours() < 4)
                 available = false;
-            }
-
-        }
-
         return available;
     }
 
-    public void deliveryAcomplishment(Date d)
+    public void deliveryAcomplishment(LocalDateTime d)
     {  
-        for (Date date : dates)
+        for (LocalDateTime date : dates)
         {
             if (date.compareTo(d) == 0)
             {
@@ -44,11 +39,14 @@ public class DeliveryDates {
 
     }
 
-    public void addDelivery(Date d){
-        dates.add(d);
+    //assumes 
+    public boolean addDelivery(LocalDateTime date){
+        if (isAvailable(date))
+            {dates.add(date);return true;}
+        return false;
     }
 
-    public void removeDelivery(Date d){
+    public void removeDelivery(LocalDateTime d){
         dates.remove(d);
     }
 }

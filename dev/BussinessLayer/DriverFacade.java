@@ -3,31 +3,31 @@ import java.util.*;
 
 public class DriverFacade {
 
-    private List<Driver> drivers;
+    private Map<String , Driver> drivers;
 
     public DriverFacade(List<Driver> drivers)
     {
-        this.drivers = drivers;
-    }
-
-    public void addDriver(Driver d)
-    {
-        this.drivers.add(d);
-    }
-
-    public void removeDriver(Driver d)
-    {
-        this.drivers.remove(d);
+        this.drivers = new HashMap<>();
+        for (Driver d : drivers){
+            this.drivers.put(d.getId(),d);
+        }
     }
 
     public List<Driver> getDrivers() {
-        return drivers;
+        return new LinkedList<Driver>(drivers.values());
+    }
+
+    public boolean driverExist(String driverID) throws Exception
+    {
+        if (getDriverByID(driverID) == null)
+            return false;
+        return true;    
     }
 
     public List<Driver> getDriversByLicense(String license)
     {
         List<Driver> result = new LinkedList<Driver>();
-        for (Driver d : this.drivers){
+        for (Driver d : this.drivers.values()){
             if (d.hasLicense(license))
                 {
                     result.add(d);   
@@ -37,30 +37,41 @@ public class DriverFacade {
         return result;   
     }
 
-    public void updateLicense(String name,String license)
+    public List<Driver> getDriversByLicenseAndDate(String license,Date date)
     {
-        for (Driver d : this.drivers)
+        List<Driver> result = new LinkedList<Driver>();
+        for (Driver d : this.drivers.values()){
+            if (d.hasLicense(license) && d.isAvailable(date))
+                {
+                    result.add(d);   
+                }
+        }
+
+        return result;   
+    }
+    public void updateLicense(String id,String license) throws Exception
+    {
+
+        for (Driver d : this.drivers.values())
         {
-            if (d.getName() == name)
+            if (d.getId() == id)
             {
                 d.addLicense(license);
             }
         }
     }
 
-    public Driver getDriverByName(String driverName) 
+    public Driver getDriverByID(String driverID) throws Exception
     {
-        for(Driver d : drivers){
-            if(d.getName()==driverName){
-                return d;
-            } 
-        }
-        return null;
+        if (drivers.containsKey(driverID))
+            return drivers.get(driverID);
+    
+        throw new Exception("Site with this address already exists");
     }
 
-    public boolean addDeliveryDate(String driverName,Date date)
+    public boolean addDelivery(String driverID,Date date) throws Exception
     {
-        Driver currDriver = getDriverByName(driverName);
+        Driver currDriver = getDriverByID(driverID);
         if (currDriver.isAvailable(date))
         {
             currDriver.addDelivery(date);
@@ -72,14 +83,14 @@ public class DriverFacade {
 
     }
 
-    public void removeDelivery(String driverName,Date date)
+    public void removeDelivery(String driverID,Date date) throws Exception
     {
-        getDriverByName(driverName).removeDelivery(date);
+        getDriverByID(driverID).removeDelivery(date);
     }
 
-    public void deliveryAcomplishment(String driverName,Date date)
+    public void deliveryAcomplishment(String driverID,Date date) throws Exception
     {
-        getDriverByName(driverName).deliveryAcomplishment(date);
+        getDriverByID(driverID).deliveryAcomplishment(date);
     }
 
 
