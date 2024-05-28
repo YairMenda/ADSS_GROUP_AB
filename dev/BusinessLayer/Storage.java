@@ -98,10 +98,10 @@ public class Storage {
         return null;
     }
 
-    public boolean addProduct(String category, String subCategory,String productName, String supplierName,
+    public void addProduct(String category, String subCategory,String productName, int productId, String supplierName,
      double size, double price ,double supplierPrice)
     {
-        return this.categories.get(category).addProduct(subCategory, productName, supplierName, size, price, supplierPrice);
+        this.categories.get(category).addProduct(subCategory, productName, productId, supplierName, size, price, supplierPrice);
     }
 
 

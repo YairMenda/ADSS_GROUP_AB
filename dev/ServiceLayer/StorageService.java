@@ -148,10 +148,10 @@ public class StorageService {
         }
     }
 
-    public String addProduct(String storageName, String category, String subCategory, String productName,
+    public String addProduct(String storageName, String category, String subCategory, int productId, String productName,
                              String supplierName, double size, double price, double supplierPrice) {
         try {
-            storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice);
+            storageFacade.addProduct(storageName, category, subCategory, productId, productName, supplierName, size, price, supplierPrice);
             return createResponse("success", null);
         } catch (Exception e) {
             return createResponse(null, e.toString());

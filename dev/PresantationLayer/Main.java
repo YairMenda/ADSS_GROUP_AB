@@ -1,14 +1,12 @@
 package dev.PresantationLayer;
 
-import dev.ServiceLayer.StorageInit;
 import dev.ServiceLayer.StorageService;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
-    StorageInit storageInit = new StorageInit();
-    StorageService storageService = storageInit.getStorageService();
-    //needs to add storage.init()
+    StorageService storageService = new StorageService();
+
     public static void main(String[] args) {
         Main mainApp = new Main();
         Scanner scanner = new Scanner(System.in);
@@ -89,6 +87,8 @@ public class Main {
                 categoryName = s.next();
                 System.out.print("Enter sub-category name: ");
                 subCategoryName = s.next();
+                System.out.print("Enter product ID: ");
+                productId = s.nextInt();
                 System.out.print("Enter product name: ");
                 String productName = s.next();
                 System.out.print("Enter supplier name: ");
@@ -100,7 +100,7 @@ public class Main {
                 System.out.print("Enter supplier price: ");
                 double supplierPrice = s.nextDouble();
                 try {
-                    storageService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice);
+                    storageService.addProduct(storageName, categoryName, subCategoryName, productId, productName, supplierName, size, price, supplierPrice);
                 } catch (Exception e) {
                     System.out.println(e.toString());
                 }

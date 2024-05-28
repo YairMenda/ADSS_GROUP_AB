@@ -56,10 +56,10 @@ public class Category {
         return this.subCategories.containsKey(sCatName);
     }
 
-    public boolean addProduct(String subCategory, String productName, String supplierName, double size, double price ,
+    public void addProduct(String subCategory, String productName,int prodcutId, String supplierName, double size, double price ,
     double supplierPrice)
     {
-        return this.subCategories.get(subCategory).addProduct(productName, supplierName, size, price, supplierPrice);
+        this.subCategories.get(subCategory).addProduct(prodcutId, productName, supplierName, size, price, supplierPrice);;
     }
 
 
