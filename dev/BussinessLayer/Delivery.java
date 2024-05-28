@@ -1,31 +1,32 @@
 package BussinessLayer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Delivery {
     private int deliveryNumber;
-    private Date date;
-    private Date departureTime;
+    private LocalDateTime date;
+    private LocalDateTime departureTime;
     private int truckNumber;
     private double truckWeight;
-    private String driverName;
+    private String driverID;
     private Site origin;
     private List<Site> destinations;
     private status deliveryStatus;
     private List<DstDoc> destinationDocs;
 
-    public static enum status {waiting,approved,complete};
+    public static enum status {waiting,approved,inProgress,complete};
 
-    public Delivery(int deliveryNumber,Date date, Date depTime , int truckNumber
-    , String driverName,Site origin, List<Site> destinations)
+    public Delivery(int deliveryNumber,LocalDateTime date, LocalDateTime depTime , int truckNumber
+    , String driverID,Site origin)
     {
         this.deliveryNumber=deliveryNumber;
         this.date=date;
         this.departureTime=depTime;
         this.truckNumber=truckNumber;
         this.truckWeight=-1;
-        this.driverName=driverName;
+        this.driverID=driverID;
         this.origin=origin;
-        this.destinations=destinations;
+        this.destinations=new LinkedList<>();
         deliveryStatus = status.waiting;
         this.destinationDocs = new LinkedList<DstDoc>();
         
@@ -39,19 +40,19 @@ public class Delivery {
         this.deliveryNumber = deliveryNumber;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Date getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -71,12 +72,12 @@ public class Delivery {
         this.truckWeight = truckWeight;
     }
 
-    public String getDriverName() {
-        return driverName;
+    public String getDriverID() {
+        return driverID;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setDriverID(String driverName) {
+        this.driverID = driverID;
     }
 
     public Site getOrigin() {
@@ -104,23 +105,46 @@ public class Delivery {
         return deliveryStatus;
     }
 
-    public void approveDelivery()
+    public void approveDelivery() throws Exception
     {
+        if (this.truckWeight==-1)
+            throw new Exception("you have to weight the truck before approval");
         deliveryStatus = status.approved; 
     }
 
-    public void completeDelivery()
+    public void inProgressDelivery() throws Exception
     {
+        if (this.deliveryStatus!=status.approved)
+            throw new Exception("you have to approve the delivery before");
+        deliveryStatus = status.inProgress; 
+    }
+
+
+    public void completeDelivery() throws Exception
+    {
+        if (this.deliveryStatus!=status.inProgress)
+            throw new Exception("you can't compete an order which is not in progress");   
         deliveryStatus = status.complete; 
     }
 
-    public boolean addDstDoc(DstDoc dd)
+    public void disapproveDelivery() throws Exception
     {
+        if(this.deliveryStatus==status.complete){
+            throw new Exception("can't disapprove completed delivery");
+        }
+        deliveryStatus = status.waiting; 
+        truckWeight=-1;
+    }
+
+    public boolean addDstDoc(DstDoc dd) throws Exception
+    {
+        Site s = dd.getDestination();
         if (openToChanges()){
             destinationDocs.add(dd);
+            destinations.add(s);
             return true;
         }
-        return false;
+        throw new Exception("this delivery is already approved, if you want to change it, please disapprove");
    
     }
 
@@ -129,9 +153,9 @@ public class Delivery {
             for (DstDoc dd : destinationDocs) {
                 if (dd.getDocNumber()==docNumber){
                     destinationDocs.remove(dd);
+                    destinations.remove(dd.getDestination());
                     return true;
-                }
-                
+                } 
             }
             
         }
@@ -141,7 +165,7 @@ public class Delivery {
 
 
 
-    public boolean remove(Site site){
+    public boolean remove(Site site) throws Exception{
         if (openToChanges()){
              for(DstDoc dd: destinationDocs){
                  if (dd.getDestination() == site){
@@ -151,20 +175,24 @@ public class Delivery {
              return true;
              }
           }
-         return false;
+          throw new Exception("please disapprove before changes");
     }
 
     public boolean openToChanges(){
-        return deliveryStatus==status.approved;
+        return deliveryStatus==status.waiting;
     }
 
 
-    public void removeProductsByDocNumber(int dstDocNumber,List<Integer> deletedProducts)
+    public void removeProductsByDocNumber(int dstDocNumber,List<Integer> deletedProducts) throws Exception
     {
-        geDstDocByNumber(dstDocNumber).removeProducts(deletedProducts);
+        if (openToChanges()){
+            getDstDocByNumber(dstDocNumber).removeProducts(deletedProducts);
+        }
+        throw new Exception("please disapprove before changes");
+        
     }
 
-    public DstDoc geDstDocByNumber(int dstDocNumber)
+    public DstDoc getDstDocByNumber(int dstDocNumber) throws Exception
     {
         for (DstDoc d: destinationDocs)
         {
@@ -172,13 +200,24 @@ public class Delivery {
                 return d;
         }
 
-        return null; 
+        throw new Exception("destination document "+dstDocNumber+" doesn't exist"); 
+    }
+
+    public DstDoc getDstDocByNumber(String address) throws Exception
+    {
+        for (DstDoc d: destinationDocs)
+        {
+            if (d.getDestination().getAddress()==address)
+                return d;
+        }
+        throw new Exception("destination document of "+address+" doesn't exist"); 
     }
 
     //replaces the truck and  cancels the last weight
     public void replaceTruck(int newTruckNumber){
         this.truckNumber= newTruckNumber;
         this.truckWeight=-1;
+        this.deliveryStatus= status.waiting;
     }
 
     }

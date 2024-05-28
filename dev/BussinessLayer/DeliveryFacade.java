@@ -130,4 +130,14 @@ public void removeDestination(int deliveryNum,String address) throws Exception
 {
     deliveries.get(deliveryNum).remove(sf.getSite(address));
 }
+
+public DstDoc getDstDoc(int deliveryNumber,int docNumber) throws Exception{
+    return getDelivery(deliveryNumber).getDstDocByNumber(docNumber);
+}
+
+public DstDoc getDstDoc(int deliveryNumber,String address) throws Exception{
+    return getDelivery(deliveryNumber).getDstDocByNumber(address);
+}
+
+
 }

@@ -36,4 +36,8 @@ public class SiteToSend {
         ContactName = contactName;
     }
 
+    public String toString(){
+        return "Address-"+address+"/n"+ "PhoneNumber -" + phoneNumber +" Contact Name-"+ContactName;
+    }
+
 }

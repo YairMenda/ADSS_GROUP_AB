@@ -28,10 +28,10 @@ public class Site {
     public void setAddress(String address){
         this.address=address;}
 
-    public void getPhoneNumber(String phoneNumber){
+    public void setPhoneNumber(String phoneNumber){
         this.phoneNumber=phoneNumber;}
 
-    public void getContactName(String contactName){
+    public void setContactName(String contactName){
         this.ContactName=contactName;}
 
 }

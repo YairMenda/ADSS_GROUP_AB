@@ -5,6 +5,8 @@
 
 package ServiceLayer;
 import BussinessLayer.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -12,14 +14,14 @@ import java.util.*;
  * @author Omera
  */
 public class DeliveryDatesToSend {
-   private List<Date> dates;
+   private List<LocalDateTime> dates;
 
 
 public DeliveryDatesToSend(DeliveryDates other){
     this.dates=other.getDates();
 }
 
-public List<Date> getDates(){
+public List<LocalDateTime> getDates(){
     return dates;
 }
 

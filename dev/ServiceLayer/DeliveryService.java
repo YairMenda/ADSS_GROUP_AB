@@ -14,140 +14,140 @@ public class DeliveryService {
         this.df=df;
     }
 
-    public String addNewDelivery(LocalDateTime depTime, int licenseNumber, String driverID, String originAddress){
+    public Response addNewDelivery(LocalDateTime depTime, int licenseNumber, String driverID, String originAddress){
         try
         {
             Delivery d = df.addNewDelivery(depTime, licenseNumber, driverID, originAddress);
-            return JsonSerializer.Serialize(new Response(d.getDeliveryNumber(), null));
+            return new Response(d.getDeliveryNumber(), null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     
     
     }
 
-    public String removeDelivery(int deliveryNum){
+    public Response removeDelivery(int deliveryNum){
         try
         {
             df.removeDelivery(deliveryNum);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
 
-    public String updateWeight(int deliveryNum, double weight){
+    public Response updateWeight(int deliveryNum, double weight){
         try
         {
             df.weightUpdate(deliveryNum,weight);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }    
     }
 
-    public String replaceTruck(int deliveryNum , int truckNum){
+    public Response replaceTruck(int deliveryNum , int truckNum){
         try
         {
             df.replaceTruck(deliveryNum,truckNum);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }    }
 
 
-    public String removeDestination(int deliveryNum , String adress){
+    public Response removeDestination(int deliveryNum , String adress){
         try
         {
             df.removeDestination(deliveryNum, adress);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String removeProduct(int deliveryNum , int docNumber, List<Integer> itemsTODelte){
+    public Response removeProduct(int deliveryNum , int docNumber, List<Integer> itemsTODelte){
         try
         {
             df.removeProducts(deliveryNum, docNumber,itemsTODelte);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String completeDelivery(int deliveryNum){
+    public Response completeDelivery(int deliveryNum){
         try
         {
             df.completeDelivery(deliveryNum);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
     //only by docNumber
-    public String getDestinationDocument(int deliveryNum , int docNumber){
+    public Response getDestinationDocument(int deliveryNum , int docNumber){
         try
         {
             DstDoc dd = df.getDstDoc(deliveryNum,docNumber);
-            return JsonSerializer.Serialize(new Response(dd.getDocNumber(), null));
+            return new Response(dd.getDocNumber(), null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
     //by deliveryNumber and address
-    public String getDestinationDocument(int deliveryNum, String address){
+    public Response getDestinationDocument(int deliveryNum, String address){
         try
         {
             DstDoc dd = df.getDstDoc(deliveryNum,address);
-            return JsonSerializer.Serialize(new Response(dd.getDocNumber(), null));
+            return new Response(dd.getDocNumber(), null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }    
     }
 
-    public String inProgressDelivery(int deliveryNum){
+    public Response inProgressDelivery(int deliveryNum){
         try
         {
             df.inProgress(deliveryNum);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }    
     }
 
-    public String disapproveDelivery(int deliveryNum){
+    public Response disapproveDelivery(int deliveryNum){
         try
         {
             df.disapproveDelivery(deliveryNum);
-            return JsonSerializer.Serialize(new Response(deliveryNum, null));
+            return new Response(deliveryNum, null);
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         } 
     }
 

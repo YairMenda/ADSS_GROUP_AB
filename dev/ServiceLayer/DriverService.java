@@ -6,6 +6,8 @@
 package ServiceLayer;
 import BussinessLayer.*;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -22,63 +24,63 @@ public class DriverService {
     }    
 
 
-    public String getAllDrivers(){
+    public Response getAllDrivers(){
         try{
             List<Driver> drivers = df.getDrivers();
             List<String> l = new LinkedList<>();
             for (Driver d  : drivers){
                 l.add(d.getId()+" "+d.getName());
             }
-            return JsonSerializer.Serialize(new Response(l,null));}
+            return new Response(l,null);}
             catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
         
     }
 
-    public String getDriversByLicense(String license){
+    public Response getDriversByLicense(String license){
         try{
             List<Driver> drivers = df.getDriversByLicense(license);
             if (drivers.size()==0)
-                return JsonSerializer.Serialize(new Response(null, "no drivers with that license"));
+                return new Response(null, "no drivers with that license");
             List<String> l = new LinkedList<>();
             for (Driver d  : drivers){
                 l.add(d.getId()+" "+d.getName());
             }
-            return JsonSerializer.Serialize(new Response(l,null));}
+            return new Response(l,null);}
             catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
         
     }
 
-    public String getDriversByLicenseAndDate(String license, Date date){
+    public Response getDriversByLicenseAndDate(String license, LocalDateTime date){
         try{
             List<Driver> drivers = df.getDriversByLicenseAndDate(license,date);
             if (drivers.size()==0)
-                return JsonSerializer.Serialize(new Response(null, "no drivers with that license that are availiable on that date"));
+                return new Response(null, "no drivers with that license that are availiable on that date");
             List<String> l = new LinkedList<>();
             for (Driver d  : drivers){
                 l.add(d.getId()+" "+d.getName());
             }
-            return JsonSerializer.Serialize(new Response(l,null));}
+            return new Response(l,null);}
             catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 
 
 
-    public String addNewLicenseToDriver(String driverID, String license){
+    public Response addNewLicenseToDriver(String driverID, String license){
         try{
             df.updateLicense(driverID,license);
-            return JsonSerializer.Serialize(new Response(driverID,null));}
+            return new Response(driverID,null);}
             catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
 

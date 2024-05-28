@@ -18,16 +18,74 @@ public class SiteService {
 
 
 
-    public String addNewSite(String address,String phoneNumber,String ContactName){
+    public Response addNewSite(String address,String phoneNumber,String ContactName){
         try
         {
-            Site s= sf.addSite(address, phoneNumber, ContactName);
-            return JsonSerializer.Serialize(new Response(s,null));
+            Site s = sf.addSite(address, phoneNumber, ContactName);
+            return new Response(s,null);
             
         }
         catch(Exception e)
         {
-            return JsonSerializer.Serialize(new Response(null, e.getMessage()));
+            return new Response(null, e.getMessage());
         }
     }
+
+    public Response getAllSites(){
+        try{
+            List<Site> sites = sf.getSites();
+            List<String> addresses = new LinkedList<String>();
+            for (Site s:sites){
+                addresses.add(s.getAddress());  
+            }
+            return new Response(addresses,null);
+        }
+        catch(Exception e){
+            return new Response(null, e.getMessage());
+        }  
+    }
+    
+    public Response getPhoneNumber(String address){
+        try{
+            String phoneNum = sf.getPhoneNumber(address);
+        return new Response(phoneNum,null);  
+        }
+        catch(Exception e){
+            return new Response(null, e.getMessage());
+        }  
+    }
+
+    public Response getContactName(String address){
+        try{
+            String contactName = sf.getContactName(address);
+        return new Response(contactName,null);  
+        }
+        catch(Exception e){
+            return new Response(null, e.getMessage());
+        }  
+
+}
+
+    public Response editPhoneNumber(String address,String newPhone){
+        try{
+            sf.editPhonenNumber(address,newPhone);
+            return new Response(address,null);  
+        }
+        catch(Exception e){
+            return new Response(null, e.getMessage());
+        }  
+
+        }
+
+
+    public Response editContactName(String address,String newContact){
+        try{
+            sf.editContactName(address,newContact);
+            return new Response(address,null);  
+        }
+        catch(Exception e){
+            return new Response(null, e.getMessage());
+        }  
+
+}    
 }

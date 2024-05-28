@@ -1,16 +1,18 @@
 package ServiceLayer;
 import BussinessLayer.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 
 public class DeliveryToSend {
 
     private int deliveryNumber;
-    private Date date;
-    private Date departureTime;
+    private LocalDateTime date;
+    private LocalDateTime departureTime;
     private int truckNumber;
     private double truckWeight;
-    private String driverName;
+    private String driverID;
     private SiteToSend origin;
     private List<SiteToSend> destinations;
     private Delivery.status deliveryStatus;
@@ -22,7 +24,7 @@ public class DeliveryToSend {
         this.date=other.getDate();
         this.departureTime=other.getDepartureTime();
         this.truckNumber=other.getTruckNumber();
-        this.driverName=other.getDriverName();
+        this.driverID=other.getDriverID();
         this.origin=new SiteToSend(other.getOrigin());
         destinations= new LinkedList<>();
         List<Site> l = other.getDestinations();
@@ -46,19 +48,19 @@ public class DeliveryToSend {
         this.deliveryNumber = deliveryNumber;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Date getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -79,11 +81,11 @@ public class DeliveryToSend {
     }
 
     public String getDriverName() {
-        return driverName;
+        return driverID;
     }
 
-    public void setDriverName(String driverName) {
-        this.driverName = driverName;
+    public void setDriverName(String driverID) {
+        this.driverID = driverID;
     }
 
     public SiteToSend getOrigin() {

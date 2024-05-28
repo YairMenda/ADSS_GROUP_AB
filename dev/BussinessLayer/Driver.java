@@ -41,7 +41,7 @@ public class Driver {
 
     public boolean hasLicense(String license){
         for (String c:licenses){
-            if (c==license)
+            if (c.equals(license))
                 return true;
     }
         return false;     

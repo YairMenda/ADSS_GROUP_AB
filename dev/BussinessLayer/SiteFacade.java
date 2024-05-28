@@ -18,10 +18,13 @@ public class SiteFacade {
         return new LinkedList<Site>(this.sites.values());
     }
 
-    public void addSite(String address,String phoneNumber,String ContactName) throws Exception
+    public Site addSite(String address,String phoneNumber,String ContactName) throws Exception
     {
-        if (!sites.containsKey(address))
-            sites.put(address,new Site(address, phoneNumber, ContactName));
+        if (!sites.containsKey(address)){
+            Site s = new Site(address, phoneNumber, ContactName);
+            sites.put(address,s);
+            return s;
+            }
     
         throw new Exception("Site with this address already exists");
     }
@@ -32,14 +35,14 @@ public class SiteFacade {
         sites.remove(address);
     }
     
-    public String getPhoneNumber(String address)
+    public String getPhoneNumber(String address) throws Exception
     {
-        return sites.get(address).getPhoneNumber();
+        return getSite(address).getPhoneNumber();
     }
 
-    public String getContactName(String address)
+    public String getContactName(String address) throws Exception
     {
-        return sites.get(address).getContactName();
+        return getSite(address).getContactName();
     }
 
     public void editPhonenNumber(String address,String newPhoneNumber) throws Exception
@@ -59,5 +62,7 @@ public class SiteFacade {
             
         throw new Exception("NO sites with this address");
     }
+
+    
 
 }
