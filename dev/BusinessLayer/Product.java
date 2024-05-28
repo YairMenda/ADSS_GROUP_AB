@@ -20,7 +20,7 @@ public class Product {
     private Discount discount; // -1 equals no discount
 
     // Constructor
-    public Product(int productId, String productName, String category, String subCategory, String supplierName,
+    public Product(String productName, String category, String subCategory, String supplierName,
                     double size , double price, double supplierPrice) {
         this.productId = productIdNum++;
         this.productName = productName;

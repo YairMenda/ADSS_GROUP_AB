@@ -14,167 +14,149 @@ public class StorageService {
         this.storageFacade = new StorageFacade();
     }
 
-    public String deleteProduct(String storageName, int productId) {
+    public Response deleteProduct(String storageName, int productId) {
         try {
-            storageFacade.deleteProduct(storageName, productId);
-            return createResponse("success", null);
+            return new Response(storageFacade.deleteProduct(storageName, productId), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
     
-    public String getProduct(String storageName, int productId){
+    public Response getProduct(String storageName, int productId){
         try {
-            
-            return createResponse(storageFacade.getProduct(storageName,productId).toString(), null);
+            return new Response(storageFacade.getProduct(storageName,productId).toString(), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
 
-    public String deleteSubCategory(String storageName, String categoryName, String subCategoryName) {
+    public Response deleteSubCategory(String storageName, String categoryName, String subCategoryName) {
         try {
-            storageFacade.deleteSubCategory(storageName, categoryName, subCategoryName);
-            return createResponse("success", null);
+            return new Response(storageFacade.deleteSubCategory(storageName, categoryName, subCategoryName),null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String setSupplierDiscount(String storageName, int productId, int discount, int days) {
+    public Response setSupplierDiscount(String storageName, int productId, int discount, int days) {
         try {
             storageFacade.setSupplierDiscount(storageName, productId, discount, days);
-            return createResponse("success", null);
+            return new Response(productId,null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String setStoreDiscount(String storageName, int productId, int storageDiscount, int days) {
+    public Response setStoreDiscount(String storageName, int productId, int storageDiscount, int days) {
         try {
             storageFacade.setStoreDiscount(storageName, productId, storageDiscount, days);
-            return createResponse("success", null);
+            return new Response(productId, null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String addSubCategory(String storageName, String categoryName, String subCategoryName) {
+    public Response addSubCategory(String storageName, String categoryName, String subCategoryName) {
         try {
-            storageFacade.addSubCategory(storageName, categoryName, subCategoryName);
-            return createResponse("success", null);
+            return new Response(storageFacade.addSubCategory(storageName, categoryName, subCategoryName), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String reportByCategory(String storageName, String categoryName) {
+    public Response reportByCategory(String storageName, String categoryName) {
         try {
-            return createResponse(storageFacade.reportByCategory(storageName, categoryName).toString(), null);
+            return new Response(storageFacade.reportByCategory(storageName, categoryName).toString(), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String reportBySubCategory(String storageName, String categoryName, String subCategory) {
+    public Response reportBySubCategory(String storageName, String categoryName, String subCategory) {
         try {
-            return createResponse(storageFacade.reportBySubCategory(storageName, categoryName, subCategory).toString(), null);
+            return new Response(storageFacade.reportBySubCategory(storageName, categoryName, subCategory).toString(), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String reportByBadItems(String storageName) {
+    public Response reportByBadItems(String storageName) {
         try {
-            return createResponse(storageFacade.reportByBadItems(storageName).toString(), null);
+            return new Response(storageFacade.reportByBadItems(storageName).toString(), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String getProductsBySize(String storageName, int size) {
+    public Response getProductsBySize(String storageName, int size) {
         try {
-            return createResponse(storageFacade.getProdcutsBySize(storageName, size).toString(), null);
+            return new Response(storageFacade.getProdcutsBySize(storageName, size).toString(), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
 
-    public String deleteCategory(String storageName, String categoryName) {
+    public Response deleteCategory(String storageName, String categoryName) {
         try {
-            storageFacade.deleteCategory(storageName, categoryName);
-            return createResponse("success", null);
+            return new Response(storageFacade.deleteCategory(storageName, categoryName),null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String addStorage(String storageName) {
+    public Response addStorage(String storageName) {
         try {
-            storageFacade.addStorage(storageName);
-            return createResponse("success", null);
+            return new Response(storageFacade.addStorage(storageName),null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String deleteStorage(String storageName) {
+    public Response deleteStorage(String storageName) {
         try {
-            storageFacade.deleteStorage(storageName);
-            return createResponse("success", null);
+            return new Response(storageFacade.deleteStorage(storageName), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
     
-    public String addCategory(String storageName, String categoryName) {
+    public Response addCategory(String storageName, String categoryName) {
         try {
-            storageFacade.addCategory(storageName, categoryName);
-            return createResponse("success", null);
+            return new Response(storageFacade.addCategory(storageName, categoryName), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String addItem(String storageName, int productId, int quantity, LocalDate expDate) {
+    public Response addItem(String storageName, int productId, int quantity, LocalDate expDate) {
         try {
             storageFacade.addItem(storageName, productId, quantity, expDate);
-            return createResponse("success", null);
+            return new Response(productId, null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String addProduct(String storageName, String category, String subCategory, int productId, String productName,
-                             String supplierName, double size, double price, double supplierPrice) {
+    public Response addProduct(String storageName, String category, String subCategory, String productName,
+                             String supplierName, double size, double price, double supplierPrice) 
+    {
         try {
-            storageFacade.addProduct(storageName, category, subCategory, productId, productName, supplierName, size, price, supplierPrice);
-            return createResponse("success", null);
+            storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice);
+            return new Response("success", null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
     }
 
-    public String sellItem(String storageName, int itemId, int productId) {
+    public Response sellItem(String storageName, int itemId, int productId)
+    {
         try {
-            storageFacade.sellItem(storageName, itemId, productId);
-            return createResponse("success", null);
+            return new Response(storageFacade.sellItem(storageName, itemId, productId), null);
         } catch (Exception e) {
-            return createResponse(null, e.toString());
+            return new Response(null, e.getMessage());
         }
-    }
-
-    private String createResponse(String result, String error) {
-        /*JsonObject response = new JsonObject();
-        if (result != null) {
-            response.addProperty("result", result);
-        }
-        if (error != null) {
-            response.addProperty("error", error);
-        }*/
-        return "A json response with result/error";
     }
 }

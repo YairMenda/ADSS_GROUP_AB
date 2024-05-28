@@ -5,6 +5,7 @@ import java.util.LinkedList;
 public class SubCategory {
 
     private HashMap<Integer,Product> products;
+    private HashMap<String,Integer> namesToId;
     private String subCategoryName;
     private String category;
 
@@ -65,10 +66,13 @@ public class SubCategory {
         return expItems;
     }
 
-    public void addProduct(int productId, String productName,String supplierName, double size, double price, double supplierPrice)
+    public boolean addProduct( String productName,String supplierName, double size, double price, double supplierPrice)
     {
-        if(!this.products.containsKey(productId))
-            this.products.put(productId, new Product(productId, productName, this.category, this.subCategoryName, supplierName, size, price, supplierPrice));
+        if(!this.namesToId.containsKey(productName))
+            return false;
+        Product p = new Product(productName, supplierName, productName, supplierName, size, price, supplierPrice);
+        this.products.put(p.getId(),p);
+        return true;
     }
 
     
