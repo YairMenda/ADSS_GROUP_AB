@@ -14,6 +14,21 @@ public class DeliveryService {
         this.df=df;
     }
 
+
+    public Response getDeliveryInfo(int deliveryNum){
+        try
+        {
+            Delivery dd = df.getDelivery(deliveryNum);
+            DeliveryToSend ds = new DeliveryToSend(dd);
+
+            return new Response(ds, null);
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }    
+    }
+
     public Response addNewDelivery(LocalDateTime depTime, int licenseNumber, String driverID, String originAddress){
         try
         {
@@ -114,6 +129,30 @@ public class DeliveryService {
         }
     }
 
+    public Response addDestinationDoc(int deliveryNum ,List<Integer> items, String adderss){
+        try
+        {
+            DstDoc dd = df.addDstDoc(deliveryNum,items,adderss);
+            return new Response(dd.getDocNumber(), null);
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
+
+    public Response removeDestinationDoc(int deliveryNum , int docNumber){
+        try
+        {
+            df.removeDstDoc(deliveryNum,docNumber);
+            return new Response(docNumber, null);
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
+
     //by deliveryNumber and address
     public Response getDestinationDocument(int deliveryNum, String address){
         try
@@ -143,6 +182,18 @@ public class DeliveryService {
         try
         {
             df.disapproveDelivery(deliveryNum);
+            return new Response(deliveryNum, null);
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        } 
+    }
+
+    public Response approveDelivery(int deliveryNum){
+        try
+        {
+            df.approveDelivery(deliveryNum);
             return new Response(deliveryNum, null);
         }
         catch(Exception e)

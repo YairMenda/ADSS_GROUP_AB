@@ -111,4 +111,11 @@ public class DeliveryToSend {
     public void setDeliveryStatus(Delivery.status deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
+
+    @Override
+    public String toString() {
+        return "Delivery Information :  [ DeliveryNumber = " + deliveryNumber + ", date = " + date + ", departureTime = "
+                + departureTime + ", truckNumber = " + truckNumber + ", truckWeight = " + truckWeight + ", driverID = "
+                + driverID + ", origin = " + origin +  ", deliveryStatus = " + deliveryStatus + " ]";
+    }
 }

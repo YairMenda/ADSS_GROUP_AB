@@ -3,11 +3,13 @@ package PresentationLayer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 import ServiceLayer.DeliveryDatesToSend;
 import ServiceLayer.DeliveryService;
+import ServiceLayer.DeliveryToSend;
 import ServiceLayer.DriverService;
 import ServiceLayer.InitSystem;
 import ServiceLayer.Response;
@@ -31,11 +33,14 @@ public class Presentation {
         boolean exit=false;
         while (!exit){
         System.out.println("WELOCME TO SUPER LEE - DELIVERY SYSTEM!");
+        System.out.println();
         System.out.println("FOR TRUCK MENU - PRESS 1");
         System.out.println("FOR DRIVER MENU - PRESS 2");
         System.out.println("FOR SITE MENU - PRESS 3");
         System.out.println("FOR DELIVERY MENU - PRESS 4");
         System.out.println("EXIT - PRESS 5");
+        System.out.println();
+        //s.nextLine();
         String action = s.nextLine();
 
         switch (action) {
@@ -65,13 +70,16 @@ public class Presentation {
         boolean exit = false;
         while (!exit)
         {
+        System.out.println();
         System.out.println("TRUCK MENU");
+        System.out.println();
         System.out.println("FOR ADDING TRUCK  - PRESS 1");
         System.out.println("FOR TRUCK INFORMATION  - PRESS 2");
         System.out.println("FOR PRINT ALL TRUCKS - PRESS 3");
         System.out.println("FOR GET AVIALIBLE TRUCKS BY DATE - PRESS 4");
         System.out.println("MAIN MENU  - PRESS 5");
-
+        System.out.println();
+        s.nextLine();
         String action = s.nextLine();
 
         switch (action) {
@@ -101,7 +109,8 @@ public class Presentation {
         int license  = s.nextInt();
         System.out.println();
         System.out.print("Enter model : ");
-        String model  = s.nextLine();
+        s.nextLine();
+        String model = s.nextLine();
         System.out.println();
         System.out.print("Enter weight without cargo : ");
         double weight  = s.nextDouble();
@@ -110,8 +119,8 @@ public class Presentation {
         double maxWeight  = s.nextDouble();
         System.out.println();
         System.out.print("Enter License Category : ");
+        s.nextLine();
         String category  = s.nextLine();
-        System.out.println();
         System.out.println();
 
         Response r = ts.addNewTruck(license, model, weight, maxWeight, category);
@@ -121,7 +130,7 @@ public class Presentation {
          }
          else
          {
-            System.out.println("Truck number - " + r .getReturnValue() + " Added successfully");
+            System.out.println("Truck number - " + r .getReturnValue() + " Added successfully\n");
          }
 
     }
@@ -224,13 +233,16 @@ public class Presentation {
         boolean exit = false;
         while (!exit)
         {
+        System.out.println();
         System.out.println("DRIVER MENU");
+        System.out.println();
         System.out.println("GET ALL DRIVERS  - PRESS 1");
         System.out.println("GET DRIVERS BY LICENSE  - PRESS 2");
         System.out.println("GET DRIVERS BY LICENSE AND DATE - PRESS 3");
         System.out.println("ADD NEW LICENSE TO DRIVER - PRESS 4");
         System.out.println("MAIN MENU  - PRESS 5");
-
+        System.out.println();
+        s.nextLine();
         String action = s.nextLine();
 
         switch (action) {
@@ -257,14 +269,16 @@ public class Presentation {
         boolean exit = false;
         while (!exit)
         {
+        System.out.println();
         System.out.println("SITE MENU");
+        System.out.println();
         System.out.println("FOR ADDING NEW SITE  - PRESS 1");
         System.out.println("FOR SITE INFORMATION  - PRESS 2");
         System.out.println("FOR PRINT ALL SITES - PRESS 3");
         System.out.println("FOR UPDATING PHONE NUMBER OF A SITE - PRESS 4");
         System.out.println("FOR UPDATING CONTACT NAME OF A SITE - PRESS 5");
         System.out.println("MAIN MENU  - PRESS 6");
-
+        s.nextLine();
         String action = s.nextLine();
 
         switch (action) {
@@ -390,29 +404,76 @@ public class Presentation {
         boolean exit = false;
         while (!exit)
         {
-        System.out.println("TRUCK MENU");
-        System.out.println("FOR ADDING TRUCK  - PRESS 1");
-        System.out.println("FOR TRUCK STATS  - PRESS 2");
-        System.out.println("FOR PRINT ALL TRUCKS - PRESS 3");
-        System.out.println("FOR GET AVIALIBLE TRUCKS BY DATE - PRESS 4");
-        System.out.println("MAIN MENU  - PRESS 5");
-
+        System.out.println();
+        System.out.println("Delivery MENU");
+        System.out.println();
+        System.out.println("FOR GETTING DELIVERY INFORAMTION - PRESS 0");
+        System.out.println("FOR ADDING NEW DELIVERY - PRESS 1");
+        System.out.println("FOR REMOVING DELIVERY  - PRESS 2");
+        System.out.println("FOR UPDATE WEIGHT- PRESS 3");
+        System.out.println("FOR REPLACE TRUCK - PRESS 4");
+        System.out.println("FOR REMOVE DESTINATION - PRESS 5");
+        System.out.println("FOR REMOVE PRODUCT  - PRESS 6");
+        System.out.println("FOR COMPLETE DELIVERY  - PRESS 7");
+        System.out.println("GET DST DOCUMENT WITH DOC NUM - PRESS 8");
+        System.out.println("GET DST DOCUMENT WITH ADDRESS - PRESS 9");
+        System.out.println("SET DELIVERY INPROGRESS - PRESS 10");
+        System.out.println("DISAPPROVE DELIVERY - PRESS 11");
+        System.out.println("ADD DESTINATION DOC - PRESS 12");
+        System.out.println("REMOVE DESTINATION DOC - PRESS 13");
+        System.out.println("APPROVE DELIVERY - PRESS 14");        
+        System.out.println("MAIN MENU  - PRESS 15");
+        System.out.println();
+        s.nextLine();
         String action = s.nextLine();
 
         switch (action) {
+            case "0":
+                getDeliveryInfo();
+                break;
             case "1":
-                addTruck();
+                addNewDelivery();
                 break;
             case "2":
-                getTruck();
+                removeDelivery();
                 break;
             case "3":
-                getAllTrucks();
+                updateWeight();
                 break;
             case "4":
-                getAvialibleTrucks();
+                replaceTruck();
                 break;
             case "5":
+                removeDestination();
+                break;
+            case "6":
+                removeProduct();
+                break;
+            case "7":
+                completeDelivery();
+                break;
+            case "8":
+                getDestinationDocumentbyDocNumber();
+                break;
+            case "9":
+                getDestinationDocumentbyAddress();
+                break;
+            case "10":
+                inProgressDelivery();
+                break;
+            case "11":
+                disapproveDelivery();
+                break;
+            case "12":
+                addDstDoc();
+                break;
+            case "13":
+                removeDstDoc();
+                break;
+            case "14":
+                approveDelivery();
+                break;        
+            case "15":
                 exit = true;
                 break;
         }
@@ -529,8 +590,353 @@ public class Presentation {
         
     }
 
+//Delivery Functions
 
-//Exit the program
+    public void getDeliveryInfo()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        Response r = deliveryService.getDeliveryInfo(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println( r.getReturnValue());
+        }
+    }
+    public void addNewDelivery()
+    {   
+        //System.out.print("\033[A\033[2K");
+        System.out.print("Enter driver id  - ");
+        String driverID = s.nextLine();
+        System.out.println();
+
+        System.out.print("Enter origin address  - ");
+        String address = s.nextLine();
+        System.out.println();
+        
+        System.out.print("Enter specific year - ");
+        int year = s.nextInt();
+        System.out.println();
+
+
+        System.out.print("Enter specific month - ");
+        int month = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific day(1-31) - ");
+        int day = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific hour (0-23)- ");
+        int hour = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific minutes (0-59)- ");
+        int min = s.nextInt();
+        System.out.println();
+
+        
+        System.out.print("Enter license Number  - ");
+        int licencseNumber = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.addNewDelivery(LocalDateTime.of(LocalDate.of(year,month,day),LocalTime.of(hour,min)),
+         licencseNumber, driverID, address);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " added successfully, notice that you must weight the truck before delivery starts");
+        }
+    }
+
+
+    public void removeDelivery()
+    {
+        System.out.print("Enter delivery number to be deleted - ");
+        int dNum = s.nextInt();
+        Response r = deliveryService.removeDelivery(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " deleted successfully");
+        }
+    }
+
+    public void updateWeight()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter new truck weight - ");
+        double newWeight = s.nextDouble();
+        System.out.println();
+
+        Response r = deliveryService.updateWeight(dNum,newWeight);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " weighted successfully with weight - " + newWeight);
+        }
+    }
+
+    public void replaceTruck()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter truck number - ");
+        int truckNum = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.replaceTruck(dNum,truckNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " update truck to - " + truckNum);
+        }
+
+    }
+
+    public void removeDestination()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter destination to be removed - ");
+        String address = s.nextLine();
+        System.out.println();
+
+        Response r = deliveryService.removeDestination(dNum,address);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " removed destination - " + address);
+        }
+    }
+
+    public void removeProduct()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter the relevant document number - ");
+        Integer docNumber = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter product number to be removed - ");
+        int productNum = s.nextInt();
+        System.out.println();
+
+        List<Integer> lp = new LinkedList<>();
+        lp.add(productNum);
+
+        Response r = deliveryService.removeProduct(dNum,docNumber,lp);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " removed product - " 
+            + productNum + " from Document number");
+        }
+    }
+
+    public void completeDelivery()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.completeDelivery(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " status set to - complete");
+        }
+    }
+
+    public void getDestinationDocumentbyAddress()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter address of the document number - ");
+        String address = s.nextLine();
+        System.out.println();
+
+        Response r = deliveryService.getDestinationDocument(dNum,address);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Document number of this address is - " + r.getReturnValue());
+        }
+    }
+
+    public void getDestinationDocumentbyDocNumber()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter document number - ");
+        int docNumber = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.getDestinationDocument(dNum,docNumber);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Document number - " + r.getReturnValue());
+        }
+    }
+
+    public void inProgressDelivery()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.inProgressDelivery(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue()+ " status set to in Progress");
+        }
+
+    }
+
+    public void disapproveDelivery()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.disapproveDelivery(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue()+ " status set to disApprove");
+        }
+    }
+
+    public void addDstDoc()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+        System.out.print("Enter Address - ");
+        s.nextLine();
+        String address = s.nextLine();
+        System.out.println();
+        s.nextLine();
+    //list - add multiple items
+        System.out.print("Enter Item number - ");
+        int itemNumber = s.nextInt();
+        System.out.println();
+
+        List<Integer> items = new LinkedList<Integer>();
+        items.add(itemNumber);
+
+        Response r = deliveryService.addDestinationDoc(dNum,items,address);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Document number - " + r.getReturnValue() + " Added successfully");
+        }
+    }
+
+    public void removeDstDoc()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        System.out.println();
+        System.out.print("Enter Document number - ");
+        int docNumber = s.nextInt();
+        System.out.println();
+
+        Response r = deliveryService.removeDestinationDoc(dNum,docNumber);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Document number - " + r.getReturnValue() + " deleted successfully");
+        }
+    }
+
+    public void approveDelivery()
+    {
+        System.out.print("Enter delivery number - ");
+        int dNum = s.nextInt();
+        Response r = deliveryService.approveDelivery(dNum);
+
+        if (r.ErrorOccured())
+        {
+           System.out.println(r.errorMessage);
+        }
+        else
+        {
+            System.out.println("Delivery number - " + r.getReturnValue() + " approved successfully");
+        }
+    }
+    //Exit the program
     public void exit()
     {
         System.out.println("Thank you");

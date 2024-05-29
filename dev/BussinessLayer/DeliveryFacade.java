@@ -66,11 +66,15 @@ public Delivery getDelivery(int deliveryNumber) throws Exception
     return d;
 }
 
-public boolean addDstDoc(int deliveryNumber, List<Integer> items ,String address ) throws Exception
+public DstDoc addDstDoc(int deliveryNumber, List<Integer> items ,String address ) throws Exception
 {
     this.currentDocNumber++;
-    return getDelivery(deliveryNumber).addDstDoc(new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address)));
-}
+    DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address));
+    getDelivery(deliveryNumber).addDstDoc(dd);
+    return dd;
+
+} 
+
 
 public boolean removeDstDoc(int deliveryNumber,  int dstDocNumber) throws Exception
 {
@@ -139,5 +143,8 @@ public DstDoc getDstDoc(int deliveryNumber,String address) throws Exception{
     return getDelivery(deliveryNumber).getDstDocByNumber(address);
 }
 
-
+public void approveDelivery(int deliveryNumber) throws Exception
+{
+    getDelivery(deliveryNumber).approveDelivery();
+}
 }
