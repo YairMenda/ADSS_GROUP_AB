@@ -39,64 +39,64 @@ public class StorageInit {
 
     public void generateStorages()
     {
-        this.storageService.addStorage("Roy and Menash store");
+        this.storageService.addStorage("A");
     }
 
     public void generateCategories()
     {
-        this.storageService.addCategory("Roy and Menash store", "Snacks");
-        this.storageService.addCategory("Roy and Menash store", "Drinks");
-        this.storageService.addCategory("Roy and Menash store", "Pharmecy");
-        this.storageService.addCategory("Roy and Menash store", "Toys");
+        this.storageService.addCategory("A", "Snacks");
+        this.storageService.addCategory("A", "Drinks");
+        this.storageService.addCategory("A", "Pharmacy");
+        this.storageService.addCategory("A", "Toys");
     }
 
     public void generateSubCategories()
     {
-        this.storageService.addSubCategory("Roy and Menash store", "Snacks", "Chocolates");
-        this.storageService.addSubCategory("Roy and Menash store", "Snacks", "Salties");
-        this.storageService.addSubCategory("Roy and Menash store", "Drinks", "Alcohol");
-        this.storageService.addSubCategory("Roy and Menash store", "Drinks", "Soft-Drinks");
-        this.storageService.addSubCategory("Roy and Menash store", "Pharmecy", "Shower");
-        this.storageService.addSubCategory("Roy and Menash store", "Pharmecy", "Pills");
-        this.storageService.addSubCategory("Roy and Menash store", "Toys", "Lego");
+        this.storageService.addSubCategory("A", "Snacks", "Chocolates");
+        this.storageService.addSubCategory("A", "Snacks", "Salties");
+        this.storageService.addSubCategory("A", "Drinks", "Alcohol");
+        this.storageService.addSubCategory("A", "Drinks", "Soft-Drinks");
+        this.storageService.addSubCategory("A", "Pharmacy", "Shower");
+        this.storageService.addSubCategory("A", "Pharmacy", "Pills");
+        this.storageService.addSubCategory("A", "Toys", "Lego");
     }
 
     public void generateProducts() {
         try {
             // Snacks - Chocolates
-            productService.addProduct("Roy and Menash store", "Snacks", "Chocolates", "Milk Chocolate", "Supplier A", 1.5, 2.0, 1.0);
-            productService.addProduct("Roy and Menash store", "Snacks", "Chocolates", "Dark Chocolate", "Supplier A", 1.0, 2.5, 1.5);
-            productService.addProduct("Roy and Menash store", "Snacks", "Chocolates", "White Chocolate", "Supplier B", 1.2, 2.2, 1.2);
+            productService.addProduct("A", "Snacks", "Chocolates", "Milk Chocolate", "Supplier A", 1.5, 2.0, 1.0);
+            productService.addProduct("A", "Snacks", "Chocolates", "Dark Chocolate", "Supplier A", 1.0, 2.5, 1.5);
+            productService.addProduct("A", "Snacks", "Chocolates", "White Chocolate", "Supplier B", 1.2, 2.2, 1.2);
 
             // Snacks - Salties
-            productService.addProduct("Roy and Menash store", "Snacks", "Salties", "Salted Chips", "Supplier C", 0.5, 1.5, 0.7);
-            productService.addProduct("Roy and Menash store", "Snacks", "Salties", "Pretzels", "Supplier C", 0.4, 1.0, 0.6);
-            productService.addProduct("Roy and Menash store", "Snacks", "Salties", "Popcorn", "Supplier D", 1.0, 1.8, 0.9);
+            productService.addProduct("A", "Snacks", "Salties", "Salted Chips", "Supplier C", 0.5, 1.5, 0.7);
+            productService.addProduct("A", "Snacks", "Salties", "Pretzels", "Supplier C", 0.4, 1.0, 0.6);
+            productService.addProduct("A", "Snacks", "Salties", "Popcorn", "Supplier D", 1.0, 1.8, 0.9);
 
             // Drinks - Alcohol
-            productService.addProduct("Roy and Menash store", "Drinks", "Alcohol", "Beer", "Supplier E", 0.5, 3.0, 2.0);
-            productService.addProduct("Roy and Menash store", "Drinks", "Alcohol", "Wine", "Supplier F", 1.0, 10.0, 8.0);
-            productService.addProduct("Roy and Menash store", "Drinks", "Alcohol", "Whiskey", "Supplier G", 0.7, 25.0, 20.0);
+            productService.addProduct("A", "Drinks", "Alcohol", "Beer", "Supplier E", 0.5, 3.0, 2.0);
+            productService.addProduct("A", "Drinks", "Alcohol", "Wine", "Supplier F", 1.0, 10.0, 8.0);
+            productService.addProduct("A", "Drinks", "Alcohol", "Whiskey", "Supplier G", 0.7, 25.0, 20.0);
 
             // Drinks - Soft-Drinks
-            productService.addProduct("Roy and Menash store", "Drinks", "Soft-Drinks", "Coke", "Supplier H", 0.5, 1.0, 0.5);
-            productService.addProduct("Roy and Menash store", "Drinks", "Soft-Drinks", "Sprite", "Supplier H", 0.5, 1.0, 0.5);
-            productService.addProduct("Roy and Menash store", "Drinks", "Soft-Drinks", "Fanta", "Supplier H", 0.5, 1.0, 0.5);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Coke", "Supplier H", 0.5, 1.0, 0.5);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Sprite", "Supplier H", 0.5, 1.0, 0.5);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Fanta", "Supplier H", 0.5, 1.0, 0.5);
 
             // Pharmacy - Shower
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Shower", "Shampoo", "Supplier I", 0.5, 4.0, 2.0);
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Shower", "Body Wash", "Supplier I", 0.5, 3.5, 2.0);
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Shower", "Conditioner", "Supplier J", 0.5, 4.5, 2.5);
+            productService.addProduct("A", "Pharmacy", "Shower", "Shampoo", "Supplier I", 0.5, 4.0, 2.0);
+            productService.addProduct("A", "Pharmacy", "Shower", "Body Wash", "Supplier I", 0.5, 3.5, 2.0);
+            productService.addProduct("A", "Pharmacy", "Shower", "Conditioner", "Supplier J", 0.5, 4.5, 2.5);
 
             // Pharmacy - Pills
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Pills", "Painkillers", "Supplier K", 0.1, 5.0, 2.0);
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Pills", "Vitamins", "Supplier L", 0.2, 7.0, 3.0);
-            productService.addProduct("Roy and Menash store", "Pharmacy", "Pills", "Cough Syrup", "Supplier M", 0.3, 6.0, 2.5);
+            productService.addProduct("A", "Pharmacy", "Pills", "Painkillers", "Supplier K", 0.1, 5.0, 2.0);
+            productService.addProduct("A", "Pharmacy", "Pills", "Vitamins", "Supplier L", 0.2, 7.0, 3.0);
+            productService.addProduct("A", "Pharmacy", "Pills", "Cough Syrup", "Supplier M", 0.3, 6.0, 2.5);
 
             // Toys - Lego
-            productService.addProduct("Roy and Menash store", "Toys", "Lego", "Lego City", "Supplier N", 1.0, 30.0, 20.0);
-            productService.addProduct("Roy and Menash store", "Toys", "Lego", "Lego Friends", "Supplier N", 1.0, 25.0, 18.0);
-            productService.addProduct("Roy and Menash store", "Toys", "Lego", "Lego Technic", "Supplier O", 1.5, 50.0, 35.0);
+            productService.addProduct("A", "Toys", "Lego", "Lego City", "Supplier N", 1.0, 30.0, 20.0);
+            productService.addProduct("A", "Toys", "Lego", "Lego Friends", "Supplier N", 1.0, 25.0, 18.0);
+            productService.addProduct("A", "Toys", "Lego", "Lego Technic", "Supplier O", 1.5, 50.0, 35.0);
 
         } catch (Exception e) {
             System.out.println(e.toString());
@@ -107,24 +107,24 @@ public class StorageInit {
         Random random = new Random();
         try {
             // Adding items for each product
-            this.productService.addItem("Roy and Menash store", 1, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 2, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 3, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 4, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 5, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 6, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 7, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 8, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 9, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 10, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 11, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 12, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 13, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 14, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 15, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 16, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 17, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("Roy and Menash store", 18, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 1, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 2, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 3, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 4, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 5, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 6, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 7, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 8, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 9, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 10, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 11, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 12, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 13, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 14, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 15, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 16, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 17, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 18, 10, LocalDate.now().plusDays(random.nextInt(365)));
         }
         catch (Exception e)
         {

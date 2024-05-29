@@ -31,6 +31,8 @@ public class Discount {
     
     public int getdaysLeft()
     {
+        if(startDate == null)
+            return 0;
         return (int)ChronoUnit.DAYS.between(LocalDate.now(), this.startDate) - this.days;
     }
 
@@ -49,12 +51,15 @@ public class Discount {
     //update days left and return true if days left, false otherwise
     public void updateDiscount(double price)
     {
-        this.days = (int)ChronoUnit.DAYS.between(LocalDate.now(), this.startDate);
-        if(this.days < 0)
+        if(this.startDate != null)
         {
-            this.storageDiscountPrice = price;
-            this.days = 0;
-            this.startDate = null;
+            this.days = (int)ChronoUnit.DAYS.between(LocalDate.now(), this.startDate);
+            if(this.days < 0)
+            {
+                this.storageDiscountPrice = price;
+                this.days = 0;
+                this.startDate = null;
+            }
         }
     }
 }

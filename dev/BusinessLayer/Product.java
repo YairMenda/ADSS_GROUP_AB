@@ -122,7 +122,7 @@ public class Product {
                 + "Product price: " + this.getStoragePrice() + "\n "
                 + "Discount days left: " + this.discount.getdaysLeft() + "\n "
                 + "Quantity left: " + this.itemsLeft() + "\n "
-                + "Sold count: " + this.soldItems.size() + "\n "; 
+                + "Sold count: " + this.soldItems == null ? "0" : this.soldItems.size() + "\n "; 
     }
 
     //set new product price by specific discount

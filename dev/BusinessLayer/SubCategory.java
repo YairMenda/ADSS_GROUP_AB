@@ -11,7 +11,8 @@ public class SubCategory {
 
     public SubCategory(String categoryName, String subCategoryname)
     {
-        this.products = new HashMap<>();
+        this.products = new HashMap<Integer,Product>();
+        this.namesToId = new HashMap<String,Integer>();
         this.category = categoryName;
         this.subCategoryName = subCategoryname;
     }
@@ -77,10 +78,11 @@ public class SubCategory {
 
     public boolean addProduct(String productName,String supplierName, double size, double price, double supplierPrice)
     {
-        if(!this.namesToId.containsKey(productName))
+        if(this.namesToId.containsKey(productName))
             return false;
         Product p = new Product(productName, supplierName, productName, supplierName, size, price, supplierPrice);
         this.products.put(p.getId(),p);
+        this.namesToId.put(p.getProductName(), p.getId());
         return true;
     }
 
