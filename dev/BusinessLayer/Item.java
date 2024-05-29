@@ -77,5 +77,9 @@ public class Item {
         return getExpData().compareTo(LocalDate.now()) >= 0;
                 
     }
+    public double getSoldPrice()
+    {
+        return this.soldPrice;
+    }
     
 }

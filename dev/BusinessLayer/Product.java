@@ -1,5 +1,4 @@
 package dev.BusinessLayer;
-import java.util.List;
 import java.util.LinkedList;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -14,8 +13,8 @@ public class Product {
     private String supplierName; // Changed to String assuming 'supplierName' should be textual
     private double price;
     private double supplierPrice;
-    private List<Item> items;
-    private List<Item> soldItems;
+    private LinkedList<Item> items;
+    private LinkedList<Item> soldItems;
     private double size;
     private Discount discount; // -1 equals no discount
 
@@ -138,6 +137,8 @@ public class Product {
         this.discount.setSupplierDiscount(this.supplierPrice*(1-(supplierDiscount/100)));
     }
 
+    public Discount geDiscount(){return discount;}
+
     //update discount by days left
     public void updateDiscount(int discount)
     {
@@ -174,7 +175,7 @@ public class Product {
         return supplierName;
     }
 
-    public List<Item> getItems() {
+    public LinkedList<Item> getItems() {
         return items;
     }
 
@@ -199,7 +200,7 @@ public class Product {
         this.supplierName = supplierName;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(LinkedList<Item> items) {
         this.items = items;
     }
 

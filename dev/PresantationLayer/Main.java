@@ -1,13 +1,14 @@
 package dev.PresantationLayer;
-
-import dev.ServiceLayer.StorageInit;
-import dev.ServiceLayer.StorageService;
+import dev.ServiceLayer.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
+    
     StorageInit storageInit = new StorageInit();
     StorageService storageService = storageInit.getStorageService();
+    ProductService productService = storageInit.getProductService();
     //needs to add storage.init()
     public static void main(String[] args) {
         Main mainApp = new Main();
@@ -29,7 +30,7 @@ public class Main {
             System.out.println("2. Add sub-category of products");
             System.out.println("3. Add items");
             System.out.println("4. Add a product");
-            System.out.println("5. View product");
+            System.out.println("5. View products");
             System.out.println("6. Get a report");
             System.out.println("7. Get products by size");
             System.out.println("8. Sell items");
@@ -42,15 +43,16 @@ public class Main {
 
     public void actionHandler(String storageName, int action) {
         Scanner s = new Scanner(System.in);
+        Response r;
         switch (action) {
             case 1:
                 System.out.print("Enter category name to add: ");
                 String categoryName = s.next();
-                try {
-                    System.out.println(storageService.addCategory(storageName, categoryName));
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                r = storageService.addCategory(storageName, categoryName);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(categoryName + " added");
                 break;
 
             case 2:
@@ -58,11 +60,11 @@ public class Main {
                 categoryName = s.next();
                 System.out.print("Enter sub-category name to add: ");
                 String subCategoryName = s.next();
-                try {
-                    System.out.println(storageService.addSubCategory(storageName, categoryName, subCategoryName));
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                r = storageService.addSubCategory(storageName, categoryName,subCategoryName);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(subCategoryName + " added to category " + categoryName);    
                 break;
 
             case 3:
@@ -77,13 +79,12 @@ public class Main {
                 System.out.print("Enter expiration day: ");
                 int day = s.nextInt();
                 LocalDate expDate = LocalDate.of(year, month, day);
-                try {
-                    storageService.addItem(storageName, productId, quantity, expDate);
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                r = productService.addItem(storageName, productId, quantity, expDate);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(quantity + " items of product number " + productId +" have been added");    
                 break;
-
             case 4:
                 System.out.print("Enter category name: ");
                 categoryName = s.next();
@@ -99,17 +100,23 @@ public class Main {
                 double price = s.nextDouble();
                 System.out.print("Enter supplier price: ");
                 double supplierPrice = s.nextDouble();
-                try {
-                    storageService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice);
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                r = productService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(productName + " has been added");    
                 break;
 
             case 5:
-                System.out.print("Enter product ID: ");
+                showAllProducts(storageName);
+                System.out.print("Enter product ID to see description: ");
                 productId = s.nextInt();
-                System.out.println(storageService.getProduct(storageName, productId));
+                System.out.println();
+                r = productService.getProduct(storageName, productId);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(((ProductToSend)r.getReturnValue()).getDescription()); 
                 break;
 
             case 6:
@@ -122,6 +129,12 @@ public class Main {
                     case 1:
                         System.out.print("Enter category name: ");
                         categoryName = s.next();
+                        r = storageService.reportByCategory(storageName, categoryName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else{
+                            System.out.println(r.getReturnValue());
+                        }
                         try {
                             System.out.println(storageService.reportByCategory(storageName, categoryName));
                         } catch (Exception e) {
@@ -133,37 +146,51 @@ public class Main {
                         categoryName = s.next();
                         System.out.print("Enter sub-category name: ");
                         subCategoryName = s.next();
-                        try {
-                            System.out.println(storageService.reportBySubCategory(storageName, categoryName, subCategoryName));
-                        } catch (Exception e) {
-                            System.out.println(e.toString());
-                        }
+                        r = storageService.reportBySubCategory(storageName, categoryName, subCategoryName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(r.getReturnValue());
                         break;
                     case 3:
-                        System.out.println(storageService.reportByBadItems(storageName));
+                        r = storageService.reportByBadItems(storageName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(r.getReturnValue());
                         break;
                     default:
                         System.out.println("Invalid report type selected.");
                         break;
+                
                 }
                 break;
 
             case 7:
-                System.out.print("Enter product size: ");
-                size = s.nextDouble();
-                System.out.println(storageService.getProductsBySize(storageName, (int) size));
-                break;
-
+                System.out.println("Please enter product size");
+                int size2 = s.nextInt();
+                r = storageService.getProductsBySize(storageName,size2);
+                if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                else
+                {                 
+                    for(ProductToSend pToSend :((LinkedList<ProductToSend>)r.getReturnValue()))
+                    {
+                        System.out.println(pToSend.getDescription());
+                    }
+                }
+                break;             
             case 8:
+                showAllProducts(storageName);
                 System.out.print("Enter product ID: ");
                 productId = s.nextInt();
                 System.out.print("Enter item ID: ");
                 int itemId = s.nextInt();
-                try {
-                    System.out.println(storageService.sellItem(storageName, itemId, productId));
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                r = productService.sellItem(storageName, itemId, productId);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println(productId + " item number : " + itemId + " sold");
                 break;
 
             case 9:
@@ -174,33 +201,34 @@ public class Main {
                 int deleteType = s.nextInt();
                 switch (deleteType) {
                     case 1:
+                        showAllProducts(storageName);
                         System.out.print("Enter product ID: ");
                         productId = s.nextInt();
-                        try {
-                            System.out.println(storageService.deleteProduct(storageName, productId));
-                        } catch (Exception e) {
-                            System.out.println(e.toString());
-                        }
+                        r = productService.deleteProduct(storageName, productId);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(productId + " deleted");
                         break;
                     case 2:
                         System.out.print("Enter category name: ");
                         categoryName = s.next();
-                        try {
-                            System.out.println(storageService.deleteCategory(storageName, categoryName));
-                        } catch (Exception e) {
-                            System.out.println(e.toString());
-                        }
+                        r = storageService.deleteCategory(storageName, categoryName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(categoryName + " deleted");
                         break;
                     case 3:
                         System.out.print("Enter category name: ");
                         categoryName = s.next();
                         System.out.print("Enter sub-category name: ");
                         subCategoryName = s.next();
-                        try {
-                            System.out.println(storageService.deleteSubCategory(storageName, categoryName, subCategoryName));
-                        } catch (Exception e) {
-                            System.out.println(e.toString());
-                        }
+                        r = storageService.deleteSubCategory(storageName, categoryName, subCategoryName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(subCategoryName + " deleted");
                         break;
                     default:
                         System.out.println("Invalid delete type selected.");
@@ -217,6 +245,33 @@ public class Main {
                 System.out.println("Invalid action selected.");
                 break;
 
+        }
+    }
+
+    public void showAllProducts(String storageName){
+        Response r = storageService.getAllProdcuts(storageName);
+        
+        if(r.ErrorOccured()){
+            System.out.println(r.getErrorMsg());
+        }
+        else{
+            LinkedList<ProductToSend> pList = (LinkedList<ProductToSend>)r.getReturnValue();
+            for (ProductToSend p : pList) {
+                System.out.println("ID - " + p.getProductId() + ", Name - " + p.getProductName());
+            }
+        }
+    }
+
+    public void showAllItems(String storageName, int productId){
+        Response r = productService.getAllItems(storageName,productId);
+        if(r.ErrorOccured()){
+            System.out.println(r.getErrorMsg());
+        }
+        else{
+            LinkedList<ItemToSend> iList = (LinkedList<ItemToSend>)r.getReturnValue();
+            for (ItemToSend i : iList) {
+                System.out.println("ID - " + i.getId());
+            }
         }
     }
 }

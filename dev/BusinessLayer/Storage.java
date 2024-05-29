@@ -13,6 +13,11 @@ public class Storage {
         this.categories = new HashMap<>();
     }
 
+    public String getStorageName()
+    {
+        return this.storageName;
+    }
+
     // adds new category to dictionary. return true if added, false otherwise
     public boolean addCategory(String categoryName)
     {
@@ -145,4 +150,15 @@ public class Storage {
     {
         getProduct(productId).sellItem(itemId);
     }
+
+    public LinkedList<Product> getAllProducts()
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for (Category category : this.categories.values()) 
+        {
+            result.addAll(category.getAllProducts());
+        }
+        return result;
+    }
+    
 }

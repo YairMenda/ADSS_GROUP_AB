@@ -27,6 +27,7 @@ public class Discount {
     {
         return this.storageDiscountPrice;
     }
+
     
     public int getdaysLeft()
     {

@@ -10,4 +10,9 @@ public abstract class Report {
     }
 
     public abstract String printReport();
+
+    public String title()
+    {
+        return this.title;
+    }
 }

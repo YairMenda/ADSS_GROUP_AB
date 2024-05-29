@@ -2,8 +2,8 @@ package dev.ServiceLayer;
 
 public class Response {
     
-    public Object returnValue;
-    public String errorMessage;
+    private Object returnValue;
+    private String errorMessage;
 
     public Response(Object returnValue, String errorMessage) 
     {
@@ -11,8 +11,19 @@ public class Response {
         this.returnValue = returnValue;
         this.errorMessage = errorMessage;
     }
+
     public Boolean ErrorOccured()
     {
         return this.errorMessage != null;
+    }
+
+    public String getErrorMsg()
+    {
+        return this.errorMessage;
+    }
+
+    public Object getReturnValue()
+    {
+        return this.returnValue;
     }
 }

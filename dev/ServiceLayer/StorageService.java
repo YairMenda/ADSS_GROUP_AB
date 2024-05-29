@@ -1,7 +1,9 @@
 package dev.ServiceLayer;
+import java.util.LinkedList;
+
+import dev.BusinessLayer.Product;
 import dev.BusinessLayer.StorageFacade;
 
-import java.time.LocalDate;
 
 /**
  * StorageService
@@ -10,27 +12,12 @@ public class StorageService {
 
     private StorageFacade storageFacade;
 
-    public StorageService() {
-        this.storageFacade = new StorageFacade();
-    }
-
-    public Response deleteProduct(String storageName, int productId) {
-        try {
-            return new Response(storageFacade.deleteProduct(storageName, productId), null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
-    }
-    
-    public Response getProduct(String storageName, int productId){
-        try {
-            return new Response(storageFacade.getProduct(storageName,productId).toString(), null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
+    public StorageService(StorageFacade sf) {
+        this.storageFacade = sf;
     }
 
 
+    //response - value: boolean, error: string
     public Response deleteSubCategory(String storageName, String categoryName, String subCategoryName) {
         try {
             return new Response(storageFacade.deleteSubCategory(storageName, categoryName, subCategoryName),null);
@@ -39,24 +26,7 @@ public class StorageService {
         }
     }
 
-    public Response setSupplierDiscount(String storageName, int productId, int discount, int days) {
-        try {
-            storageFacade.setSupplierDiscount(storageName, productId, discount, days);
-            return new Response(productId,null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
-    }
-
-    public Response setStoreDiscount(String storageName, int productId, int storageDiscount, int days) {
-        try {
-            storageFacade.setStoreDiscount(storageName, productId, storageDiscount, days);
-            return new Response(productId, null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
-    }
-
+    //response - value: boolean, error: string
     public Response addSubCategory(String storageName, String categoryName, String subCategoryName) {
         try {
             return new Response(storageFacade.addSubCategory(storageName, categoryName, subCategoryName), null);
@@ -64,7 +34,8 @@ public class StorageService {
             return new Response(null, e.getMessage());
         }
     }
-
+    
+    //response - value: ProductReport, error: string
     public Response reportByCategory(String storageName, String categoryName) {
         try {
             return new Response(storageFacade.reportByCategory(storageName, categoryName).toString(), null);
@@ -72,7 +43,8 @@ public class StorageService {
             return new Response(null, e.getMessage());
         }
     }
-
+    
+    //response - value: ProductReport, error: string
     public Response reportBySubCategory(String storageName, String categoryName, String subCategory) {
         try {
             return new Response(storageFacade.reportBySubCategory(storageName, categoryName, subCategory).toString(), null);
@@ -81,6 +53,7 @@ public class StorageService {
         }
     }
 
+    //response - value: ItemReport, error: string
     public Response reportByBadItems(String storageName) {
         try {
             return new Response(storageFacade.reportByBadItems(storageName).toString(), null);
@@ -89,15 +62,7 @@ public class StorageService {
         }
     }
 
-    public Response getProductsBySize(String storageName, int size) {
-        try {
-            return new Response(storageFacade.getProdcutsBySize(storageName, size).toString(), null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
-    }
-
-
+    //response - value: boolean, error: string
     public Response deleteCategory(String storageName, String categoryName) {
         try {
             return new Response(storageFacade.deleteCategory(storageName, categoryName),null);
@@ -106,6 +71,7 @@ public class StorageService {
         }
     }
 
+    //response - value: boolean, error: string
     public Response addStorage(String storageName) {
         try {
             return new Response(storageFacade.addStorage(storageName),null);
@@ -114,6 +80,7 @@ public class StorageService {
         }
     }
 
+    //response - value: boolean, error: string
     public Response deleteStorage(String storageName) {
         try {
             return new Response(storageFacade.deleteStorage(storageName), null);
@@ -122,7 +89,7 @@ public class StorageService {
         }
     }
 
-    
+    //response - value: boolean, error: string
     public Response addCategory(String storageName, String categoryName) {
         try {
             return new Response(storageFacade.addCategory(storageName, categoryName), null);
@@ -131,32 +98,35 @@ public class StorageService {
         }
     }
 
-    public Response addItem(String storageName, int productId, int quantity, LocalDate expDate) {
+    public Response getProductsBySize(String storageName, int size) 
+    {
         try {
-            storageFacade.addItem(storageName, productId, quantity, expDate);
-            return new Response(productId, null);
+            LinkedList<Product> temp = storageFacade.getProdcutsBySize(storageName, size);
+            LinkedList<ProductToSend> result = new LinkedList<>();
+            for (Product product : temp) 
+            {
+                result.add(new ProductToSend(product));
+            }
+            return new Response(result, null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }
     }
 
-    public Response addProduct(String storageName, String category, String subCategory, String productName,
-                             String supplierName, double size, double price, double supplierPrice) 
+    public Response getAllProdcuts(String storageName)
     {
         try {
-            storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice);
-            return new Response("success", null);
+            LinkedList<Product> temp = storageFacade.getAllProducts(storageName);
+            LinkedList<ProductToSend> result = new LinkedList<>();
+            for (Product product : temp) 
+            {
+                result.add(new ProductToSend(product));
+            }
+            return new Response(result, null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }
     }
 
-    public Response sellItem(String storageName, int itemId, int productId)
-    {
-        try {
-            return new Response(storageFacade.sellItem(storageName, itemId, productId), null);
-        } catch (Exception e) {
-            return new Response(null, e.getMessage());
-        }
-    }
+    
 }

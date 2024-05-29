@@ -10,7 +10,7 @@ public class StorageFacade {
     
     public StorageFacade()
     {
-        this.storages = new HashMap<>();
+        this.storages = new HashMap<String,Storage>();
     }
 
     public boolean addStorage(String storageName)
@@ -199,9 +199,25 @@ public class StorageFacade {
         return this.storages.get(storageName).getProductsBySubCategory(category, subCategory);
     }
 
+    public LinkedList<Product> getAllProducts(String storageName) throws Exception
+    {
+        if(this.storages.get(storageName) == null)
+            throw new Exception("Storage name doesnt exist");
+        return this.storages.get(storageName).getAllProducts();
+    }
+
     public Product getProduct(String storageName, int productId) 
     {
         return this.storages.get(storageName).getProduct(productId);
     }
+
+    public LinkedList<Item> getAllItems(String storageName, int productId) throws Exception
+    {
+        Product p = this.getProduct(storageName, productId);
+        if(p == null)
+            throw new Exception("Product doesnt exist");
+        return p.getItems();
+    }
+    
 
 }

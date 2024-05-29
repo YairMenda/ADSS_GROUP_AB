@@ -17,14 +17,23 @@ public class SubCategory {
     }
    
 
+    public String getSubCategory()
+    {
+        return this.subCategoryName;
+    }
+
+    public String getCategory()
+    {
+        return this.category;
+    }
     //delete product from products dictionary. return true if deleted, false otherwise
     public boolean deleteProduct(int id)
     {
         return this.products.remove(id) != null;
     }
-     
+    
     //return products list of current subcategory
-    public LinkedList<Product> getProducts()
+    public LinkedList<Product> getAllProducts()
     {
         return new LinkedList<>(products.values());
     }
@@ -66,7 +75,7 @@ public class SubCategory {
         return expItems;
     }
 
-    public boolean addProduct( String productName,String supplierName, double size, double price, double supplierPrice)
+    public boolean addProduct(String productName,String supplierName, double size, double price, double supplierPrice)
     {
         if(!this.namesToId.containsKey(productName))
             return false;
@@ -85,5 +94,6 @@ public class SubCategory {
         }
         return null;
     }
+
 
 }
