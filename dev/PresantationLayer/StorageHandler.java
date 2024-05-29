@@ -183,9 +183,12 @@ public class StorageHandler {
                 }
                 break;             
             case 8:
+                System.out.println("This are the products: ");
                 showAllProducts(storageName);
-                System.out.print("Enter product ID: ");
+                System.out.print("Enter product ID to get his description: ");
                 productId = s.nextInt();
+                System.out.println("Those are this products items: ");
+                showAllItems(storageName, productId);
                 System.out.print("Enter item ID: ");
                 int itemId = s.nextInt();
                 r = productService.sellItem(storageName, itemId, productId);

@@ -80,7 +80,7 @@ public class SubCategory {
     {
         if(this.namesToId.containsKey(productName))
             return false;
-        Product p = new Product(productName, supplierName, productName, supplierName, size, price, supplierPrice);
+        Product p = new Product(productName, category, subCategoryName, supplierName, size, price, supplierPrice);
         this.products.put(p.getId(),p);
         this.namesToId.put(p.getProductName(), p.getId());
         return true;
@@ -88,13 +88,14 @@ public class SubCategory {
 
     
     //get Product by specific name
-    public Product getProduct(int id)
+    public Product getProduct(String productName)
     {
-        for(Product p : products.values()){
-            if(p.getId() == id)
-                return p;
-        }
-        return null;
+        return this.products.get(this.namesToId.get(productName));
+    }
+
+    public Product getProduct(int productId)
+    {
+        return this.products.get(productId);
     }
 
 

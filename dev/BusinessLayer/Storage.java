@@ -90,11 +90,11 @@ public class Storage {
     }
 
     // return Product by specific name
-    public Product getProduct(int id)
+    public Product getProduct(String productName)
     {
         Product p;
         for(Category c : categories.values()){
-            p = c.getProduct(id);
+            p = c.getProduct(productName);
             if(p != null)
             {
                 return p;
@@ -103,6 +103,18 @@ public class Storage {
         return null;
     }
 
+    public Product getProduct(int productId)
+    {
+        Product p;
+        for(Category c : categories.values()){
+            p = c.getProduct(productId);
+            if(p != null)
+            {
+                return p;
+            }
+        }
+        return null;
+    }
     public boolean addProduct(String category, String subCategory,String productName, String supplierName,
      double size, double price ,double supplierPrice)
     {

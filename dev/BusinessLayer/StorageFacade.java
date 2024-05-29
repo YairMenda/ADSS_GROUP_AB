@@ -104,16 +104,16 @@ public class StorageFacade {
         }
     }
 
-    public void addProduct(String storageName, String category, String subCategory, String productName,
+    public boolean addProduct(String storageName, String category, String subCategory, String productName,
      String supplierName, double size, double price, double supplierPrice) throws Exception
     {
         if(!storages.get(storageName).doesCatExists(category))
             throw new Exception ("Category doesn't exist");
         if(!storages.get(storageName).doesSubCatExists(category, subCategory))
             throw new Exception ("Sub Category doesn't exist");
-        
-        if(!this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice))
+        if(getProduct(storageName,productName) != null)
            throw new Exception ("Product name already exists"); 
+        return this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice);
     }
 
 
@@ -204,6 +204,11 @@ public class StorageFacade {
         if(this.storages.get(storageName) == null)
             throw new Exception("Storage name doesnt exist");
         return this.storages.get(storageName).getAllProducts();
+    }
+
+    public Product getProduct(String storageName, String productName) 
+    {
+        return this.storages.get(storageName).getProduct(productName);
     }
 
     public Product getProduct(String storageName, int productId) 

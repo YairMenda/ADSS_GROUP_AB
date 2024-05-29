@@ -29,6 +29,7 @@ public class Product {
         this.price = price;
         this.supplierPrice = supplierPrice;
         this.items = new LinkedList<Item>();
+        this.soldItems = new LinkedList<>();
         this.size = size;
         this.discount = new Discount(supplierPrice,this.price);
     }
@@ -114,7 +115,7 @@ public class Product {
 
     public String toString()
     {
-        return "Product name: " + this.productName + "\n "
+        String s = "Product name: " + this.productName + "\n "
                 + "Category: " + this.category + "\n "
                 + "Sub category: " + this.subCategory + "\n "
                 + "Supplier name: " + this.supplierName + "\n " 
@@ -122,7 +123,8 @@ public class Product {
                 + "Product price: " + this.getStoragePrice() + "\n "
                 + "Discount days left: " + this.discount.getdaysLeft() + "\n "
                 + "Quantity left: " + this.itemsLeft() + "\n "
-                + "Sold count: " + this.soldItems == null ? "0" : this.soldItems.size() + "\n "; 
+                + "Sold count: " + this.soldItems.size() + "\n "; 
+        return s;
     }
 
     //set new product price by specific discount

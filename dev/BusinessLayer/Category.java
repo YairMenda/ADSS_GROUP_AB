@@ -95,11 +95,23 @@ public class Category {
         return expItems;
     }
 
-    public Product getProduct(int id)
+    public Product getProduct(String productName)
     {
         Product p;
         for(SubCategory sc : subCategories.values()){
-            p = sc.getProduct(id);
+            p = sc.getProduct(productName);
+            if(p != null){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Product getProduct(int productId)
+    {
+        Product p;
+        for(SubCategory sc : subCategories.values()){
+            p = sc.getProduct(productId);
             if(p != null){
                 return p;
             }

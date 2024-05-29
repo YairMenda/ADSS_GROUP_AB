@@ -70,8 +70,7 @@ public class ProductService {
                              String supplierName, double size, double price, double supplierPrice) 
     {
         try {
-            storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice);
-            return new Response("success", null);
+            return new Response(storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice),null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }
