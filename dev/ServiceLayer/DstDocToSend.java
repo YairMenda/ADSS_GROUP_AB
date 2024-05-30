@@ -50,4 +50,12 @@ public class DstDocToSend {
     public SiteToSend getDestination(){
         return destination;
     }
+
+    @Override
+    public String toString() {
+        return "Document Number = " + docNumber + ", Delivery Number = " + deliveryNumber 
+        + ", items : " + items
+        + ", destination - " + destination + "]";
+    }
+
 }

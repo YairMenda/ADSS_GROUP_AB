@@ -8,9 +8,13 @@ public class SiteFacade {
 
     private Map<String , Site> sites;
 
-    public SiteFacade()
+    public SiteFacade(List<Site> list)
     {
         this.sites = new HashMap<>();
+        for (Site s: list){
+            sites.put(s.getAddress(),s);
+        }
+        
     }
 
     public List<Site> getSites()
@@ -18,10 +22,10 @@ public class SiteFacade {
         return new LinkedList<Site>(this.sites.values());
     }
 
-    public Site addSite(String address,String phoneNumber,String ContactName) throws Exception
+    public Site addSite(String address,String phoneNumber,String ContactName,String sa) throws Exception
     {
         if (!sites.containsKey(address)){
-            Site s = new Site(address, phoneNumber, ContactName);
+            Site s = new Site(address, phoneNumber, ContactName,sa);
             sites.put(address,s);
             return s;
             }
@@ -55,7 +59,7 @@ public class SiteFacade {
          getSite(address).setContactName(newContactName);
     }
 
-    public Site getSite (String address) throws Exception
+    public Site getSite(String address) throws Exception
     {
         if (sites.containsKey(address))
             return sites.get(address);

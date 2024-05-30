@@ -41,7 +41,11 @@ public class Presentation {
         System.out.println("EXIT - PRESS 5");
         System.out.println();
         //s.nextLine();
-        String action = s.nextLine();
+        String action;
+
+        do{
+            action  = s.nextLine();
+        }while(action.length() == 0);
 
         switch (action) {
             case "1":
@@ -79,8 +83,10 @@ public class Presentation {
         System.out.println("FOR GET AVIALIBLE TRUCKS BY DATE - PRESS 4");
         System.out.println("MAIN MENU  - PRESS 5");
         System.out.println();
-        s.nextLine();
-        String action = s.nextLine();
+        String action;
+        do{
+            action  = s.nextLine();
+        }while(action.length() == 0);
 
         switch (action) {
             case "1":
@@ -109,8 +115,12 @@ public class Presentation {
         int license  = s.nextInt();
         System.out.println();
         System.out.print("Enter model : ");
-        s.nextLine();
-        String model = s.nextLine();
+        String model;
+
+        do{
+            model  = s.nextLine();
+        }while(model.length() == 0);
+
         System.out.println();
         System.out.print("Enter weight without cargo : ");
         double weight  = s.nextDouble();
@@ -119,8 +129,12 @@ public class Presentation {
         double maxWeight  = s.nextDouble();
         System.out.println();
         System.out.print("Enter License Category : ");
-        s.nextLine();
-        String category  = s.nextLine();
+        String category;
+
+        do{
+            category  = s.nextLine();
+        }while(category.length() == 0);
+
         System.out.println();
 
         Response r = ts.addNewTruck(license, model, weight, maxWeight, category);
@@ -242,8 +256,11 @@ public class Presentation {
         System.out.println("ADD NEW LICENSE TO DRIVER - PRESS 4");
         System.out.println("MAIN MENU  - PRESS 5");
         System.out.println();
-        s.nextLine();
-        String action = s.nextLine();
+        
+        String action;
+        do{
+            action = s.nextLine();
+        }while(action.length() == 0 );
 
         switch (action) {
             case "1":
@@ -278,8 +295,11 @@ public class Presentation {
         System.out.println("FOR UPDATING PHONE NUMBER OF A SITE - PRESS 4");
         System.out.println("FOR UPDATING CONTACT NAME OF A SITE - PRESS 5");
         System.out.println("MAIN MENU  - PRESS 6");
-        s.nextLine();
-        String action = s.nextLine();
+          
+        String action;
+        do{
+            action = s.nextLine();
+        }while(action.length() == 0 );
 
         switch (action) {
             case "1":
@@ -305,15 +325,21 @@ public class Presentation {
 
     public void addSite(){
         System.out.print("Enter Address : ");
-        String address  = s.nextLine();
+        String address;
+        do{  address = s.nextLine();}while(address.length() == 0);
         System.out.println();
         System.out.print("Enter Phone Number : ");
-        String phoneNum  = s.nextLine();
+        String phoneNum ;
+        do{ phoneNum = s.nextLine();}while(phoneNum.length() == 0);
         System.out.println();
         System.out.print("Enter Contact Name : ");
-        String contactName  = s.nextLine();
+        String contactName;
+        do{  contactName = s.nextLine();}while(contactName.length() == 0);
         System.out.println();
-        Response r =ss.addNewSite(address,phoneNum,contactName);
+        String shippingArea;
+        do{   shippingArea = s.nextLine();}while( shippingArea.length() == 0);
+        System.out.println();
+        Response r =ss.addNewSite(address,phoneNum,contactName, shippingArea);
         if (r.ErrorOccured())
         {
            System.out.println(r.errorMessage);
@@ -327,17 +353,20 @@ public class Presentation {
 
     public void getSite(){
         System.out.print("Enter Address : ");
-        String address  = s.nextLine();
+        String address;
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0 );
+
         System.out.println();
-        Response r1 =ss.getPhoneNumber(address);
-        Response r2 = ss.getContactName(address);
-        if (r1.ErrorOccured() || r2.ErrorOccured())
+        Response r = ss.getSite(address);
+        if (r.ErrorOccured())
         {
-           System.out.println(r1.errorMessage);
+           System.out.println(r.errorMessage);
         }
         
         else{
-            System.out.println("Phone number- "+r1.getReturnValue()+" Contact Name-"+r2.getReturnValue());
+            System.out.println();
         }
     }
     public void getAllSites(){
@@ -358,11 +387,19 @@ public class Presentation {
     }
     public void updateSiteNUM(){
         System.out.print("Enter address Name : ");
-        String address  = s.nextLine();
+        String address;
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0 );
+
         System.out.println();
 
         System.out.print("Enter phone Number : ");
-        String phoneNumber  = s.nextLine();
+        String phoneNumber;
+        do{
+           phoneNumber = s.nextLine();
+        }while(phoneNumber.length() == 0 );
+
         System.out.println();
         Response r =ss.editPhoneNumber(address,phoneNumber);
         if (r.ErrorOccured())
@@ -382,11 +419,19 @@ public class Presentation {
     public void updateSiteCON(){
         
         System.out.print("Enter address Name : ");
-        String address  = s.nextLine();
+        String address;
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0 );
+
         System.out.println();
 
         System.out.print("Enter Contact Name : ");
-        String contactName  = s.nextLine();
+        String contactName;
+        do{
+            contactName = s.nextLine();
+        }while(contactName.length() == 0 );
+
         System.out.println();
         Response r =ss.editContactName(address,contactName);
         if (r.ErrorOccured())
@@ -424,8 +469,11 @@ public class Presentation {
         System.out.println("APPROVE DELIVERY - PRESS 14");        
         System.out.println("MAIN MENU  - PRESS 15");
         System.out.println();
-        s.nextLine();
-        String action = s.nextLine();
+        
+        String action;
+        do{
+            action = s.nextLine();
+        }while(action.length() == 0 );
 
         switch (action) {
             case "0":
@@ -503,7 +551,8 @@ public class Presentation {
     public void getDriversByLicense(){
         
         System.out.print("Enter license  - ");
-        String license = s.nextLine();
+        String license;
+        do{  license = s.nextLine();}while(license.length() == 0);
         System.out.println();
         
         Response r = ds.getDriversByLicense(license);
@@ -526,7 +575,8 @@ public class Presentation {
     public void getDriversByLicenseAndDate(){
 
         System.out.print("Enter license  - ");
-        String license = s.nextLine();
+        String license;
+        do{  license = s.nextLine();}while(license.length() == 0);
         System.out.println();
         
         System.out.print("Enter specific year - ");
@@ -570,10 +620,12 @@ public class Presentation {
     public void addNewLicenseToDriver(){
         
         System.out.print("Enter driver ID  - ");
-        String id = s.nextLine();
+        String id;
+        do{  id = s.nextLine();}while(id.length() == 0);
         System.out.println();
         System.out.print("Enter license  - ");
-        String license = s.nextLine();
+        String license;
+        do{  license = s.nextLine();}while(license.length() == 0);
         System.out.println();
         
         Response r = ds.addNewLicenseToDriver(id, license);
@@ -611,11 +663,13 @@ public class Presentation {
     {   
         //System.out.print("\033[A\033[2K");
         System.out.print("Enter driver id  - ");
-        String driverID = s.nextLine();
+        String driverID;
+        do{  driverID = s.nextLine();}while(driverID.length() == 0);
         System.out.println();
 
         System.out.print("Enter origin address  - ");
-        String address = s.nextLine();
+        String address;
+        do{  address = s.nextLine();}while(address.length() == 0);
         System.out.println();
         
         System.out.print("Enter specific year - ");
@@ -726,7 +780,11 @@ public class Presentation {
         System.out.println();
 
         System.out.print("Enter destination to be removed - ");
-        String address = s.nextLine();
+        String address;
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0);
+        
         System.out.println();
 
         Response r = deliveryService.removeDestination(dNum,address);
@@ -796,7 +854,11 @@ public class Presentation {
         System.out.println();
 
         System.out.print("Enter address of the document number - ");
-        String address = s.nextLine();
+        String address;
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0);
+        
         System.out.println();
 
         Response r = deliveryService.getDestinationDocument(dNum,address);
@@ -876,17 +938,30 @@ public class Presentation {
         int dNum = s.nextInt();
         System.out.println();
         System.out.print("Enter Address - ");
-        s.nextLine();
-        String address = s.nextLine();
-        System.out.println();
-        s.nextLine();
-    //list - add multiple items
-        System.out.print("Enter Item number - ");
-        int itemNumber = s.nextInt();
-        System.out.println();
+        String address;
 
+        do{
+            address = s.nextLine();
+        }while(address.length() == 0);
+        
+        System.out.println();
+        int itemNumber = 0;
+        String input;
         List<Integer> items = new LinkedList<Integer>();
-        items.add(itemNumber);
+        
+        do
+        {
+            System.out.print("Enter Item number - ");
+            itemNumber = s.nextInt();
+            items.add(itemNumber);
+
+            System.out.print("You want to enter another item ? yes / no - ");
+            do{
+                input = s.nextLine();
+            }while(input.length() == 0);
+
+        }
+        while (!input.equals("no"));
 
         Response r = deliveryService.addDestinationDoc(dNum,items,address);
 

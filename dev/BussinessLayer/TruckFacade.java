@@ -6,8 +6,8 @@ public class TruckFacade {
 
 private List<Truck> trucks;
 
-public TruckFacade(){
-    this.trucks=new LinkedList<Truck>();
+public TruckFacade(List<Truck > list){
+    this.trucks=new LinkedList<Truck>(list);
 }
 
 

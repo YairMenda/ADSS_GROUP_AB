@@ -37,12 +37,14 @@ public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String
     
     if (!tf.isAvailable(licenseNumber,depTime))
         throw new Exception("Truck with License Number - " + licenseNumber + " Doesn't exist Or Doesn't Aval");
-    
+    if (!df.hasLicense(driverID,tf.getLicenseCat(licenseNumber)))
+        throw new Exception("Driver with id - " + driverID + " can't drive in truck - "+licenseNumber+" because he doen't the relevant license");
     Site origin = sf.getSite(originAddress);
     this.currentID++;
     Delivery newDelivery = new Delivery(this.currentID, LocalDateTime.now() , depTime, licenseNumber, driverID, origin);
     this.deliveries.put(this.currentID ,newDelivery);
-
+    tf.addDelivery(licenseNumber, depTime);
+    df.addDelivery(driverID, depTime);
     return newDelivery;
     }
 
@@ -53,7 +55,7 @@ public boolean weightUpdate(int deliveryNumber,double weight) throws Exception
         throw new Exception("weight out of bounderies, please remove products, change truck or destination");
     
     currDelivery.setTruckWeight(weight);
-    currDelivery.approveDelivery();
+    //currDelivery.approveDelivery();
     return true;
 
     }
@@ -108,7 +110,11 @@ public void inProgress(int deliveryNumber) throws Exception
 
 public void completeDelivery(int deliveryNumber) throws Exception
 {
-    getDelivery(deliveryNumber).completeDelivery();
+    Delivery d = getDelivery(deliveryNumber);
+    d.completeDelivery();
+    tf.deliveryAcomplishment(d.getTruckNumber(),d.getDepartureTime());
+    df.deliveryAcomplishment(d.getDriverID(), d.getDepartureTime());
+
 }
 
 public void disapproveDelivery(int deliveryNumber) throws Exception

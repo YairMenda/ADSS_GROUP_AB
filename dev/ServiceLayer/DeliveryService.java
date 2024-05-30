@@ -121,7 +121,7 @@ public class DeliveryService {
         try
         {
             DstDoc dd = df.getDstDoc(deliveryNum,docNumber);
-            return new Response(dd.getDocNumber(), null);
+            return new Response(new DstDocToSend(dd), null);
         }
         catch(Exception e)
         {
@@ -158,7 +158,7 @@ public class DeliveryService {
         try
         {
             DstDoc dd = df.getDstDoc(deliveryNum,address);
-            return new Response(dd.getDocNumber(), null);
+            return new Response(new DstDocToSend(dd), null);
         }
         catch(Exception e)
         {

@@ -22,7 +22,7 @@ public Object getReturnValue(){
 
 
 public String getErrorMessage(){
-    return errorMessage;
+    return errorMessage + "\n";
 }
 
  public Boolean ErrorOccured() {

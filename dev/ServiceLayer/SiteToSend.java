@@ -4,12 +4,13 @@ public class SiteToSend {
     private String address;
     private String phoneNumber;
     private String ContactName;
-
+    private String shippingArea;
     public SiteToSend(Site other)
     {
         this.address = other.getAddress();
         this.phoneNumber = other.getContactName();
         this.ContactName = other.getPhoneNumber();
+        this.shippingArea = other.getShippingArea();
     }
 
     public String getAddress() {
@@ -37,7 +38,7 @@ public class SiteToSend {
     }
 
     public String toString(){
-        return "Address-"+address+"/n"+ "PhoneNumber -" + phoneNumber +" Contact Name-"+ContactName;
+        return "Address -"+address + " PhoneNumber -" + phoneNumber +" Contact Name - "+ContactName + " shipping Area - " + shippingArea;
     }
 
 }

@@ -18,10 +18,10 @@ public class SiteService {
 
 
 
-    public Response addNewSite(String address,String phoneNumber,String ContactName){
+    public Response addNewSite(String address,String phoneNumber,String ContactName,String sa){
         try
         {
-            Site s = sf.addSite(address, phoneNumber, ContactName);
+            Site s = sf.addSite(address, phoneNumber, ContactName,sa);
             return new Response(s,null);
             
         }
@@ -31,6 +31,18 @@ public class SiteService {
         }
     }
 
+    public Response getSite(String address){
+        try
+        {
+            Site s = sf.getSite(address);
+            return new Response(new SiteToSend(s) ,null);
+            
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
     public Response getAllSites(){
         try{
             List<Site> sites = sf.getSites();

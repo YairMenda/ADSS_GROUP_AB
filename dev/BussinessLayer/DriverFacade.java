@@ -99,5 +99,10 @@ public class DriverFacade {
         return getDriverByID(driverID).isAvailable(date);
     }
 
+    public boolean hasLicense(String driverID,String license) throws Exception{
+        Driver d = getDriverByID(driverID);
+        return d.hasLicense(license);
+    }
+
 
 }

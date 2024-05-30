@@ -17,6 +17,7 @@ public class DeliveryToSend {
     private List<SiteToSend> destinations;
     private Delivery.status deliveryStatus;
     private List<DstDocToSend> destinationDocs;
+    private List<Double> truckWeightHistory;
 
     public DeliveryToSend(Delivery other)
     {
@@ -26,6 +27,8 @@ public class DeliveryToSend {
         this.truckNumber=other.getTruckNumber();
         this.driverID=other.getDriverID();
         this.origin=new SiteToSend(other.getOrigin());
+        this.truckWeight = other.getTruckWeight();
+        this.truckWeightHistory = new LinkedList<Double>(other.getTruckWeightHistory());
         destinations= new LinkedList<>();
         List<Site> l = other.getDestinations();
         for(Site s:l){
@@ -116,6 +119,8 @@ public class DeliveryToSend {
     public String toString() {
         return "Delivery Information :  [ DeliveryNumber = " + deliveryNumber + ", date = " + date + ", departureTime = "
                 + departureTime + ", truckNumber = " + truckNumber + ", truckWeight = " + truckWeight + ", driverID = "
-                + driverID + ", origin = " + origin +  ", deliveryStatus = " + deliveryStatus + " ]";
+                + driverID + ", origin = " + origin +  ", deliveryStatus = " + deliveryStatus + ",\n"
+                + "Truck weight history -  " +truckWeightHistory + ",\n " 
+                + "Destination Documents - "+destinationDocs + "]";
     }
 }

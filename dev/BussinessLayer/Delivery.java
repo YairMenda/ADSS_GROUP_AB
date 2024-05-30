@@ -8,6 +8,7 @@ public class Delivery {
     private LocalDateTime departureTime;
     private int truckNumber;
     private double truckWeight;
+    private List<Double> truckWeightHistory;
     private String driverID;
     private Site origin;
     private List<Site> destinations;
@@ -23,7 +24,8 @@ public class Delivery {
         this.date=date;
         this.departureTime=depTime;
         this.truckNumber=truckNumber;
-        this.truckWeight=-1;
+        this.truckWeight = -1;
+        this.truckWeightHistory = new LinkedList<Double>();;
         this.driverID=driverID;
         this.origin=origin;
         this.destinations=new LinkedList<>();
@@ -41,7 +43,7 @@ public class Delivery {
     }
 
     public LocalDateTime getDate() {
-        return date;
+        return this.date;
     }
 
     public void setDate(LocalDateTime date) {
@@ -69,6 +71,7 @@ public class Delivery {
     }
 
     public void setTruckWeight(double truckWeight) {
+        this.truckWeightHistory.add(truckWeight);
         this.truckWeight = truckWeight;
     }
 
@@ -105,6 +108,10 @@ public class Delivery {
         return deliveryStatus;
     }
 
+    public List<Double> getTruckWeightHistory() {
+        return truckWeightHistory;
+    }
+
     public void approveDelivery() throws Exception
     {
         if (this.truckWeight==-1)
@@ -139,13 +146,21 @@ public class Delivery {
     public boolean addDstDoc(DstDoc dd) throws Exception
     {
         Site s = dd.getDestination();
-        if (openToChanges()){
-            destinationDocs.add(dd);
-            destinations.add(s);
-            return true;
+        if (!openToChanges()){
+            throw new Exception("This delivery is already approved, if you want to change it, please disapprove");
         }
-        throw new Exception("this delivery is already approved, if you want to change it, please disapprove");
-   
+        for (Site s1 : destinations){
+            if (s1.getAddress().equals(dd.getDestination()))
+                throw new Exception("Already exist a document for this site");
+        
+            if (s1.getShippingArea().equals(dd.getDestination().getShippingArea()))
+                throw new Exception("Each delivery only support destinations with the same shipping area, this is the valid area - " + s1.getShippingArea());
+            }
+        
+        destinationDocs.add(dd);
+        destinations.add(s);
+        return true;
+        
     }
 
     public boolean removeDstDoc(int docNumber){
@@ -179,7 +194,7 @@ public class Delivery {
     }
 
     public boolean openToChanges(){
-        return deliveryStatus==status.waiting;
+        return deliveryStatus.equals(status.waiting);
     }
 
 
@@ -188,7 +203,10 @@ public class Delivery {
         if (openToChanges()){
             getDstDocByNumber(dstDocNumber).removeProducts(deletedProducts);
         }
-        throw new Exception("please disapprove before changes");
+        else{
+            throw new Exception("please disapprove before changes");
+        }
+        
         
     }
 
