@@ -35,9 +35,10 @@ public class StorageHandler {
             System.out.println("5. View products");
             System.out.println("6. Get a report");
             System.out.println("7. Get products by size");
-            System.out.println("8. Sell items");
-            System.out.println("9. Delete product, categories or sub categories");
-            System.out.println("10. Exit this storage");
+            System.out.println("8. Manage product discount");
+            System.out.println("9. Sell items");
+            System.out.println("10. Delete product, categories or sub categories");
+            System.out.println("11. Exit this storage");
             actionHandler(storageName, s.nextInt());
         }
         s.close();
@@ -70,15 +71,16 @@ public class StorageHandler {
                 break;
 
             case 3:
+                showAllProducts(storageName);
                 System.out.print("Enter product ID: ");
                 int productId = s.nextInt();
                 System.out.print("Enter quantity: ");
                 int quantity = s.nextInt();
                 System.out.print("Enter expiration year: ");
                 int year = s.nextInt();
-                System.out.print("Enter expiration month: ");
+                System.out.print("Enter expiration month (1-12) : ");
                 int month = s.nextInt();
-                System.out.print("Enter expiration day: ");
+                System.out.print("Enter expiration day (0-30/31) : ");
                 int day = s.nextInt();
                 LocalDate expDate = LocalDate.of(year, month, day);
                 r = productService.addItem(storageName, productId, quantity, expDate);
@@ -181,8 +183,37 @@ public class StorageHandler {
                         System.out.println(pToSend.getDescription());
                     }
                 }
-                break;             
+                break; 
             case 8:
+                System.out.println("Please select discount action: ");
+                System.out.println("1. set product discount");
+                System.out.println("2. get days left of current discount ");
+                int discAct = s.nextInt();
+                System.out.println("Please select product ID: ");
+                showAllProducts(storageName);
+                int productSel = s.nextInt();
+                switch (discAct) {
+                    case 1:
+                        System.out.println("Please enter discount amount (precentage%): ");
+                        int discPre = s.nextInt();
+                        System.out.println("Please enter discount period (days): ");
+                        int period = s.nextInt();
+                        r = this.productService.setStoreDiscount(storageName, productSel, discPre, period);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println("Discount activated on product ID number :" + (int)r.getReturnValue());
+                        break;
+                    case 2:
+                        r = this.productService.getStoreDiscountDaysLeft(storageName, productSel);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println("Days left: " + (int)r.getReturnValue());
+                    default:
+                        break;
+                }
+            case 9:
                 System.out.println("This are the products: ");
                 showAllProducts(storageName);
                 System.out.print("Enter product ID to get his description: ");
@@ -198,7 +229,7 @@ public class StorageHandler {
                     System.out.println(productId + " item number : " + itemId + " sold");
                 break;
 
-            case 9:
+            case 10:
                 System.out.println("Please select a delete type: ");
                 System.out.println("1. Delete product");
                 System.out.println("2. Delete category");
@@ -241,7 +272,7 @@ public class StorageHandler {
                 }
                 break;
 
-            case 10:
+            case 11:
                 System.out.println("Exiting storage management.");
                 System.exit(0);
                 break;

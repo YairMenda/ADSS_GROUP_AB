@@ -28,7 +28,8 @@ public class ProductService {
     public Response getProduct(String storageName, int productId)
     {
         try {
-            return new Response(new ProductToSend(storageFacade.getProduct(storageName,productId)), null);
+            Product p = storageFacade.getProduct(storageName,productId);
+            return new Response(new ProductToSend(p), null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }
@@ -40,6 +41,15 @@ public class ProductService {
         try {
             storageFacade.setSupplierDiscount(storageName, productId, discount, days);
             return new Response(productId,null);
+        } catch (Exception e) {
+            return new Response(null, e.getMessage());
+        }
+    }
+
+    public Response getStoreDiscountDaysLeft(String storageName, int productId) 
+    {
+        try {
+            return new Response(storageFacade.getProduct(storageName, productId).geDiscount().getdaysLeft(), null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }
