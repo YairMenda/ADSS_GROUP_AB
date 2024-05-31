@@ -43,9 +43,9 @@ public class ProductServiceTest {
     {
         Response r = this.productService.setStoreDiscount("A", 25, 50, 5);
         if(r.ErrorOccured())
-            System.out.println("Add item test ----> failed. error-masage: " + r.getErrorMsg());
+            System.out.println("Set store discount test ----> failed. error-masage: " + r.getErrorMsg());
         else
-            System.out.println("Add item test ----> succeded. ");
+            System.out.println("Set store discount test ----> succeded. ");
     } 
 
     //sell item test
