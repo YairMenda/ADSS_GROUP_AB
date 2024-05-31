@@ -46,16 +46,19 @@ public class Product {
 
     //handles the sale of an item
     public void sellItem(int itemId){
+        LinkedList<Item> newItems = new LinkedList<>();
         for (Item i : items) {
             if(i.getId() == itemId){
                 i.setsoldPrice(getStoragePrice());
                 i.setSellDate(LocalDate.now());
-                items.remove(i);
                 soldItems.add(i);
                 if(needsAlert())
                     System.out.println("Product " + productName + " is reaching its end! \n Only " + itemsLeft() + " \n The average selling rate of this item is " + avgSoldInMonth());
             }
+            else
+                newItems.add(i);
         }
+        setItems(newItems);
     }
 
     //Avg items sold per month
@@ -68,21 +71,22 @@ public class Product {
                 minimumSellDate = i.getSellDate();
 
         }
-        int daysFromFirstSell = (int)ChronoUnit.DAYS.between(LocalDate.now(), minimumSellDate);
+        int monthFromFirstSale = (int)ChronoUnit.MONTHS.between(LocalDate.now(), minimumSellDate)+1;
 
-        return (totalSold / daysFromFirstSell) * 30;
+        return (totalSold / monthFromFirstSale);
     }
 
     public LinkedList<Item> getExpiredItems(boolean drop){
         LinkedList<Item> exProducts = new LinkedList<>();
-        for(Item i : items){
-            if(i.isExpired()){
+        LinkedList<Item> newList = new LinkedList<>();
+        for(Item i : items)
+        {
+            if(i.isExpired())
                 exProducts.add(i);
-                if(drop)
-                    items.remove(i);
-
-            }
+            else
+                newList.add(i);
         }
+        setItems(newList);
         return exProducts;
     }
 
@@ -96,21 +100,21 @@ public class Product {
     public LinkedList<Item> getDamagedItems(boolean drop)
     {
         LinkedList<Item> damagedList = new LinkedList<>();
+        LinkedList<Item> newList = new LinkedList<>();
         for (Item it : this.items)
         {
             if(it.isDamaged())
-            {
                 damagedList.add(it);
-                if(drop)
-                    items.remove(it);
-            }
+            else
+                newList.add(it);
         }
+        setItems(newList);
         return damagedList;
     }
 
     public void addItem(LocalDate expDate)
     {
-        items.add(new Item(expDate,getSupplierPrice()));
+        items.add(new Item(expDate,getSupplierPrice(),this.productName));
     }
 
     public String toString()
@@ -130,7 +134,7 @@ public class Product {
     //set new product price by specific discount
     public void setStorageDiscount(int storageDiscount, int days)
     {
-        this.discount.setStorageDiscount(this.price*(1-(storageDiscount/100)), days);
+        this.discount.setStorageDiscount(this.price*(1-((double)storageDiscount/100)), days);
     }
 
     //set new supplier price by specific discount
@@ -221,6 +225,15 @@ public class Product {
             }
         }
         return false;
+    }
+
+    public void setDamagedItem(int id)
+    {
+        for (Item item : items) 
+        {
+            if(item.getId() == id)
+                item.setDamaged();
+        }
     }
 
     

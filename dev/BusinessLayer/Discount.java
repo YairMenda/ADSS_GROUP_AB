@@ -33,7 +33,7 @@ public class Discount {
     {
         if(startDate == null)
             return 0;
-        return (int)ChronoUnit.DAYS.between(LocalDate.now(), this.startDate) - this.days;
+        return this.days - (int)ChronoUnit.DAYS.between(LocalDate.now(), this.startDate);
     }
 
     public void setSupplierDiscount(double supplierDiscountPrice)

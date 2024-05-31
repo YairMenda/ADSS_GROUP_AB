@@ -176,7 +176,7 @@ public class StorageFacade {
     }
     
     //get all products by specific size
-    public LinkedList<Product> getProdcutsBySize(String storageName, int size)
+    public LinkedList<Product> getProdcutsBySize(String storageName, double size)
     {
         return this.storages.get(storageName).getProdcutsBySize(size);
     }
@@ -222,6 +222,31 @@ public class StorageFacade {
         if(p == null)
             throw new Exception("Product doesnt exist");
         return p.getItems();
+    }
+
+    public void setDamagedItem(String storageName ,int productId ,int itemId) throws Exception
+    {
+        Product p = getProduct(storageName, productId);
+        if(p == null)
+            throw new Exception("Product doesnt exist");
+        p.setDamagedItem(itemId);
+    }
+
+    public LinkedList<String> getAllSubCategories(String storageName, String categoryName) throws Exception
+    {
+        if(!this.storages.containsKey(storageName))
+            throw new Exception("storage name doesnt exist");
+        LinkedList<String> result = this.storages.get(storageName).getAllSubCategories(categoryName);
+        if(result.size() == 0)
+            throw new Exception("category name doesnt exist");
+        return result;     
+    }
+
+    public LinkedList<String> getAllCategories(String storageName) throws Exception
+    {
+        if(!this.storages.containsKey(storageName))
+            throw new Exception("storage name doesnt exist");
+        return this.storages.get(storageName).getAllCategories();     
     }
     
 

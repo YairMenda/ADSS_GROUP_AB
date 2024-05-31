@@ -57,7 +57,7 @@ public class Storage {
     }
 
     //get all products by specific size
-    public LinkedList<Product> getProdcutsBySize(int size)
+    public LinkedList<Product> getProdcutsBySize(double size)
     {
         LinkedList<Product> result = new LinkedList<>();
         for (Category c : this.categories.values())
@@ -169,6 +169,27 @@ public class Storage {
         for (Category category : this.categories.values()) 
         {
             result.addAll(category.getAllProducts());
+        }
+        return result;
+    }
+
+    public LinkedList<String> getAllSubCategories(String category)
+    {
+        LinkedList<String> result = new LinkedList<>();
+        for (Category cat : this.categories.values()) 
+        {
+            if(cat.getCategoryName().equals(category))
+                result.addAll(cat.getAllSubCategories());
+        }
+        return result;
+    }
+
+    public LinkedList<String> getAllCategories()
+    {
+        LinkedList<String> result = new LinkedList<>();
+        for (Category cat : this.categories.values()) 
+        {
+            result.add(cat.getCategoryName());
         }
         return result;
     }

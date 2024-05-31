@@ -4,7 +4,6 @@ import java.util.LinkedList;
 public class ItemReport extends Report{
     
     private LinkedList<Item> items;
-    private String title;
 
     public ItemReport(LinkedList<Item> items, String title)
     {
@@ -14,7 +13,7 @@ public class ItemReport extends Report{
     
     public String printReport()
     {
-        String result = title + " report: \n";
+        String result = title() + " report: \n";
         for (Item it : this.items)
         {
             result += it.toString() + "\n";

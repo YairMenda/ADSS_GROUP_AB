@@ -113,18 +113,18 @@ public class StorageInit {
             this.productService.addItem("A", 4, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 5, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 6, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("A", 7, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 7, 10, LocalDate.now().minusDays(random.nextInt(365)));
             this.productService.addItem("A", 8, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 9, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 10, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 11, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 12, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 13, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("A", 14, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 14, 10, LocalDate.now().minusDays(random.nextInt(365)));
             this.productService.addItem("A", 15, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 16, 10, LocalDate.now().plusDays(random.nextInt(365)));
             this.productService.addItem("A", 17, 10, LocalDate.now().plusDays(random.nextInt(365)));
-            this.productService.addItem("A", 18, 10, LocalDate.now().plusDays(random.nextInt(365)));
+            this.productService.addItem("A", 18, 10, LocalDate.now().minusDays(random.nextInt(365)));
         }
         catch (Exception e)
         {

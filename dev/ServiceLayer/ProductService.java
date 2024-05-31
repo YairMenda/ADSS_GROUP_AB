@@ -110,5 +110,17 @@ public class ProductService {
             return new Response(null, e.getMessage());
         }
     }
+
+    public Response setDamagedItem(String storageName ,int productId ,int itemId)
+    {
+        try
+        {
+            this.storageFacade.setDamagedItem(storageName, productId, itemId);
+            return new Response("Success",null);
+        }
+        catch (Exception e){
+            return new Response(null, e.getMessage());
+        }
+    }
     
 }

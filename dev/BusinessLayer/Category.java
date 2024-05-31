@@ -42,7 +42,7 @@ public class Category {
     }
 
     //get all products by specific size
-    public LinkedList<Product> getProductsBySize(int size)
+    public LinkedList<Product> getProductsBySize(double size)
     {
         LinkedList<Product> result = new LinkedList<>();
         for (SubCategory sc : this.subCategories.values()) 
@@ -117,6 +117,21 @@ public class Category {
             }
         }
         return null;
+    }
+
+    public LinkedList<String> getAllSubCategories()
+    {
+        LinkedList<String> result = new LinkedList<>();
+        for (SubCategory sc : this.subCategories.values()) 
+        {
+            result.add(sc.getSubCategory());
+        }
+        return result;
+    }
+
+    public String getCategoryName()
+    {
+        return this.categoryName;
     }
     
 }
