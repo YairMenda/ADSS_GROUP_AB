@@ -27,6 +27,7 @@ public class StorageHandler {
         System.out.print("Enter storage name to manage: ");
         String storageName = s.nextLine();
         while (!exit) {
+            
             System.out.println("Please select an action: ");
             System.out.println("1. Add category of products");
             System.out.println("2. Add sub-category of products");
@@ -40,18 +41,17 @@ public class StorageHandler {
             System.out.println("10. Sell items");
             System.out.println("11. Delete product, categories or sub categories");
             System.out.println("12. Exit this storage");
-            actionHandler(storageName, s.nextInt());
+            actionHandler(storageName, s.nextInt(), s);
         }
         s.close();
     }
 
-    public void actionHandler(String storageName, int action) {
-        Scanner s = new Scanner(System.in);
+    public void actionHandler(String storageName, int action, Scanner s) {
         Response r;
         switch (action) {
             case 1:
                 System.out.print("Enter category name to add: ");
-                String categoryName = s.next();
+                String categoryName = s.nextLine();
                 r = storageService.addCategory(storageName, categoryName);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -61,9 +61,9 @@ public class StorageHandler {
 
             case 2:
                 System.out.print("Enter category name: ");
-                categoryName = s.next();
+                categoryName = s.nextLine();
                 System.out.print("Enter sub-category name to add: ");
-                String subCategoryName = s.next();
+                String subCategoryName = s.nextLine();
                 r = storageService.addSubCategory(storageName, categoryName,subCategoryName);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -92,13 +92,13 @@ public class StorageHandler {
                 break;
             case 4:
                 System.out.print("Enter category name: ");
-                categoryName = s.next();
+                categoryName = s.nextLine();
                 System.out.print("Enter sub-category name: ");
-                subCategoryName = s.next();
+                subCategoryName = s.nextLine();
                 System.out.print("Enter product name: ");
-                String productName = s.next();
+                String productName = s.nextLine();
                 System.out.print("Enter supplier name: ");
-                String supplierName = s.next();
+                String supplierName = s.nextLine();
                 System.out.print("Enter product size: ");
                 double size = s.nextDouble();
                 System.out.print("Enter product price: ");
@@ -130,10 +130,11 @@ public class StorageHandler {
                 System.out.println("2. Report by sub-category");
                 System.out.println("3. Report by bad items");
                 int reportType = s.nextInt();
+                s.nextLine();
                 switch (reportType) {
                     case 1:
                         System.out.print("Enter category name: ");
-                        categoryName = s.next();
+                        categoryName = s.nextLine();
                         r = storageService.reportByCategory(storageName, categoryName);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
@@ -142,9 +143,9 @@ public class StorageHandler {
                         break;
                     case 2:
                         System.out.print("Enter category name: ");
-                        categoryName = s.next();
+                        categoryName = s.nextLine();
                         System.out.print("Enter sub-category name: ");
-                        subCategoryName = s.next();
+                        subCategoryName = s.nextLine();
                         r = storageService.reportBySubCategory(storageName, categoryName, subCategoryName);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
@@ -244,6 +245,7 @@ public class StorageHandler {
                 System.out.println("2. Delete category");
                 System.out.println("3. Delete sub-category");
                 int deleteType = s.nextInt();
+                s.nextLine();
                 switch (deleteType) {
                     case 1:
                         showAllProducts(storageName);
@@ -259,7 +261,7 @@ public class StorageHandler {
                         System.out.println("Our categories are: ");
                         showAllCategories(storageName);
                         System.out.print("Enter category name: ");
-                        categoryName = s.next();
+                        categoryName = s.nextLine();
                         r = storageService.deleteCategory(storageName, categoryName);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
@@ -270,11 +272,11 @@ public class StorageHandler {
                         System.out.println("Our categories are: ");
                         showAllCategories(storageName);
                         System.out.print("Enter category name: ");
-                        categoryName = s.next();
+                        categoryName = s.nextLine();
                         System.out.println("Our sub-categories are: ");
                         showAllSubCategories(storageName, categoryName);
                         System.out.print("Enter sub-category name: ");
-                        subCategoryName = s.next();
+                        subCategoryName = s.nextLine();
                         r = storageService.deleteSubCategory(storageName, categoryName, subCategoryName);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
