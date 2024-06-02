@@ -123,4 +123,16 @@ public class ProductService {
         }
     }
     
+    public Response updateProductPrice(String storageName, int productId, double productPrice)
+    {
+        try
+        {
+            return new Response(storageFacade.updateProductPrice(storageName,productId,productPrice), null);
+        }
+        catch (Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
+    
 }

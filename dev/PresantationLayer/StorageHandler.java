@@ -34,13 +34,14 @@ public class StorageHandler {
             System.out.println("3. Add items");
             System.out.println("4. Add a product");
             System.out.println("5. View products");
-            System.out.println("6. Get a report");
-            System.out.println("7. Get products by size");
-            System.out.println("8. Set damaged item");
-            System.out.println("9. Manage product discount");
-            System.out.println("10. Sell items");
-            System.out.println("11. Delete product, categories or sub categories");
-            System.out.println("12. Exit this storage");
+            System.out.println("6. Update product price");
+            System.out.println("7. Get a report");
+            System.out.println("8. Get products by size");
+            System.out.println("9. Set damaged item");
+            System.out.println("10. Manage product discount");
+            System.out.println("11. Sell items");
+            System.out.println("12. Delete product, categories or sub categories");
+            System.out.println("13. Exit this storage");
             actionHandler(storageName, s.nextInt(), s);
         }
         s.close();
@@ -125,6 +126,19 @@ public class StorageHandler {
                 break;
 
             case 6:
+                showAllProducts(storageName);
+                System.out.println("Please enter product id: ");
+                productId = s.nextInt();
+                System.out.println("Please enter new price: ");
+                double productPrice = s.nextDouble();
+                r = this.productService.updateProductPrice(storageName, productId, productPrice);
+                if(r.ErrorOccured())
+                    System.out.println(r.getErrorMsg());
+                else
+                    System.out.println("New price update succeded");
+                break;
+                
+            case 7:
                 System.out.println("Please select a report type: ");
                 System.out.println("1. Report by category");
                 System.out.println("2. Report by sub-category");
@@ -166,7 +180,7 @@ public class StorageHandler {
                 }
                 break;
 
-            case 7:
+            case 8:
                 System.out.println("Please enter product size");
                 double size2 = s.nextDouble();
                 r = storageService.getProductsBySize(storageName,size2);
@@ -180,7 +194,7 @@ public class StorageHandler {
                     }
                 }
                 break; 
-            case 8:
+            case 9:
                 showAllProducts(storageName);
                 System.out.println("Please select prodcut-id: ");
                 int product = s.nextInt();
@@ -193,7 +207,7 @@ public class StorageHandler {
                 else
                     System.out.println((String)r.getReturnValue());
                 break;
-            case 9:
+            case 10:
                 System.out.println("Please select discount action: ");
                 System.out.println("1. set product discount");
                 System.out.println("2. get days left of current discount ");
@@ -223,7 +237,7 @@ public class StorageHandler {
                         break;
                 }
                 break;
-            case 10:
+            case 11:
                 System.out.println("This are the products: ");
                 showAllProducts(storageName);
                 System.out.print("Enter product ID to get his description: ");
@@ -239,7 +253,7 @@ public class StorageHandler {
                     System.out.println(productId + " item number : " + itemId + " sold");
                 break;
 
-            case 11:
+            case 12:
                 System.out.println("Please select a delete type: ");
                 System.out.println("1. Delete product");
                 System.out.println("2. Delete category");
@@ -289,7 +303,7 @@ public class StorageHandler {
                 }
                 break;
 
-            case 12:
+            case 13:
                 System.out.println("Exiting storage management.");
                 System.exit(0);
                 break;

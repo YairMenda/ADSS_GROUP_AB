@@ -248,6 +248,17 @@ public class StorageFacade {
             throw new Exception("storage name doesnt exist");
         return this.storages.get(storageName).getAllCategories();     
     }
+
+    public boolean updateProductPrice(String storageName, int productId, double productPrice) throws Exception
+    {
+        if(!this.storages.containsKey(storageName))
+            throw new Exception("storage name doesnt exist");
+        Product p = this.getProduct(storageName, productId);
+        if(p == null)
+            throw new Exception("product name doesnt exist");
+        p.setProductPrice(productPrice);
+        return true;
+    }
     
 
 }

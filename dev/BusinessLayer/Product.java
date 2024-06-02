@@ -202,6 +202,11 @@ public class Product {
         this.subCategory = subCategory;
     }
 
+    public void setProductPrice(double price)
+    {
+        this.price = price;
+    }
+
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
     }
