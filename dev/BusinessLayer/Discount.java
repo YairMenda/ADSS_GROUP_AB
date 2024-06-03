@@ -9,6 +9,7 @@ public class Discount {
     private double storageDiscountPrice;
     private LocalDate startDate;
     private int days;
+    private int discountPre;
 
     public Discount(double supplierDiscountPrice, double storageDiscountPrice)
     {
@@ -16,6 +17,7 @@ public class Discount {
         this.storageDiscountPrice = storageDiscountPrice;
         this.startDate = null;
         this.days = 0;
+        this.discountPre = 0;
     }
 
     public double getSupplierDiscountPrice()
@@ -61,5 +63,15 @@ public class Discount {
                 this.startDate = null;
             }
         }
+    }
+
+    public void setDiscountPre(int discountPre)
+    {
+        this.discountPre = discountPre;
+    }
+
+    public int getDiscountPre()
+    {
+        return this.discountPre;
     }
 }

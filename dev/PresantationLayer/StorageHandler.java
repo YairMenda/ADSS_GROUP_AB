@@ -42,7 +42,7 @@ public class StorageHandler {
             System.out.println("11. Sell items");
             System.out.println("12. Delete product, categories or sub categories");
             System.out.println("13. Exit this storage");
-            actionHandler(storageName, s.nextInt(), s);
+            actionHandler(storageName, getIntInput(s), s);
         }
         s.close();
     }
@@ -75,15 +75,15 @@ public class StorageHandler {
             case 3:
                 showAllProducts(storageName);
                 System.out.print("Enter product ID: ");
-                int productId = s.nextInt();
+                int productId = getIntInput(s);
                 System.out.print("Enter quantity: ");
-                int quantity = s.nextInt();
+                int quantity = getIntInput(s);
                 System.out.print("Enter expiration year: ");
-                int year = s.nextInt();
+                int year = getIntInput(s);
                 System.out.print("Enter expiration month (1-12) : ");
-                int month = s.nextInt();
+                int month = getIntInput(s);
                 System.out.print("Enter expiration day (0-30/31) : ");
-                int day = s.nextInt();
+                int day = getIntInput(s);
                 LocalDate expDate = LocalDate.of(year, month, day);
                 r = productService.addItem(storageName, productId, quantity, expDate);
                 if(r.ErrorOccured())
@@ -101,11 +101,11 @@ public class StorageHandler {
                 System.out.print("Enter supplier name: ");
                 String supplierName = s.nextLine();
                 System.out.print("Enter product size: ");
-                double size = s.nextDouble();
+                double size = getDoubleInput(s);
                 System.out.print("Enter product price: ");
-                double price = s.nextDouble();
+                double price = getDoubleInput(s);
                 System.out.print("Enter supplier price: ");
-                double supplierPrice = s.nextDouble();
+                double supplierPrice = getDoubleInput(s);
                 r = productService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -116,7 +116,7 @@ public class StorageHandler {
             case 5:
                 showAllProducts(storageName);
                 System.out.print("Enter product ID to see description: ");
-                productId = s.nextInt();
+                productId = getIntInput(s);
                 System.out.println();
                 r = productService.getProduct(storageName, productId);
                 if(r.ErrorOccured())
@@ -128,9 +128,9 @@ public class StorageHandler {
             case 6:
                 showAllProducts(storageName);
                 System.out.println("Please enter product id: ");
-                productId = s.nextInt();
+                productId = getIntInput(s);
                 System.out.println("Please enter new price: ");
-                double productPrice = s.nextDouble();
+                double productPrice = getDoubleInput(s);
                 r = this.productService.updateProductPrice(storageName, productId, productPrice);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -143,7 +143,7 @@ public class StorageHandler {
                 System.out.println("1. Report by category");
                 System.out.println("2. Report by sub-category");
                 System.out.println("3. Report by bad items");
-                int reportType = s.nextInt();
+                int reportType = getIntInput(s);
                 s.nextLine();
                 switch (reportType) {
                     case 1:
@@ -182,7 +182,7 @@ public class StorageHandler {
 
             case 8:
                 System.out.println("Please enter product size");
-                double size2 = s.nextDouble();
+                double size2 = getDoubleInput(s);
                 r = storageService.getProductsBySize(storageName,size2);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -197,10 +197,10 @@ public class StorageHandler {
             case 9:
                 showAllProducts(storageName);
                 System.out.println("Please select prodcut-id: ");
-                int product = s.nextInt();
+                int product = getIntInput(s);
                 showAllItems(storageName, product);
                 System.out.println("Please select item-id: ");
-                int item = s.nextInt();
+                int item = getIntInput(s);
                 r = this.productService.setDamagedItem(storageName, product, item);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -211,16 +211,16 @@ public class StorageHandler {
                 System.out.println("Please select discount action: ");
                 System.out.println("1. set product discount");
                 System.out.println("2. get days left of current discount ");
-                int discAct = s.nextInt();
+                int discAct = getIntInput(s);
                 System.out.println("Please select product ID: ");
                 showAllProducts(storageName);
-                int productSel = s.nextInt();
+                int productSel = getIntInput(s);
                 switch (discAct) {
                     case 1:
                         System.out.println("Please enter discount amount (precentage%): ");
-                        int discPre = s.nextInt();
+                        int discPre = getIntInput(s);
                         System.out.println("Please enter discount period (days): ");
-                        int period = s.nextInt();
+                        int period = getIntInput(s);
                         r = this.productService.setStoreDiscount(storageName, productSel, discPre, period);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
@@ -241,11 +241,11 @@ public class StorageHandler {
                 System.out.println("This are the products: ");
                 showAllProducts(storageName);
                 System.out.print("Enter product ID to get his description: ");
-                productId = s.nextInt();
+                productId = getIntInput(s);
                 System.out.println("Those are this products items: ");
                 showAllItems(storageName, productId);
                 System.out.print("Enter item ID: ");
-                int itemId = s.nextInt();
+                int itemId = getIntInput(s);
                 r = productService.sellItem(storageName, itemId, productId);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
@@ -258,13 +258,13 @@ public class StorageHandler {
                 System.out.println("1. Delete product");
                 System.out.println("2. Delete category");
                 System.out.println("3. Delete sub-category");
-                int deleteType = s.nextInt();
+                int deleteType = getIntInput(s);
                 s.nextLine();
                 switch (deleteType) {
                     case 1:
                         showAllProducts(storageName);
                         System.out.print("Enter product ID: ");
-                        productId = s.nextInt();
+                        productId = getIntInput(s);
                         r = productService.deleteProduct(storageName, productId);
                         if(r.ErrorOccured())
                             System.out.println(r.getErrorMsg());
@@ -368,5 +368,43 @@ public class StorageHandler {
                 System.out.println("Category: " + categoryName);
             }
         }
+    }
+
+    public double getDoubleInput(Scanner s)
+    {
+        double result;
+        while(true)
+        {
+            try
+            {
+                result = s.nextDouble();
+                break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Please enter a double input: ");
+                s.nextLine();
+            }
+        }
+        return result;
+    }
+
+    public int getIntInput(Scanner s)
+    {
+        int result;
+        while(true)
+        {
+            try
+            {
+                result = s.nextInt();
+                break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Please enter a int input: ");
+                s.nextLine();
+            }
+        }
+        return result;
     }
 }

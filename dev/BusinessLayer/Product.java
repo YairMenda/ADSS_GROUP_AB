@@ -135,6 +135,7 @@ public class Product {
     public void setStorageDiscount(int storageDiscount, int days)
     {
         this.discount.setStorageDiscount(this.price*(1-((double)storageDiscount/100)), days);
+        this.discount.setDiscountPre(storageDiscount);
     }
 
     //set new supplier price by specific discount
@@ -205,6 +206,7 @@ public class Product {
     public void setProductPrice(double price)
     {
         this.price = price;
+        this.setStorageDiscount(this.discount.getDiscountPre(), discount.getdaysLeft());
     }
 
     public void setSupplierName(String supplierName) {
