@@ -52,18 +52,19 @@ public class Product {
                 i.setsoldPrice(getStoragePrice());
                 i.setSellDate(LocalDate.now());
                 soldItems.add(i);
-                if(needsAlert())
-                    System.out.println("Product " + productName + " is reaching its end! \n Only " + itemsLeft() + " \n The average selling rate of this item is " + avgSoldInMonth());
             }
             else
                 newItems.add(i);
         }
         setItems(newItems);
+        if(needsAlert())
+            System.out.println("Product " + productName + " is reaching its end!\nOnly " + itemsLeft() + " left\nThe average selling rate of this item is " + avgSoldInMonth());
+
     }
 
     //Avg items sold per month
-    public int avgSoldInMonth(){
-        int totalSold = 0;
+    public double avgSoldInMonth(){
+        double totalSold = 0;
         LocalDate minimumSellDate = LocalDate.now();
         for(Item i: soldItems){
             totalSold++;
@@ -71,9 +72,8 @@ public class Product {
                 minimumSellDate = i.getSellDate();
 
         }
-        int monthFromFirstSale = (int)ChronoUnit.MONTHS.between(LocalDate.now(), minimumSellDate)+1;
-
-        return (totalSold / monthFromFirstSale);
+        double daysFromFirstSale = (double)ChronoUnit.DAYS.between(LocalDate.now(), minimumSellDate)+1;
+        return (totalSold / daysFromFirstSale) * 30;
     }
 
     public LinkedList<Item> getExpiredItems(boolean drop){
