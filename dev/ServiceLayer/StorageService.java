@@ -152,5 +152,10 @@ public class StorageService {
         }
     }
 
+    public StorageFacade getStorageFacade()
+    {
+        return this.storageFacade;
+    }
+
     
 }
