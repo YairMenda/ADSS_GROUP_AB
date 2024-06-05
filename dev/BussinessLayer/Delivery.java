@@ -153,7 +153,7 @@ public class Delivery {
             if (s1.getAddress().equals(dd.getDestination()))
                 throw new Exception("Already exist a document for this site");
         
-            if (s1.getShippingArea().equals(dd.getDestination().getShippingArea()))
+            if (!s1.getShippingArea().equals(dd.getDestination().getShippingArea()))
                 throw new Exception("Each delivery only support destinations with the same shipping area, this is the valid area - " + s1.getShippingArea());
             }
         

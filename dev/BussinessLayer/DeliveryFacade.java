@@ -128,7 +128,7 @@ public void removeDelivery(int deliveryNumber) throws Exception
     if (currDelivery.getDeliveryStatus() == status.inProgress || currDelivery.getDeliveryStatus() == status.complete)
         throw new Exception("Cant remove ongoing or finished delivery");
     
-    LocalDateTime removeDate = currDelivery.getDate();
+    LocalDateTime removeDate = currDelivery.getDepartureTime();
     df.removeDelivery(currDelivery.getDriverID(), removeDate);
     tf.removeDelivery(currDelivery.getTruckNumber(), removeDate);
 

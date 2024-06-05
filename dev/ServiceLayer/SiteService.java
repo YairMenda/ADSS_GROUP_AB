@@ -22,7 +22,7 @@ public class SiteService {
         try
         {
             Site s = sf.addSite(address, phoneNumber, ContactName,sa);
-            return new Response(s,null);
+            return new Response(new SiteToSend(s),null);
             
         }
         catch(Exception e)

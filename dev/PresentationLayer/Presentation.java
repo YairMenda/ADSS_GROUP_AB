@@ -825,7 +825,7 @@ public class Presentation {
         else
         {
             System.out.println("Delivery number - " + r.getReturnValue() + " removed product - " 
-            + productNum + " from Document number");
+            + productNum + " from Document number"+ docNumber);
         }
     }
 

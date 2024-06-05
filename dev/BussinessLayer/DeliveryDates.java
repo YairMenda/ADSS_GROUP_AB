@@ -1,4 +1,6 @@
 package BussinessLayer;
+import java.time.LocalDateTime;
+import java.time.temporal.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.time.Period;
 
 public class DeliveryDates {
     List<LocalDateTime> dates;
+    final double durationBetweenDel=4;
     
     public DeliveryDates()
     {
@@ -22,11 +25,10 @@ public class DeliveryDates {
     {
         boolean available = true;
         for (LocalDateTime d : dates){
-            Period p = getPeriod(d,date);  
-            if (p.getDays() < 2)
-                if (Duration.between(date, d).toHours() < 4){
+            Duration duration = Duration.between(d, date);
+            if (Math.abs(duration.toHours()) < durationBetweenDel)
                  available = false;
-                }
+
         }
         return available;
     }
@@ -55,7 +57,6 @@ public class DeliveryDates {
         dates.remove(d);
     }
 
-    private static Period getPeriod(LocalDateTime dob, LocalDateTime now) {
-        return Period.between(dob.toLocalDate(), now.toLocalDate());
+
     }
-}
+

@@ -15,6 +15,7 @@ public class DeliveryService {
     }
 
 
+    //return a response with the appropriate delieryToSend, or with an error massege
     public Response getDeliveryInfo(int deliveryNum){
         try
         {
@@ -29,6 +30,9 @@ public class DeliveryService {
         }    
     }
 
+
+
+    // returns a response with the new deliveryNumber or error if occurs
     public Response addNewDelivery(LocalDateTime depTime, int licenseNumber, String driverID, String originAddress){
         try
         {
@@ -43,6 +47,7 @@ public class DeliveryService {
     
     }
 
+    //returns Response with deliveryNumber if it was removed seccssesfully, and with error message if not
     public Response removeDelivery(int deliveryNum){
         try
         {
@@ -55,7 +60,7 @@ public class DeliveryService {
         }
     }
 
-
+    //returns response with deliveryNumber, or error message if error occurs
     public Response updateWeight(int deliveryNum, double weight){
         try
         {
@@ -68,6 +73,7 @@ public class DeliveryService {
         }    
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response replaceTruck(int deliveryNum , int truckNum){
         try
         {
@@ -79,7 +85,7 @@ public class DeliveryService {
             return new Response(null, e.getMessage());
         }    }
 
-
+    //returns response with deliveryNumber, or error message if error occurs
     public Response removeDestination(int deliveryNum , String adress){
         try
         {
@@ -92,6 +98,7 @@ public class DeliveryService {
         }
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response removeProduct(int deliveryNum , int docNumber, List<Integer> itemsTODelte){
         try
         {
@@ -104,6 +111,7 @@ public class DeliveryService {
         }
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response completeDelivery(int deliveryNum){
         try
         {
@@ -117,6 +125,7 @@ public class DeliveryService {
     }
 
     //only by docNumber
+    //returns response with DstDocToSend, or error message if error occurs
     public Response getDestinationDocument(int deliveryNum , int docNumber){
         try
         {
@@ -129,6 +138,7 @@ public class DeliveryService {
         }
     }
 
+    //returns response with DstDocToSend, or error message if error occurs
     public Response addDestinationDoc(int deliveryNum ,List<Integer> items, String adderss){
         try
         {
@@ -140,7 +150,7 @@ public class DeliveryService {
             return new Response(null, e.getMessage());
         }
     }
-
+    //returns response with deliveryNumber, or error message if error occurs
     public Response removeDestinationDoc(int deliveryNum , int docNumber){
         try
         {
@@ -154,6 +164,7 @@ public class DeliveryService {
     }
 
     //by deliveryNumber and address
+    //returns response with DstDocToSend, or error message if error occurs
     public Response getDestinationDocument(int deliveryNum, String address){
         try
         {
@@ -166,6 +177,7 @@ public class DeliveryService {
         }    
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response inProgressDelivery(int deliveryNum){
         try
         {
@@ -178,6 +190,7 @@ public class DeliveryService {
         }    
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response disapproveDelivery(int deliveryNum){
         try
         {
@@ -190,6 +203,7 @@ public class DeliveryService {
         } 
     }
 
+    //returns response with deliveryNumber, or error message if error occurs
     public Response approveDelivery(int deliveryNum){
         try
         {

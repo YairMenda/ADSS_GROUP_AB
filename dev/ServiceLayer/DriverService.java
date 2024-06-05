@@ -21,9 +21,10 @@ public class DriverService {
 
     public DriverService(DriverFacade df){
         this.df=df;
-    }    
+    }
 
 
+    //returns response with list of driversID, or error message if error occurs
     public Response getAllDrivers(){
         try{
             List<Driver> drivers = df.getDrivers();
@@ -39,6 +40,7 @@ public class DriverService {
         
     }
 
+    //returns response with list of driversID, or error message if error occurs
     public Response getDriversByLicense(String license){
         try{
             List<Driver> drivers = df.getDriversByLicense(license);
@@ -56,6 +58,7 @@ public class DriverService {
         
     }
 
+    //returns response with list of driversID, or error message if error occurs
     public Response getDriversByLicenseAndDate(String license, LocalDateTime date){
         try{
             List<Driver> drivers = df.getDriversByLicenseAndDate(license,date);
@@ -73,7 +76,7 @@ public class DriverService {
     }
 
 
-
+    //returns response with driverID, or error message if error occurs
     public Response addNewLicenseToDriver(String driverID, String license){
         try{
             df.updateLicense(driverID,license);

@@ -8,8 +8,8 @@ public class SiteToSend {
     public SiteToSend(Site other)
     {
         this.address = other.getAddress();
-        this.phoneNumber = other.getContactName();
-        this.ContactName = other.getPhoneNumber();
+        this.phoneNumber = other.getPhoneNumber();
+        this.ContactName = other.getContactName();;
         this.shippingArea = other.getShippingArea();
     }
 

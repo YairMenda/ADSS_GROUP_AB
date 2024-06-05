@@ -4,6 +4,7 @@ import java.util.List;
 
 public class DriverToSend {
 
+    private String id;
     private String name;
     private List<String> licenses;
     private DeliveryDatesToSend dates;
@@ -11,6 +12,7 @@ public class DriverToSend {
     public DriverToSend(Driver d)
     {
 
+        this.id  = d.getId();
         this.name = d.getName();
         this.licenses = d.getLicenses();
         this.dates= new DeliveryDatesToSend(d.getFutureDeliveryDates());
