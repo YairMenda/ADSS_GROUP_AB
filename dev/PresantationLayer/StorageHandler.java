@@ -61,6 +61,7 @@ public class StorageHandler {
                 break;
 
             case 2:
+                showAllCategories(storageName);
                 System.out.print("Enter category name: ");
                 categoryName = s.nextLine();
                 System.out.print("Enter sub-category name to add: ");
@@ -92,8 +93,10 @@ public class StorageHandler {
                     System.out.println(quantity + " items of product number " + productId +" have been added");    
                 break;
             case 4:
+                showAllCategories(storageName);
                 System.out.print("Enter category name: ");
                 categoryName = s.nextLine();
+                showAllSubCategories(storageName,categoryName);
                 System.out.print("Enter sub-category name: ");
                 subCategoryName = s.nextLine();
                 System.out.print("Enter product name: ");
@@ -329,6 +332,7 @@ public class StorageHandler {
             }
         }
     }
+
 
     public void showAllItems(String storageName, int productId){
         Response r = productService.getAllItems(storageName,productId);
