@@ -19,8 +19,8 @@ public class Main {
     {
 
         //manual tests
-        ManualTests t = new ManualTests();
-        t.runManualTests();
+        /*ManualTests t = new ManualTests();
+        t.runManualTests();*/
 
 
 
