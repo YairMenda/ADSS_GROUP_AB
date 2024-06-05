@@ -144,9 +144,9 @@ public class StorageHandler {
                 System.out.println("2. Report by sub-category");
                 System.out.println("3. Report by bad items");
                 int reportType = getIntInput(s);
-                s.nextLine();
                 switch (reportType) {
                     case 1:
+                        showAllCategories(storageName);
                         System.out.print("Enter category name: ");
                         categoryName = s.nextLine();
                         r = storageService.reportByCategory(storageName, categoryName);
@@ -156,8 +156,10 @@ public class StorageHandler {
                             System.out.println((String)r.getReturnValue());
                         break;
                     case 2:
+                        showAllCategories(storageName);
                         System.out.print("Enter category name: ");
                         categoryName = s.nextLine();
+                        showAllSubCategories(storageName,categoryName);
                         System.out.print("Enter sub-category name: ");
                         subCategoryName = s.nextLine();
                         r = storageService.reportBySubCategory(storageName, categoryName, subCategoryName);
@@ -259,7 +261,6 @@ public class StorageHandler {
                 System.out.println("2. Delete category");
                 System.out.println("3. Delete sub-category");
                 int deleteType = getIntInput(s);
-                s.nextLine();
                 switch (deleteType) {
                     case 1:
                         showAllProducts(storageName);
@@ -378,6 +379,7 @@ public class StorageHandler {
             try
             {
                 result = s.nextDouble();
+                s.nextLine();
                 break;
             }
             catch (Exception e)
@@ -397,7 +399,28 @@ public class StorageHandler {
             try
             {
                 result = s.nextInt();
+                s.nextLine();
                 break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Please enter a int input: ");
+                s.nextLine();
+            }
+        }
+        return result;
+    }
+
+    public String getStringInput(Scanner s)
+    {
+        String result;
+        while(true)
+        {
+            try
+            {
+                result = s.nextLine();
+                if(!result.equals(""))
+                    break;
             }
             catch (Exception e)
             {
