@@ -68,11 +68,12 @@ public class DeliveryFacadeTests {
     public void twoDifferentAreasTest(){
         String s="";
         try{
+            Delivery newDel = df.addNewDelivery(LocalDateTime.of(2000, 12,12,12,12), 1,"1","Matan");
             List<Integer> l = new LinkedList<>();
             l.add(1);
             l.add(2);
-            df.addDstDoc(1,l,s1.getAddress());
-            df.addDstDoc(1,l, s2.getAddress());
+            df.addDstDoc(newDel.getDeliveryNumber(),l,s1.getAddress());
+            df.addDstDoc(newDel.getDeliveryNumber(),l, s2.getAddress());
         }catch (Exception e){
             s=e.getMessage();
         }
@@ -103,6 +104,42 @@ public class DeliveryFacadeTests {
         }
         Assertions.assertEquals("weight out of bounderies, please remove products, change truck or destination",result);
     }
+
+    @Test
+    public void removeDeliveryTest(){
+        String result="";
+        try{
+            df.removeDelivery(1);
+            df.getDelivery(1);
+        }catch (Exception e){
+            result = e.getMessage();
+        }
+        Assertions.assertEquals("Delivery with number - 1 doesnt exist",result);
+    }
+
+
+    @Test
+    public void removeProductsTest(){
+        String s="";
+        boolean removed=true;
+        try{
+            Delivery newDel = df.addNewDelivery(LocalDateTime.of(2001, 12,12,12,12), 1,"1","Matan");
+            List<Integer> l = new LinkedList<>();
+            l.add(1);
+            l.add(2);
+            l.add(3);
+            DstDoc doc= df.addDstDoc(newDel.getDeliveryNumber(),l,s1.getAddress());
+            List<Integer> toRemove = new LinkedList<>();
+            toRemove.add(3);
+            df.removeProducts(newDel.getDeliveryNumber(),doc.getDocNumber(),  toRemove);
+            removed = doc.getItems().contains(3);
+        }catch (Exception e){
+            s=e.getMessage();
+        }
+        Assertions.assertEquals(false,removed);
+
+    }
+
 
 
 
