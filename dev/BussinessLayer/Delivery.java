@@ -116,6 +116,8 @@ public class Delivery {
     {
         if (this.truckWeight==-1)
             throw new Exception("you have to weight the truck before approval");
+        if (this.deliveryStatus != status.waiting)
+            throw new Exception("this delivery is already approved, inProress, or complete");
         deliveryStatus = status.approved; 
     }
 
