@@ -35,10 +35,10 @@ public class SiteFacade {
     /// <param name="ContactName"> the contact name of the site</param>
     /// <param name="sa"> the shipping area of the site</param>
     /// <returns>the new site, throws exception if fails</returns>
-    public Site addSite(String address,String phoneNumber,String ContactName,String sa) throws Exception
+    public Site addSite(String address,String phoneNumber,String ContactName,String sa,List<EmployeeShift> shifts) throws Exception
     {
         if (!sites.containsKey(address)){
-            Site s = new Site(address, phoneNumber, ContactName,sa);
+            Site s = new Site(address, phoneNumber, ContactName,sa,shifts);
             sites.put(address,s);
             return s;
             }

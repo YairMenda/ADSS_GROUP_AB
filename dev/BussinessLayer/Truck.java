@@ -48,22 +48,33 @@ public DeliveryDates getFutureDeliveryDates(){
     }
 
 
-public boolean isAvailable(LocalDateTime date){
-        return futureDeliveryDates.isAvailable(date);
+public boolean isAvailableByEstimatedTime(int deliveryNumber , LocalDateTime estimatedTime)
+{
+        return futureDeliveryDates.isAvailableByEstimatedTime(deliveryNumber , estimatedTime);
+}
+    public boolean isAvailableByDelivery(LocalDateTime date){
+        return futureDeliveryDates.isAvailableByNewDelivery(date);
     }
 
-public void deliveryAcomplishment(LocalDateTime date){
-         futureDeliveryDates.deliveryAcomplishment(date);
+public void deliveryAcomplishment(int deliveryNumber){
+         futureDeliveryDates.deliveryAcomplishment(deliveryNumber);
     }
     
-public void addDelivery(LocalDateTime date) throws Exception{
-    if (!futureDeliveryDates.addDelivery(date))
-        throw new Exception("Truck number - "+getLicenseNumber()+ " is not avaliable");
+public void addDelivery(Delivery d) throws Exception{
+    futureDeliveryDates.addDelivery(d);
 }
 
-public void removeDelivery(LocalDateTime date)
+public void removeDelivery(int deliveryNumber)
 {
-    futureDeliveryDates.removeDelivery(date);
+    futureDeliveryDates.removeDelivery(deliveryNumber);
 }
  
+
+
+public boolean isAvailableForReplace(Delivery d)
+{
+    return futureDeliveryDates.isAvailableForReplace(d);
+}
+
+
 }

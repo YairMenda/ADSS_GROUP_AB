@@ -14,14 +14,16 @@ import java.util.*;
  * @author Omera
  */
 public class DeliveryDatesToSend {
-   private List<LocalDateTime> dates;
+   private List<DeliveryToSend> dates;
 
 
 public DeliveryDatesToSend(DeliveryDates other){
-    this.dates=other.getDates();
+    dates = new LinkedList<>();
+    for (Delivery d : other.getDates().values())
+        dates.add(new DeliveryToSend(d));
 }
 
-public List<LocalDateTime> getDates(){
+public List<DeliveryToSend> getDates(){
     return dates;
 }
 

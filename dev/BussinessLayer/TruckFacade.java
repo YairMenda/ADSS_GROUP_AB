@@ -41,7 +41,7 @@ public Truck getTruck(int licenseNumber) throws Exception{
 public List<Truck> getAvialibleTrucks(LocalDateTime date) throws Exception{
     List<Truck> l = new LinkedList<>();
     for (Truck t:trucks){
-        if (t.isAvailable(date)){
+        if (t.isAvailableByDelivery(date)){
             l.add(t);
         }
     }
@@ -93,16 +93,8 @@ public double getMaxWeight(int licenseNumber) throws Exception{
     /// <param name="licenseNumber"> the license number of the truck we want to update</param>
     /// <param name="d"> the date of the delivery</param>
     /// <returns>true, throws exception if fails</returns>
-public boolean addDelivery(int licenseNumber, LocalDateTime d) throws Exception{
-    Truck t = getTruck(licenseNumber);
-    if(t.isAvailable(d)){
-        t.addDelivery(d);
-        return true;
-    }
-    else {
-        throw new Exception("Truck " + licenseNumber + "isn't availible on that date");
-    }
-    
+public void addDelivery(int licenseNumber, Delivery d) throws Exception{
+    getTruck(licenseNumber).addDelivery(d);
 }
 
     /// <summary>
@@ -111,10 +103,8 @@ public boolean addDelivery(int licenseNumber, LocalDateTime d) throws Exception{
     /// <param name="licenseNumber"> the license number of the truck we want to update</param>
     /// <param name="d"> the date of the delivery</param>
     /// <returns>throws exception if fails</returns>
-public void removeDelivery(int licenseNumber, LocalDateTime d) throws Exception{
-    Truck t = getTruck(licenseNumber);
-    t.removeDelivery(d);
-    
+public void removeDelivery(int licenseNumber, int deliveryNumber) throws Exception{
+    getTruck(licenseNumber).removeDelivery(deliveryNumber);
 }
     /// <summary>
     /// the method updates the availability of a truck after the delivery was completed
@@ -122,11 +112,13 @@ public void removeDelivery(int licenseNumber, LocalDateTime d) throws Exception{
     /// <param name="licenseNumber"> the license number of the truck we want to update</param>
     /// <param name="d"> the date of the delivery</param>
     /// <returns>throws exception if fails</returns>
-public void deliveryAcomplishment(int licenseNumber, LocalDateTime d) throws Exception{
-         Truck t = getTruck(licenseNumber);
-         t.deliveryAcomplishment(d);
+public void deliveryAcomplishment(int licenseNumber, int deliveryNumber) throws Exception{
+         getTruck(licenseNumber).deliveryAcomplishment(deliveryNumber);
     }
-
+public boolean availableForReplace(int licencseNumber, Delivery d) throws Exception
+{
+    return getTruck(licencseNumber).isAvailableForReplace(d);
+}
 
 
     /// <summary>
@@ -145,10 +137,15 @@ public String getLicenseCat(int licenseNumber) throws Exception{
     /// <param name="licenseNumber"> the license number of the truck we want to check</param>
     /// <param name="date"> the date we want to check</param>
     /// <returns>true or false, throws exception if fails</returns>
-public boolean isAvailable(int truckNumber,LocalDateTime date) throws Exception
+public boolean isAvailableByNewDstDoc(int deliveryNumber,int truckNumber,LocalDateTime newEstimatedTime) throws Exception
 {
-        return getTruck(truckNumber).isAvailable(date);
-    }
+        return getTruck(truckNumber).isAvailableByEstimatedTime(deliveryNumber,newEstimatedTime);
+}
+
+public boolean availableDeliveryDate(int licenseNumber,LocalDateTime date) throws Exception
+{
+    return getTruck(licenseNumber).isAvailableByDelivery(date);
+}
 
 
 }

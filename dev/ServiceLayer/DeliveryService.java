@@ -139,10 +139,10 @@ public class DeliveryService {
     }
 
     //returns response with DstDocToSend, or error message if error occurs
-    public Response addDestinationDoc(int deliveryNum ,List<Integer> items, String adderss){
+    public Response addDestinationDoc(int deliveryNum ,List<Integer> items, String adderss,LocalDateTime estimatedArrivalTime){
         try
         {
-            DstDoc dd = df.addDstDoc(deliveryNum,items,adderss);
+            DstDoc dd = df.addDstDoc(deliveryNum,items,adderss,estimatedArrivalTime);
             return new Response(dd.getDocNumber(), null);
         }
         catch(Exception e)

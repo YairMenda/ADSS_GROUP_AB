@@ -1,8 +1,10 @@
 package BussinessLayer;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
 public class Delivery {
+    static final long gapTime = 15;
     private int deliveryNumber;
     private LocalDateTime date;
     private LocalDateTime departureTime;
@@ -15,14 +17,18 @@ public class Delivery {
     private status deliveryStatus;
     private List<DstDoc> destinationDocs;
 
+    private LocalDateTime endTime;
+
     public static enum status {waiting,approved,inProgress,complete};
 
     public Delivery(int deliveryNumber,LocalDateTime date, LocalDateTime depTime , int truckNumber
-    , String driverID,Site origin)
+    , String driverID,Site origin) throws Exception
     {
         this.deliveryNumber=deliveryNumber;
         this.date=date;
-        this.departureTime=depTime;
+        if (depTime.isAfter(LocalDateTime.now()))
+            this.departureTime=depTime;
+        else { throw new Exception("DEPT TIME IS BEFORE THE CURRENT DATE, YOU CAN ONLY ADD FUTURE DELIVERIES");}
         this.truckNumber=truckNumber;
         this.truckWeight = -1;
         this.truckWeightHistory = new LinkedList<Double>();;
@@ -31,9 +37,12 @@ public class Delivery {
         this.destinations=new LinkedList<>();
         deliveryStatus = status.waiting;
         this.destinationDocs = new LinkedList<DstDoc>();
-        
+        this.endTime = depTime;
     }
-
+     public LocalDateTime getEndTime()
+     {
+         return this.endTime;
+     }
     public int getDeliveryNumber() {
         return deliveryNumber;
     }
@@ -148,6 +157,7 @@ public class Delivery {
     public boolean addDstDoc(DstDoc dd) throws Exception
     {
         Site s = dd.getDestination();
+
         if (!openToChanges()){
             throw new Exception("This delivery is already approved, if you want to change it, please disapprove");
         }
@@ -158,7 +168,10 @@ public class Delivery {
             if (!s1.getShippingArea().equals(dd.getDestination().getShippingArea()))
                 throw new Exception("Each delivery only support destinations with the same shipping area, this is the valid area - " + s1.getShippingArea());
             }
-        
+
+        if (dd.getEstimatedArrivalTime().isAfter(endTime))
+            this.endTime = dd.getEstimatedArrivalTime().plusMinutes(gapTime);
+
         destinationDocs.add(dd);
         destinations.add(s);
         return true;
@@ -171,6 +184,8 @@ public class Delivery {
                 if (dd.getDocNumber()==docNumber){
                     destinationDocs.remove(dd);
                     destinations.remove(dd.getDestination());
+                    if (endTime.equals(dd.getEstimatedArrivalTime().plusMinutes(gapTime)))
+                        updateEndTimeAfterDstDocRemove();
                     return true;
                 } 
             }
@@ -180,13 +195,24 @@ public class Delivery {
    
     }
 
+    public void updateEndTimeAfterDstDocRemove()
+    {
+        LocalDateTime newEndTime = departureTime;
+        for (DstDoc d: destinationDocs)
+        {
+            if (newEndTime.isBefore(d.getEstimatedArrivalTime()))
+                newEndTime = d.getEstimatedArrivalTime();
+        }
 
+        this.endTime = newEndTime.plusMinutes(gapTime);
+    }
 
     public boolean remove(Site site) throws Exception{
         if (openToChanges()){
              for(DstDoc dd: destinationDocs){
                  if (dd.getDestination() == site){
                    destinationDocs.remove(dd);
+                   updateEndTimeAfterDstDocRemove();
                 }
             destinations.remove(site);
              return true;
@@ -240,6 +266,13 @@ public class Delivery {
         this.deliveryStatus= status.waiting;
     }
 
+    public boolean depTimeTOEstimatedTime(LocalDateTime estimatedTime)
+    {
+        if ((Duration.between(estimatedTime,departureTime).toHours()< EmployeeShift.shiftDuration) && (Duration.between(estimatedTime,departureTime).toHours()>=0))
+            return true;
+
+        return false;
     }
+}
 
 

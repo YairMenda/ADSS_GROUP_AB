@@ -19,6 +19,8 @@ public class DeliveryToSend {
     private List<DstDocToSend> destinationDocs;
     private List<Double> truckWeightHistory;
 
+    private LocalDateTime endTime;
+
     public DeliveryToSend(Delivery other)
     {
         this.deliveryNumber=other.getDeliveryNumber();
@@ -40,6 +42,7 @@ public class DeliveryToSend {
             destinationDocs.add(new DstDocToSend(dd));
         }
         this.deliveryStatus=other.getDeliveryStatus();
+        this.endTime = other.getEndTime();
 
     }
 
@@ -122,5 +125,9 @@ public class DeliveryToSend {
                 + driverID + ", origin = " + origin +  ", deliveryStatus = " + deliveryStatus + ",\n"
                 + "Truck weight history -  " +truckWeightHistory + ",\n " 
                 + "Destination Documents - "+destinationDocs + "]";
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
     }
 }

@@ -1,4 +1,5 @@
 package BussinessLayer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class DstDoc {
@@ -6,13 +7,19 @@ public class DstDoc {
     private int deliveryNumber;
     private List<Integer> items;
     private Site destination;
+
+    private LocalDateTime estimatedArrivalTime;
     
 
-    public DstDoc(int docNumber, int deliveryNumber, List<Integer> items,Site s){
+    public DstDoc(int docNumber, int deliveryNumber, List<Integer> items,Site s,LocalDateTime arrivalTime) throws Exception{
         this.docNumber=docNumber;
         this.deliveryNumber=deliveryNumber;
         this.items=items;
         this.destination = s;
+        if (s.isShopKeeperAvailable(arrivalTime)){
+            this.estimatedArrivalTime = arrivalTime;
+        }
+        else { throw new Exception("There is no storekeeper available on destination : " + s.getAddress());}
     }
 
     public void removeProducts(List<Integer> deletedProducts)
@@ -52,5 +59,13 @@ public class DstDoc {
 
     public void setDestination(Site destination) {
         this.destination = destination;
+    }
+
+    public LocalDateTime getEstimatedArrivalTime() {
+        return estimatedArrivalTime;
+    }
+
+    public void setEstimatedArrivalTime(LocalDateTime estimatedArrivalTime) {
+        this.estimatedArrivalTime = estimatedArrivalTime;
     }
 }

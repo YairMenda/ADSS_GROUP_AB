@@ -37,13 +37,15 @@ public DeliveryFacade(TruckFacade tf , DriverFacade df, SiteFacade sf)
     ///<param name="driverID"> the driver's ID</param>
     ///<param name="originAdress"> the origin adress(from where is the delivery)</param>
     /// <returns>the new delivery, throws exception if fails</returns>
-public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String driverID ,String originAddress) throws Exception{
-    
-    if (!df.isAvailable(driverID,depTime))
+
+    /*public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String driverID ,String originAddress) throws Exception{
+
+    if (!df.isAvailableNew(driverID,depTime))
         throw new Exception("driver with id - " + driverID + " Doesn't exist Or Doesn't Aval");
-    
-    if (!tf.isAvailable(licenseNumber,depTime))
+
+    if (!tf.isAvailableNew(licenseNumber,depTime))
         throw new Exception("Truck with License Number - " + licenseNumber + " Doesn't exist Or Doesn't Aval");
+
     if (!df.hasLicense(driverID,tf.getLicenseCat(licenseNumber)))
         throw new Exception("Driver with id - " + driverID + " can't drive in truck - "+licenseNumber+" because he doen't the relevant license");
     Site origin = sf.getSite(originAddress);
@@ -53,8 +55,34 @@ public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String
     tf.addDelivery(licenseNumber, depTime);
     df.addDelivery(driverID, depTime);
     return newDelivery;
-    }
+    }*/
 
+    public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String driverID ,String originAddress) throws Exception{
+        if(!df.avialableShift(driverID,depTime) || !df.availableDeliveryDate(driverID,depTime))
+        {
+            throw new Exception("Driver - " + driverID + "  Doesnt avialable at this date -" + depTime);
+        }
+
+        if(!tf.availableDeliveryDate(licenseNumber,depTime))
+        {
+            throw new Exception("Truck - " + licenseNumber + "  Doesnt avialable at this date -" + depTime);
+        }
+
+        if (!df.hasLicense(driverID,tf.getLicenseCat(licenseNumber)))
+            throw new Exception("Driver with id - " + driverID + " can't drive in truck - "+licenseNumber+" because he doen't the relevant license");
+
+        Site origin = sf.getSite(originAddress);
+        this.currentID++;
+        Delivery newDelivery = new Delivery(this.currentID, LocalDateTime.now() , depTime, licenseNumber, driverID, origin);
+        this.deliveries.put(this.currentID ,newDelivery);
+
+        tf.addDelivery(licenseNumber, newDelivery);
+        df.addDelivery(driverID, newDelivery);
+
+        return newDelivery;
+
+
+    }
 
     /// <summary>
     /// the method updates the weight of a delivery
@@ -94,13 +122,13 @@ public Delivery getDelivery(int deliveryNumber) throws Exception
     /// <param name="items"> list of items we want to add</param>
     /// <param name="address"> the address we want to deliver those items</param>
     /// <returns>the new document, throws exception if fails</returns>
-public DstDoc addDstDoc(int deliveryNumber, List<Integer> items ,String address ) throws Exception
+public DstDoc addDstDoc(int deliveryNumber, List<Integer> items ,String address,LocalDateTime estimatedArrivalTime ) throws Exception
 {
-    this.currentDocNumber++;
-    DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address));
-    getDelivery(deliveryNumber).addDstDoc(dd);
-    return dd;
-
+        validEstimatedTime(deliveryNumber,getDelivery(deliveryNumber).getDriverID(),getDelivery(deliveryNumber).getTruckNumber(), estimatedArrivalTime);
+        this.currentDocNumber++;
+        DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address), estimatedArrivalTime);
+        getDelivery(deliveryNumber).addDstDoc(dd);
+        return dd;
 }
 
     /// <summary>
@@ -124,12 +152,11 @@ public boolean removeDstDoc(int deliveryNumber,  int dstDocNumber) throws Except
 public boolean replaceTruck(int deliveryNumber, int newTruckNumber) throws Exception
 {
     Delivery currDelivery = getDelivery(deliveryNumber);
-    LocalDateTime currDate = currDelivery.getDate();
 
-    if (tf.isAvailable(newTruckNumber ,currDate)){
-        tf.removeDelivery(currDelivery.getTruckNumber(), currDate);
+    if (tf.availableForReplace(newTruckNumber ,currDelivery)){
+        tf.removeDelivery(currDelivery.getTruckNumber(), deliveryNumber);
         currDelivery.replaceTruck(newTruckNumber);
-        tf.addDelivery(newTruckNumber, currDate);
+        tf.addDelivery(newTruckNumber, currDelivery);
         return true;
     }
     else
@@ -169,8 +196,8 @@ public void completeDelivery(int deliveryNumber) throws Exception
 {
     Delivery d = getDelivery(deliveryNumber);
     d.completeDelivery();
-    tf.deliveryAcomplishment(d.getTruckNumber(),d.getDepartureTime());
-    df.deliveryAcomplishment(d.getDriverID(), d.getDepartureTime());
+    tf.deliveryAcomplishment(d.getTruckNumber(),deliveryNumber);
+    df.deliveryAcomplishment(d.getDriverID(), deliveryNumber);
 
 }
     /// <summary>
@@ -193,13 +220,10 @@ public void removeDelivery(int deliveryNumber) throws Exception
     Delivery currDelivery = getDelivery(deliveryNumber);
     if (currDelivery.getDeliveryStatus() == status.inProgress || currDelivery.getDeliveryStatus() == status.complete)
         throw new Exception("Cant remove ongoing or finished delivery");
-    
-    LocalDateTime removeDate = currDelivery.getDepartureTime();
-    df.removeDelivery(currDelivery.getDriverID(), removeDate);
-    tf.removeDelivery(currDelivery.getTruckNumber(), removeDate);
 
+    df.removeDelivery(currDelivery.getDriverID(), deliveryNumber);
+    tf.removeDelivery(currDelivery.getTruckNumber(), deliveryNumber);
     deliveries.remove(deliveryNumber);
-
 }
     /// <summary>
     /// the method removes a destination and deletes the destination document of this destination
@@ -238,5 +262,21 @@ public DstDoc getDstDoc(int deliveryNumber,String address) throws Exception{
 public void approveDelivery(int deliveryNumber) throws Exception
 {
     getDelivery(deliveryNumber).approveDelivery();
+}
+
+public void validEstimatedTime(int deliveryNumber, String driverID,int truckNumber,LocalDateTime estimatedTime) throws Exception
+{
+      if (!df.estimatedArrivalwithinShift(driverID,estimatedTime))
+          throw new Exception("Estimated arrival is not within the driver shift bounderies");
+
+      if (!getDelivery(deliveryNumber).depTimeTOEstimatedTime(estimatedTime))
+          throw new Exception("Estimated arrival is not within the driver shift bounderies");
+
+      if (!tf.isAvailableByNewDstDoc(deliveryNumber,truckNumber,estimatedTime))
+          throw new Exception("The new estimated time collides with a different delivery of the truck : " + truckNumber);
+
+      if(!df.isAvailableByNewDstDoc(deliveryNumber,driverID,estimatedTime))
+          throw new Exception("The new estimated time collides with a different delivery of the driver : " + driverID);
+
 }
 }

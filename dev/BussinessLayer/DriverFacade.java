@@ -62,7 +62,7 @@ public class DriverFacade {
     {
         List<Driver> result = new LinkedList<Driver>();
         for (Driver d : this.drivers.values()){
-            if (d.hasLicense(license) && d.isAvailable(date))
+            if (d.hasLicense(license) && d.isAvailableByDelivery(date) && d.isAvailableByShift(date))
                 {
                     result.add(d);   
                 }
@@ -109,18 +109,9 @@ public class DriverFacade {
     /// <param name="driverID"> the driver's ID</param>
     /// <param name="date"> the specific date we want</param>
     /// <returns>true or false, throws exception if fails</returns>
-    public boolean addDelivery(String driverID,LocalDateTime date) throws Exception
+    public void addDelivery(String driverID,Delivery d) throws Exception
     {
-        Driver currDriver = getDriverByID(driverID);
-        if (currDriver.isAvailable(date))
-        {
-            currDriver.addDelivery(date);
-            return true;
-        }
-
-        else
-            return false;
-
+        getDriverByID(driverID).addDelivery(d);
     }
 
     /// <summary>
@@ -129,9 +120,9 @@ public class DriverFacade {
     /// <param name="driverID"> the driver's ID</param>
     /// <param name="date"> the specific date we want to remove to</param>
     /// <returns>throws exception if fails</returns>
-    public void removeDelivery(String driverID,LocalDateTime date) throws Exception
+    public void removeDelivery(String driverID,int deliveryNumber) throws Exception
     {
-        getDriverByID(driverID).removeDelivery(date);
+        getDriverByID(driverID).removeDelivery(deliveryNumber);
     }
 
     /// <summary>
@@ -140,9 +131,9 @@ public class DriverFacade {
     /// <param name="driverID"> the driver's ID</param>
     /// <param name="date"> the specific date we want</param>
     /// <returns>throws exception if fails</returns>
-    public void deliveryAcomplishment(String driverID,LocalDateTime date) throws Exception
+    public void deliveryAcomplishment(String driverID,int deliveryNumber) throws Exception
     {
-        getDriverByID(driverID).deliveryAcomplishment(date);
+        getDriverByID(driverID).deliveryAcomplishment(deliveryNumber);
     }
 
     /// <summary>
@@ -151,10 +142,21 @@ public class DriverFacade {
     /// <param name="driverID"> the driver's ID</param>
     /// <param name="date"> the specific date we want</param>
     /// <returns>true or false, throws exception if fails</returns>
-    public boolean isAvailable(String driverID,LocalDateTime date)throws Exception{
-        return getDriverByID(driverID).isAvailable(date);
+//    public boolean isAvailable(String driverID,LocalDateTime date)throws Exception{
+//        return getDriverByID(driverID).isAvailable(date);
+//    }
+
+    public boolean availableDeliveryDate(String driverID, LocalDateTime depTime) throws Exception
+    {
+        Driver d = getDriverByID(driverID);
+        return d.isAvailableByDelivery(depTime) && d.isAvailableByShift(depTime);
     }
 
+
+    public boolean avialableShift(String driverID,LocalDateTime date) throws Exception
+    {
+        return getDriverByID(driverID).isAvailableByShift(date);
+    }
 
     /// <summary>
     /// the method checks if a driver has a specific license
@@ -165,6 +167,16 @@ public class DriverFacade {
     public boolean hasLicense(String driverID,String license) throws Exception{
         Driver d = getDriverByID(driverID);
         return d.hasLicense(license);
+    }
+
+    public boolean estimatedArrivalwithinShift(String driverID, LocalDateTime estimatedArrivalTime) throws Exception
+    {
+       return getDriverByID(driverID).estimatedArrivalwithinShift(estimatedArrivalTime);
+    }
+
+    public boolean isAvailableByNewDstDoc(int deliveryNumber,String driverID,LocalDateTime newEstimatedTime) throws Exception
+    {
+        return getDriverByID(driverID).isAvailableByEstimatedTime(deliveryNumber,newEstimatedTime);
     }
 
 

@@ -3,6 +3,7 @@ package ServiceLayer;
 import java.util.LinkedList;
 import java.util.List;
 
+import BussinessLayer.EmployeeShift;
 import BussinessLayer.Site;
 import BussinessLayer.SiteFacade;
 import BussinessLayer.Truck;
@@ -18,10 +19,10 @@ public class SiteService {
 
 
 
-    public Response addNewSite(String address,String phoneNumber,String ContactName,String sa){
+    public Response addNewSite(String address, String phoneNumber, String ContactName, String sa, List<EmployeeShift> shifts){
         try
         {
-            Site s = sf.addSite(address, phoneNumber, ContactName,sa);
+            Site s = sf.addSite(address, phoneNumber, ContactName,sa,shifts);
             return new Response(new SiteToSend(s),null);
             
         }
