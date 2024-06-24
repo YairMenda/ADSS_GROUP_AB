@@ -37,26 +37,6 @@ public DeliveryFacade(TruckFacade tf , DriverFacade df, SiteFacade sf)
     ///<param name="driverID"> the driver's ID</param>
     ///<param name="originAdress"> the origin adress(from where is the delivery)</param>
     /// <returns>the new delivery, throws exception if fails</returns>
-
-    /*public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String driverID ,String originAddress) throws Exception{
-
-    if (!df.isAvailableNew(driverID,depTime))
-        throw new Exception("driver with id - " + driverID + " Doesn't exist Or Doesn't Aval");
-
-    if (!tf.isAvailableNew(licenseNumber,depTime))
-        throw new Exception("Truck with License Number - " + licenseNumber + " Doesn't exist Or Doesn't Aval");
-
-    if (!df.hasLicense(driverID,tf.getLicenseCat(licenseNumber)))
-        throw new Exception("Driver with id - " + driverID + " can't drive in truck - "+licenseNumber+" because he doen't the relevant license");
-    Site origin = sf.getSite(originAddress);
-    this.currentID++;
-    Delivery newDelivery = new Delivery(this.currentID, LocalDateTime.now() , depTime, licenseNumber, driverID, origin);
-    this.deliveries.put(this.currentID ,newDelivery);
-    tf.addDelivery(licenseNumber, depTime);
-    df.addDelivery(driverID, depTime);
-    return newDelivery;
-    }*/
-
     public Delivery addNewDelivery(LocalDateTime depTime , int licenseNumber, String driverID ,String originAddress) throws Exception{
         if(!df.avialableShift(driverID,depTime) || !df.availableDeliveryDate(driverID,depTime))
         {

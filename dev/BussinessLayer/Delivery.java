@@ -13,7 +13,6 @@ public class Delivery {
     private List<Double> truckWeightHistory;
     private String driverID;
     private Site origin;
-    private List<Site> destinations;
     private status deliveryStatus;
     private List<DstDoc> destinationDocs;
 
@@ -34,7 +33,6 @@ public class Delivery {
         this.truckWeightHistory = new LinkedList<Double>();;
         this.driverID=driverID;
         this.origin=origin;
-        this.destinations=new LinkedList<>();
         deliveryStatus = status.waiting;
         this.destinationDocs = new LinkedList<DstDoc>();
         this.endTime = depTime;
@@ -101,13 +99,11 @@ public class Delivery {
     }
 
     public List<Site> getDestinations() {
+        List<Site> destinations = new LinkedList<>();
+        for(DstDoc d : destinationDocs)
+            destinations.add(d.getDestination());
         return destinations;
     }
-
-    public void setDestinations(List<Site> destinations) {
-        this.destinations = destinations;
-    }
-
     public List<DstDoc> geDstDocs()
     {
         return this.destinationDocs;
@@ -161,7 +157,9 @@ public class Delivery {
         if (!openToChanges()){
             throw new Exception("This delivery is already approved, if you want to change it, please disapprove");
         }
-        for (Site s1 : destinations){
+
+
+        for (Site s1 : getDestinations()){
             if (s1.getAddress().equals(dd.getDestination()))
                 throw new Exception("Already exist a document for this site");
         
@@ -173,7 +171,6 @@ public class Delivery {
             this.endTime = dd.getEstimatedArrivalTime().plusMinutes(gapTime);
 
         destinationDocs.add(dd);
-        destinations.add(s);
         return true;
         
     }
@@ -183,7 +180,6 @@ public class Delivery {
             for (DstDoc dd : destinationDocs) {
                 if (dd.getDocNumber()==docNumber){
                     destinationDocs.remove(dd);
-                    destinations.remove(dd.getDestination());
                     if (endTime.equals(dd.getEstimatedArrivalTime().plusMinutes(gapTime)))
                         updateEndTimeAfterDstDocRemove();
                     return true;
@@ -214,7 +210,6 @@ public class Delivery {
                    destinationDocs.remove(dd);
                    updateEndTimeAfterDstDocRemove();
                 }
-            destinations.remove(site);
              return true;
              }
           }
