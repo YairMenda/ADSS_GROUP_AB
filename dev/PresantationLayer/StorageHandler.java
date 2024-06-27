@@ -200,7 +200,7 @@ public class StorageHandler {
                 System.out.println("Please enter Category name");
                 String category = getStringInput(s);
                 showAllSubCategories(storageName, category);
-                System.out.println("Please enter Sub-Category name or press enter for all sub categories");
+                System.out.println("Please enter Sub-Category name or enter *all* for all sub categories");
                 String subCategory = getStringInput(s);
                 System.out.println("Please enter product size");
                 double size2 = getDoubleInput(s);

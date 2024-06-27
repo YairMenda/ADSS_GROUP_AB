@@ -189,7 +189,7 @@ public class StorageFacade {
             throw new Exception("Storage name doesnt exist");
         if(!this.storages.get(storageName).doesCatExists(category))
             throw new Exception("Category doesn't exist");
-        if(!this.storages.get(storageName).doesSubCatExists(category, subCategory) && !subCategory.equals(""))
+        if(!this.storages.get(storageName).doesSubCatExists(category, subCategory) && !subCategory.equals("all"))
             throw new Exception("Sub-Category doesn't exist");
         return this.storages.get(storageName).getProdcutsBySize(category,subCategory,size);
     }

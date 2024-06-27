@@ -45,7 +45,7 @@ public class Category {
     public LinkedList<Product> getProductsBySize(String subCategory, double size)
     {
         LinkedList<Product> result = new LinkedList<>();
-        if(subCategory.equals(""))
+        if(subCategory.equals("all"))
         {
             for (SubCategory sc : this.subCategories.values()) 
                 result.addAll(sc.getProductsBySize(size));   
