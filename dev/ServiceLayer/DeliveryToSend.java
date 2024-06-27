@@ -14,7 +14,6 @@ public class DeliveryToSend {
     private double truckWeight;
     private String driverID;
     private SiteToSend origin;
-    private List<SiteToSend> destinations;
     private Delivery.status deliveryStatus;
     private List<DstDocToSend> destinationDocs;
     private List<Double> truckWeightHistory;
@@ -31,11 +30,6 @@ public class DeliveryToSend {
         this.origin=new SiteToSend(other.getOrigin());
         this.truckWeight = other.getTruckWeight();
         this.truckWeightHistory = new LinkedList<Double>(other.getTruckWeightHistory());
-        destinations= new LinkedList<>();
-        List<Site> l = other.getDestinations();
-        for(Site s:l){
-            destinations.add(new SiteToSend(s));
-        }
         destinationDocs= new LinkedList<>();
         List<DstDoc> docs = other.geDstDocs();
         for(DstDoc dd:docs){
@@ -102,14 +96,6 @@ public class DeliveryToSend {
         this.origin = origin;
     }
 
-    public List<SiteToSend> getDestinations() {
-        return destinations;
-    }
-
-    public void setDestinations(List<SiteToSend> destinations) {
-        this.destinations = destinations;
-    }
-
     public Delivery.status getDeliveryStatus() {
         return deliveryStatus;
     }
@@ -121,10 +107,10 @@ public class DeliveryToSend {
     @Override
     public String toString() {
         return "Delivery Information :  [ DeliveryNumber = " + deliveryNumber + ", date = " + date + ", departureTime = "
-                + departureTime + ", truckNumber = " + truckNumber + ", truckWeight = " + truckWeight + ", driverID = "
+                + departureTime + ", estimated time of arrival = " + endTime +", truckNumber = " + truckNumber + ", truckWeight = " + truckWeight + ", driverID = "
                 + driverID + ", origin = " + origin +  ", deliveryStatus = " + deliveryStatus + ",\n"
                 + "Truck weight history -  " +truckWeightHistory + ",\n " 
-                + "Destination Documents - "+destinationDocs + "]";
+                + "Destination Documents - "+ destinationDocs + "]";
     }
 
     public LocalDateTime getEndTime() {

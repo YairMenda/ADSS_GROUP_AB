@@ -1,6 +1,8 @@
 package ServiceLayer;
 
 import BussinessLayer.DstDoc;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class DstDocToSend {
@@ -8,13 +10,15 @@ public class DstDocToSend {
     private int deliveryNumber;
     private List<Integer> items;
     private SiteToSend destination;
-    
+
+    private LocalDateTime endTime;
 
     public DstDocToSend(DstDoc doc){
         this.docNumber = doc.getDocNumber();
         this.deliveryNumber=doc.getDeliveryNumber();
         this.items=doc.getItems();
         this.destination=new SiteToSend(doc.getDestination());
+        this.endTime = doc.getEstimatedArrivalTime();
     }
 
 
@@ -55,7 +59,7 @@ public class DstDocToSend {
     public String toString() {
         return "Document Number = " + docNumber + ", Delivery Number = " + deliveryNumber 
         + ", items : " + items
-        + ", destination - " + destination + "]";
+        + ", destination - " + destination + ", Estimated Arrival Time - "+endTime+"]";
     }
 
 }

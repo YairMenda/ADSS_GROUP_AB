@@ -31,7 +31,7 @@ public class EmployeeShift {
 
         for(LocalDateTime shiftDate : shiftsDates)
         {
-             if ((Duration.between(estimatedArrivalTime,shiftDate).toHours()<shiftDuration) && (Duration.between(estimatedArrivalTime,shiftDate).toHours()>=0))
+             if ((Duration.between(shiftDate,estimatedArrivalTime).toSeconds()< (shiftDuration*3600)) && (Duration.between(shiftDate,estimatedArrivalTime).toSeconds()>=0))
                 return true;
         }
         return  false;

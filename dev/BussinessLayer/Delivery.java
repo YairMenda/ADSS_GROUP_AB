@@ -263,7 +263,7 @@ public class Delivery {
 
     public boolean depTimeTOEstimatedTime(LocalDateTime estimatedTime)
     {
-        if ((Duration.between(estimatedTime,departureTime).toHours()< EmployeeShift.shiftDuration) && (Duration.between(estimatedTime,departureTime).toHours()>=0))
+        if ((Duration.between(departureTime,estimatedTime).toSeconds()< (EmployeeShift.shiftDuration*3600)) && (Duration.between(departureTime,estimatedTime).toSeconds()>=0))
             return true;
 
         return false;

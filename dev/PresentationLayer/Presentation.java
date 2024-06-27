@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import BussinessLayer.EmployeeShift;
 import ServiceLayer.DeliveryDatesToSend;
 import ServiceLayer.DeliveryService;
 import ServiceLayer.DeliveryToSend;
@@ -171,9 +172,9 @@ public class Presentation {
             System.out.println("Max weight - " + t.getMaxWeight());
             System.out.println("license category - " + t.getLicenseCategory());
             System.out.println("Future delivery dates:");
-            for (LocalDateTime d : t.getDates().getDates())
+            for (DeliveryToSend d : t.getDates().getDates())
             {
-                System.out.println("delivery date - " + d);
+                System.out.println("delivery date - " + d.getDepartureTime());
             }
         
         }
@@ -339,7 +340,20 @@ public class Presentation {
         String shippingArea;
         do{   shippingArea = s.nextLine();}while( shippingArea.length() == 0);
         System.out.println();
-        Response r =ss.addNewSite(address,phoneNum,contactName, shippingArea);
+
+        //########
+        List<LocalDateTime> shiftsDates = new LinkedList<>();
+        shiftsDates.add(LocalDateTime.of(2024,8,1,12,0));
+        shiftsDates.add(LocalDateTime.of(2024,9,1,12,0));
+
+        List<EmployeeShift> shifts = new LinkedList<>();
+        EmployeeShift e1 = new EmployeeShift(1,shiftsDates);
+        shifts.add(e1);
+
+        EmployeeShift e2 = new EmployeeShift(2,shiftsDates);
+        shifts.add(e2);
+        //######
+        Response r =ss.addNewSite(address,phoneNum,contactName, shippingArea,shifts);
         if (r.ErrorOccured())
         {
            System.out.println(r.errorMessage);
@@ -366,7 +380,7 @@ public class Presentation {
         }
         
         else{
-            System.out.println();
+            System.out.println(r.returnValue.toString());;
         }
     }
     public void getAllSites(){
@@ -940,11 +954,33 @@ public class Presentation {
         System.out.print("Enter Address - ");
         String address;
 
+
         do{
             address = s.nextLine();
         }while(address.length() == 0);
         
         System.out.println();
+        System.out.println("Estimated Arrival Time : ");
+        System.out.print("Enter specific year - ");
+        int year = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific month - ");
+        int month = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific day(1-31) - ");
+        int day = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific hour (0-23)- ");
+        int hour = s.nextInt();
+        System.out.println();
+
+        System.out.print("Enter specific minutes (0-59)- ");
+        int min = s.nextInt();
+        System.out.println();
+
         int itemNumber = 0;
         String input;
         List<Integer> items = new LinkedList<Integer>();
@@ -963,7 +999,7 @@ public class Presentation {
         }
         while (!input.equals("no"));
 
-        Response r = deliveryService.addDestinationDoc(dNum,items,address);
+        Response r = deliveryService.addDestinationDoc(dNum,items,address,LocalDateTime.of(year,month,day,hour,min));
 
         if (r.ErrorOccured())
         {

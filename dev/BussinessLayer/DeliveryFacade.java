@@ -104,9 +104,9 @@ public Delivery getDelivery(int deliveryNumber) throws Exception
     /// <returns>the new document, throws exception if fails</returns>
 public DstDoc addDstDoc(int deliveryNumber, List<Integer> items ,String address,LocalDateTime estimatedArrivalTime ) throws Exception
 {
+        DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address), estimatedArrivalTime);
         validEstimatedTime(deliveryNumber,getDelivery(deliveryNumber).getDriverID(),getDelivery(deliveryNumber).getTruckNumber(), estimatedArrivalTime);
         this.currentDocNumber++;
-        DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address), estimatedArrivalTime);
         getDelivery(deliveryNumber).addDstDoc(dd);
         return dd;
 }
@@ -250,7 +250,7 @@ public void validEstimatedTime(int deliveryNumber, String driverID,int truckNumb
           throw new Exception("Estimated arrival is not within the driver shift bounderies");
 
       if (!getDelivery(deliveryNumber).depTimeTOEstimatedTime(estimatedTime))
-          throw new Exception("Estimated arrival is not within the driver shift bounderies");
+          throw new Exception("Estimated arrival canot be before deperture time");
 
       if (!tf.isAvailableByNewDstDoc(deliveryNumber,truckNumber,estimatedTime))
           throw new Exception("The new estimated time collides with a different delivery of the truck : " + truckNumber);
