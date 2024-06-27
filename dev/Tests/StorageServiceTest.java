@@ -50,7 +50,7 @@ public class StorageServiceTest {
     //get all products by specific size
     public void getProductsBySize()
     {
-        Response r = this.storageService.getProductsBySize("A",0.5);
+        Response r = this.storageService.getProductsBySize("A","Snacks","",0.5);
         if(r.ErrorOccured())
             System.out.println("Get prodcuts by size ----> failed. error-masage: " + r.getErrorMsg());
         else

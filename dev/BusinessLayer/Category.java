@@ -42,13 +42,16 @@ public class Category {
     }
 
     //get all products by specific size
-    public LinkedList<Product> getProductsBySize(double size)
+    public LinkedList<Product> getProductsBySize(String subCategory, double size)
     {
         LinkedList<Product> result = new LinkedList<>();
-        for (SubCategory sc : this.subCategories.values()) 
+        if(subCategory.equals(""))
         {
-            result.addAll(sc.getProductsBySize(size));   
+            for (SubCategory sc : this.subCategories.values()) 
+                result.addAll(sc.getProductsBySize(size));   
         }
+        else
+            return this.subCategories.get(subCategory).getProductsBySize(size);
         return result;
     }
 
@@ -57,9 +60,9 @@ public class Category {
     }
 
     public boolean addProduct(String subCategory, String productName, String supplierName, double size, double price ,
-    double supplierPrice)
+    double supplierPrice, int minimumRequired)
     {
-        return this.subCategories.get(subCategory).addProduct(productName, supplierName, size, price, supplierPrice);
+        return this.subCategories.get(subCategory).addProduct(productName, supplierName, size, price, supplierPrice, minimumRequired);
     }
 
 
@@ -93,6 +96,16 @@ public class Category {
             expItems.addAll(sc.getExpiredItems(drop));
         }
         return expItems;
+    }
+
+    public LinkedList<Product> getProductsBelowMin()
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for(SubCategory sc : this.subCategories.values())
+        {
+            result.addAll(sc.getProductsBelowMin());
+        }
+        return result;
     }
 
     public Product getProduct(String productName)

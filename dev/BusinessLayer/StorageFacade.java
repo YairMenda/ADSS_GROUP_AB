@@ -105,7 +105,7 @@ public class StorageFacade {
     }
 
     public boolean addProduct(String storageName, String category, String subCategory, String productName,
-     String supplierName, double size, double price, double supplierPrice) throws Exception
+     String supplierName, double size, double price, double supplierPrice, int minimumRequired) throws Exception
     {
         if(!storages.get(storageName).doesCatExists(category))
             throw new Exception ("Category doesn't exist");
@@ -113,7 +113,7 @@ public class StorageFacade {
             throw new Exception ("Sub Category doesn't exist");
         if(getProduct(storageName,productName) != null)
            throw new Exception ("Product name already exists"); 
-        return this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice);
+        return this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice, minimumRequired);
     }
 
 
@@ -174,11 +174,24 @@ public class StorageFacade {
             throw new Exception ("Category doesn't exist");
         return this.storages.get(storageName).reportByCategory(categoryName);
     }
+
+    public ProductReport reportByProductsBelowMin(String storageName) throws Exception
+    {
+        if(this.storages.get(storageName) == null)
+            throw new Exception("Storage name doesnt exist");
+        return this.storages.get(storageName).reportByProductsBelowMin();
+    }
     
     //get all products by specific size
-    public LinkedList<Product> getProdcutsBySize(String storageName, double size)
+    public LinkedList<Product> getProdcutsBySize(String storageName,String category, String subCategory, double size) throws Exception
     {
-        return this.storages.get(storageName).getProdcutsBySize(size);
+        if(this.storages.get(storageName) == null)
+            throw new Exception("Storage name doesnt exist");
+        if(!this.storages.get(storageName).doesCatExists(category))
+            throw new Exception("Category doesn't exist");
+        if(!this.storages.get(storageName).doesSubCatExists(category, subCategory) && !subCategory.equals(""))
+            throw new Exception("Sub-Category doesn't exist");
+        return this.storages.get(storageName).getProdcutsBySize(category,subCategory,size);
     }
 
     //get all products by specific category

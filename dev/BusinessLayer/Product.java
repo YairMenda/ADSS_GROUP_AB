@@ -16,11 +16,12 @@ public class Product {
     private LinkedList<Item> items;
     private LinkedList<Item> soldItems;
     private double size;
+    private int minimumRequired;
     private Discount discount; // -1 equals no discount
 
     // Constructor
     public Product(String productName, String category, String subCategory, String supplierName,
-                    double size , double price, double supplierPrice) {
+                    double size , double price, double supplierPrice, int minimumRequired) {
         this.productId = productIdNum++;
         this.productName = productName;
         this.category = category;
@@ -31,8 +32,10 @@ public class Product {
         this.items = new LinkedList<Item>();
         this.soldItems = new LinkedList<>();
         this.size = size;
+        this.minimumRequired = minimumRequired;
         this.discount = new Discount(supplierPrice,this.price);
     }
+
 
     //Calculates the total decent items left
     public int itemsLeft(){
@@ -57,8 +60,8 @@ public class Product {
                 newItems.add(i);
         }
         setItems(newItems);
-        if(needsAlert())
-            System.out.println("Product " + productName + " is reaching its end!\nOnly " + itemsLeft() + " left\nThe average selling rate of this item is " + avgSoldInMonth());
+        if(belowMin())
+            System.out.println("Product " + productName + " is reaching its end!\nOnly " + itemsLeft() + " left\nThe average month selling rate of this item is " + avgSoldInMonth());
 
     }
 
@@ -87,12 +90,14 @@ public class Product {
                 newList.add(i);
         }
         setItems(newList);
+        if(belowMin())
+            System.out.println("Product " + productName + " is reaching its end!\nOnly " + itemsLeft() + " left\nThe average month selling rate of this item is " + avgSoldInMonth());
         return exProducts;
     }
 
     // Return true iff the number of good items left is lower than the avarage items selt per month
-    public boolean needsAlert(){
-        return itemsLeft() <= avgSoldInMonth(); 
+    public boolean belowMin(){
+        return itemsLeft() < this.minimumRequired; 
     }
 
     

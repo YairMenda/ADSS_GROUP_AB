@@ -21,7 +21,7 @@ public class ProductServiceTest {
     //add new product test
     public void addProduct()
     {
-        Response r = this.productService.addProduct("A","Snacks","Chocolates","Test-Product","Test-Supplier",1,1,1);
+        Response r = this.productService.addProduct("A","Snacks","Chocolates","Test-Product","Test-Supplier",1,1,1,1);
         if(r.ErrorOccured())
             System.out.println("Add product test ----> failed. error-masage: " + r.getErrorMsg());
         else

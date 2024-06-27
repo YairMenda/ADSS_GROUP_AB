@@ -64,39 +64,39 @@ public class StorageInit {
     public void generateProducts() {
         try {
             // Snacks - Chocolates
-            productService.addProduct("A", "Snacks", "Chocolates", "Milk Chocolate", "Supplier A", 1.5, 2.0, 1.0);
-            productService.addProduct("A", "Snacks", "Chocolates", "Dark Chocolate", "Supplier A", 1.0, 2.5, 1.5);
-            productService.addProduct("A", "Snacks", "Chocolates", "White Chocolate", "Supplier B", 1.2, 2.2, 1.2);
+            productService.addProduct("A", "Snacks", "Chocolates", "Milk Chocolate", "Supplier A", 1.5, 2.0, 1.0,2);
+            productService.addProduct("A", "Snacks", "Chocolates", "Dark Chocolate", "Supplier A", 1.0, 2.5, 1.5,2);
+            productService.addProduct("A", "Snacks", "Chocolates", "White Chocolate", "Supplier B", 1.2, 2.2, 1.2,2);
 
             // Snacks - Salties
-            productService.addProduct("A", "Snacks", "Salties", "Salted Chips", "Supplier C", 0.5, 1.5, 0.7);
-            productService.addProduct("A", "Snacks", "Salties", "Pretzels", "Supplier C", 0.4, 1.0, 0.6);
-            productService.addProduct("A", "Snacks", "Salties", "Popcorn", "Supplier D", 1.0, 1.8, 0.9);
+            productService.addProduct("A", "Snacks", "Salties", "Salted Chips", "Supplier C", 0.5, 1.5, 0.7,5);
+            productService.addProduct("A", "Snacks", "Salties", "Pretzels", "Supplier C", 0.4, 1.0, 0.6,5);
+            productService.addProduct("A", "Snacks", "Salties", "Popcorn", "Supplier D", 1.0, 1.8, 0.9,5);
 
             // Drinks - Alcohol
-            productService.addProduct("A", "Drinks", "Alcohol", "Beer", "Supplier E", 0.5, 3.0, 2.0);
-            productService.addProduct("A", "Drinks", "Alcohol", "Wine", "Supplier F", 1.0, 10.0, 8.0);
-            productService.addProduct("A", "Drinks", "Alcohol", "Whiskey", "Supplier G", 0.7, 25.0, 20.0);
+            productService.addProduct("A", "Drinks", "Alcohol", "Beer", "Supplier E", 0.5, 3.0, 2.0,4);
+            productService.addProduct("A", "Drinks", "Alcohol", "Wine", "Supplier F", 1.0, 10.0, 8.0,4);
+            productService.addProduct("A", "Drinks", "Alcohol", "Whiskey", "Supplier G", 0.7, 25.0, 20.0,4);
 
             // Drinks - Soft-Drinks
-            productService.addProduct("A", "Drinks", "Soft-Drinks", "Coke", "Supplier H", 0.5, 1.0, 0.5);
-            productService.addProduct("A", "Drinks", "Soft-Drinks", "Sprite", "Supplier H", 0.5, 1.0, 0.5);
-            productService.addProduct("A", "Drinks", "Soft-Drinks", "Fanta", "Supplier H", 0.5, 1.0, 0.5);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Coke", "Supplier H", 0.5, 1.0, 0.5,3);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Sprite", "Supplier H", 0.5, 1.0, 0.5,3);
+            productService.addProduct("A", "Drinks", "Soft-Drinks", "Fanta", "Supplier H", 0.5, 1.0, 0.5,3);
 
             // Pharmacy - Shower
-            productService.addProduct("A", "Pharmacy", "Shower", "Shampoo", "Supplier I", 0.5, 4.0, 2.0);
-            productService.addProduct("A", "Pharmacy", "Shower", "Body Wash", "Supplier I", 0.5, 3.5, 2.0);
-            productService.addProduct("A", "Pharmacy", "Shower", "Conditioner", "Supplier J", 0.5, 4.5, 2.5);
+            productService.addProduct("A", "Pharmacy", "Shower", "Shampoo", "Supplier I", 0.5, 4.0, 2.0,8);
+            productService.addProduct("A", "Pharmacy", "Shower", "Body Wash", "Supplier I", 0.5, 3.5, 2.0,8);
+            productService.addProduct("A", "Pharmacy", "Shower", "Conditioner", "Supplier J", 0.5, 4.5, 2.5,8);
 
             // Pharmacy - Pills
-            productService.addProduct("A", "Pharmacy", "Pills", "Painkillers", "Supplier K", 0.1, 5.0, 2.0);
-            productService.addProduct("A", "Pharmacy", "Pills", "Vitamins", "Supplier L", 0.2, 7.0, 3.0);
-            productService.addProduct("A", "Pharmacy", "Pills", "Cough Syrup", "Supplier M", 0.3, 6.0, 2.5);
+            productService.addProduct("A", "Pharmacy", "Pills", "Painkillers", "Supplier K", 0.1, 5.0, 2.0,5);
+            productService.addProduct("A", "Pharmacy", "Pills", "Vitamins", "Supplier L", 0.2, 7.0, 3.0,5);
+            productService.addProduct("A", "Pharmacy", "Pills", "Cough Syrup", "Supplier M", 0.3, 6.0, 2.5,5);
 
             // Toys - Lego
-            productService.addProduct("A", "Toys", "Lego", "Lego City", "Supplier N", 1.0, 30.0, 20.0);
-            productService.addProduct("A", "Toys", "Lego", "Lego Friends", "Supplier N", 1.0, 25.0, 18.0);
-            productService.addProduct("A", "Toys", "Lego", "Lego Technic", "Supplier O", 1.5, 50.0, 35.0);
+            productService.addProduct("A", "Toys", "Lego", "Lego City", "Supplier N", 1.0, 30.0, 20.0,1);
+            productService.addProduct("A", "Toys", "Lego", "Lego Friends", "Supplier N", 1.0, 25.0, 18.0,1);
+            productService.addProduct("A", "Toys", "Lego", "Lego Technic", "Supplier O", 1.5, 50.0, 35.0,1);
 
         } catch (Exception e) {
             System.out.println(e.toString());

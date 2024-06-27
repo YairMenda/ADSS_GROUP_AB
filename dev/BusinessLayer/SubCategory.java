@@ -76,11 +76,22 @@ public class SubCategory {
         return expItems;
     }
 
-    public boolean addProduct(String productName,String supplierName, double size, double price, double supplierPrice)
+    public LinkedList<Product> getProductsBelowMin()
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for(Product p : this.products.values())
+        {
+            if(p.belowMin())
+                result.add(p);
+        }
+        return result;
+    }
+
+    public boolean addProduct(String productName,String supplierName, double size, double price, double supplierPrice, int minimumRequired)
     {
         if(this.namesToId.containsKey(productName))
             return false;
-        Product p = new Product(productName, category, subCategoryName, supplierName, size, price, supplierPrice);
+        Product p = new Product(productName, category, subCategoryName, supplierName, size, price, supplierPrice, minimumRequired);
         this.products.put(p.getId(),p);
         this.namesToId.put(p.getProductName(), p.getId());
         return true;

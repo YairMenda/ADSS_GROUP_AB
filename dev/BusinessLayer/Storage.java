@@ -57,14 +57,9 @@ public class Storage {
     }
 
     //get all products by specific size
-    public LinkedList<Product> getProdcutsBySize(double size)
+    public LinkedList<Product> getProdcutsBySize(String category, String subCategory, double size)
     {
-        LinkedList<Product> result = new LinkedList<>();
-        for (Category c : this.categories.values())
-        {
-            result.addAll(c.getProductsBySize(size));
-        }
-        return result;
+        return this.categories.get(category).getProductsBySize(subCategory,size);
     }
     //return report of products by specific category
     public ProductReport reportByCategory(String categoryName)
@@ -76,6 +71,11 @@ public class Storage {
     public ProductReport reportBySubCategory(String categoryName, String subCategory)
     {
         return new ProductReport(getProductsBySubCategory(categoryName, subCategory), subCategory);
+    }
+
+    public ProductReport reportByProductsBelowMin()
+    {
+        return new ProductReport(getProductsBelowMin(), "Products below minimum required: ");
     }
 
 
@@ -116,9 +116,9 @@ public class Storage {
         return null;
     }
     public boolean addProduct(String category, String subCategory,String productName, String supplierName,
-     double size, double price ,double supplierPrice)
+     double size, double price ,double supplierPrice, int minimumRequired)
     {
-        return this.categories.get(category).addProduct(subCategory, productName, supplierName, size, price, supplierPrice);
+        return this.categories.get(category).addProduct(subCategory, productName, supplierName, size, price, supplierPrice, minimumRequired);
     }
 
 
@@ -145,6 +145,16 @@ public class Storage {
             dmgItems.addAll(c.getDamagedItems(drop));
         }
         return dmgItems;
+    }
+
+    public LinkedList<Product> getProductsBelowMin()
+    {
+        LinkedList<Product> result = new LinkedList<>();
+        for(Category c : this.categories.values())
+        {
+            result.addAll(c.getProductsBelowMin());
+        }
+        return result;
     }
 
 

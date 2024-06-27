@@ -107,9 +107,11 @@ public class StorageHandler {
                 double size = getDoubleInput(s);
                 System.out.print("Enter product price: ");
                 double price = getDoubleInput(s);
+                System.out.print("Enter minimum required: ");
+                int minimumRequired = getIntInput(s);
                 System.out.print("Enter supplier price: ");
                 double supplierPrice = getDoubleInput(s);
-                r = productService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice);
+                r = productService.addProduct(storageName, categoryName, subCategoryName, productName, supplierName, size, price, supplierPrice, minimumRequired);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
                 else
@@ -146,6 +148,7 @@ public class StorageHandler {
                 System.out.println("1. Report by category");
                 System.out.println("2. Report by sub-category");
                 System.out.println("3. Report by bad items");
+                System.out.println("4. Report by products below minimum required");
                 int reportType = getIntInput(s);
                 switch (reportType) {
                     case 1:
@@ -178,6 +181,13 @@ public class StorageHandler {
                         else
                             System.out.println(r.getReturnValue());
                         break;
+                    case 4:
+                        r = storageService.reportByProductsBelowMin(storageName);
+                        if(r.ErrorOccured())
+                            System.out.println(r.getErrorMsg());
+                        else
+                            System.out.println(r.getReturnValue());
+                        break;
                     default:
                         System.out.println("Invalid report type selected.");
                         break;
@@ -186,9 +196,15 @@ public class StorageHandler {
                 break;
 
             case 8:
+                showAllCategories(storageName);
+                System.out.println("Please enter Category name");
+                String category = getStringInput(s);
+                showAllSubCategories(storageName, category);
+                System.out.println("Please enter Sub-Category name or press enter for all sub categories");
+                String subCategory = getStringInput(s);
                 System.out.println("Please enter product size");
                 double size2 = getDoubleInput(s);
-                r = storageService.getProductsBySize(storageName,size2);
+                r = storageService.getProductsBySize(storageName,category,subCategory,size2);
                 if(r.ErrorOccured())
                     System.out.println(r.getErrorMsg());
                 else

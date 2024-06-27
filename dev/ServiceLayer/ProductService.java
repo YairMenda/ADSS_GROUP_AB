@@ -77,10 +77,10 @@ public class ProductService {
     }
 
     public Response addProduct(String storageName, String category, String subCategory, String productName,
-                             String supplierName, double size, double price, double supplierPrice) 
+                             String supplierName, double size, double price, double supplierPrice, int minimumRequired) 
     {
         try {
-            return new Response(storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice),null);
+            return new Response(storageFacade.addProduct(storageName, category, subCategory, productName, supplierName, size, price, supplierPrice,minimumRequired),null);
         } catch (Exception e) {
             return new Response(null, e.getMessage());
         }

@@ -62,6 +62,16 @@ public class StorageService {
         }
     }
 
+    public Response reportByProductsBelowMin(String storageName)
+    {
+        try{
+            return new Response(storageFacade.reportByProductsBelowMin(storageName).printReport(), null);
+        } catch (Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
+
     //response - value: boolean, error: string
     public Response deleteCategory(String storageName, String categoryName) {
         try {
@@ -98,10 +108,10 @@ public class StorageService {
         }
     }
 
-    public Response getProductsBySize(String storageName, double size) 
+    public Response getProductsBySize(String storageName,String category,String subCategory, double size) 
     {
         try {
-            LinkedList<Product> temp = storageFacade.getProdcutsBySize(storageName, size);
+            LinkedList<Product> temp = storageFacade.getProdcutsBySize(storageName,category,subCategory, size);
             LinkedList<ProductToSend> result = new LinkedList<>();
             for (Product product : temp) 
             {
@@ -112,6 +122,7 @@ public class StorageService {
             return new Response(null, e.getMessage());
         }
     }
+
 
     public Response getAllProdcuts(String storageName)
     {
