@@ -16,6 +16,8 @@ public class DeliveryDTO {
 
     private LocalDateTime endTime;
 
+    private DeliveryController controller;
+
 
     public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, int truckWeight, String driverID, String deliveryStatus, LocalDateTime endTime){
         this.deliveryNumber= deliveryNumber;
@@ -27,31 +29,49 @@ public class DeliveryDTO {
         this.deliveryStatus = deliveryStatus;
         destinationDocs = new LinkedList<>();
         this.endTime = endTime;
+        this.controller = new DeliveryController();
     }
 
 
-    public void setTruckNumber(int truckNumber) {
+    public boolean setTruckNumber(int truckNumber) {
         this.truckNumber = truckNumber;
-        //save in DB
+        return update();
     }
 
-    public void  setTruckWeight(int truckWeight){
+    public boolean setTruckWeight(int truckWeight){
         this.truckWeight = truckWeight;
-        //save in DB
+        return update();
     }
 
-    public void setDeliveryStatus(String deliveryStatus) {
+    public boolean setDeliveryStatus(String deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
-        //save in DB
+        return update();
     }
 
-    public void setEntTime(LocalDateTime endTime) {
+    public boolean setEntTime(LocalDateTime endTime) {
         this.endTime = endTime;
-        //save on DB
+        return update();
     }
 
-    public void addDstDoc(DstDocDTO ddd){
+    //need to check if to the function recives DstDoc or DstDocDTO
+    public boolean addDstDoc(DstDocDTO ddd){
         destinationDocs.add(ddd);
-        //save on DB????
+        return true;//only for now
+        //return ddd.add();
+
     }
+
+    public boolean update(){
+        return controller.update(this);
+    }
+
+    public boolean remove(){
+        return controller.remove(this);
+    }
+
+    public boolean add(){
+        return controller.add(this);
+    }
+
+
 }
