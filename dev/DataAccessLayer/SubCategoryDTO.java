@@ -2,6 +2,8 @@ package dev.DataAccessLayer;
 
 import java.util.List;
 
+import dev.BusinessLayer.Product;
+
 public class SubCategoryDTO {
 
     private String storageName;
@@ -19,6 +21,31 @@ public class SubCategoryDTO {
         this.subCategory = subCategory;
         this.subCategoryController = new SubCategoryController();
         this.products = productController.getAllProducts(storageName, category, subCategory);
+    }
+
+    public String getStorageName()
+    {
+        return this.storageName;
+    }
+
+    public String getCategoryName()
+    {
+        return this.category;
+    }
+
+    public String getSubCategoryName()
+    {
+        return this.subCategory;
+    }
+
+    public List<ProductDTO> getProducts()
+    {
+        return this.products;
+    }
+
+    public SubCategoryController getSubCategoryController()
+    {
+        return this.subCategoryController;
     }
     
 }

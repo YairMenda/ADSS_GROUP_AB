@@ -9,14 +9,33 @@ public class CategoryDTO {
     private String categoryName;
     private List<SubCategoryDTO> subCategories;
     private CategoryController categoryController;
-    private SubCategoryController SubCategoryController = new SubCategoryController();
+    private SubCategoryController subCategoryController = new SubCategoryController();
 
     public CategoryDTO(String storageName, String categoryName)
     {
         this.storageName = storageName;
         this.categoryName = categoryName;
-        this.subCategories = this.SubCategoryController.getSubCategories(categoryName);
+        this.subCategories = this.subCategoryController.getSubCategories(storageName,categoryName);
         this.categoryController = new CategoryController();
     }
+
+    public String getStorageName()
+    {
+        return this.storageName;
+    }
+
+    public String getCategoryName()
+    {
+        return this.categoryName;
+    }
+
+    public List<SubCategoryDTO> getSubCategories()
+    {
+        return this.subCategories;
+    }
     
+    public CategoryController getCategoryController()
+    {
+        return this.categoryController;
+    }
 }

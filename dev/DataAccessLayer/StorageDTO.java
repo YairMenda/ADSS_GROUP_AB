@@ -24,5 +24,10 @@ public class StorageDTO {
     {
         return this.categories;
     }
+
+    public StorageController getStorageController()
+    {
+        return this.storageController;
+    }
     
 }

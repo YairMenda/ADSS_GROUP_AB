@@ -34,7 +34,7 @@ public class StorageController
     public List<StorageDTO> getAllStorages()
     {
         List<StorageDTO> result = new LinkedList<>();  
-        String query = "SELECT storageName FROM ?";    
+        String query = "SELECT StorageName FROM ?";    
         try 
         {
             Connection conn = this.connect(); //connect to the db
@@ -45,7 +45,7 @@ public class StorageController
 
             // Process the result set
             while (rs.next()) {
-                String storageName = rs.getString("storageName");
+                String storageName = rs.getString("StorageName");
                 storages.add(storageName);
             }
 

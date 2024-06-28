@@ -18,7 +18,7 @@ public class CategoryController {
     {
         String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName = "Storages";
+        this.tableName = "Categories";
     }
 
     private Connection connect() {
@@ -34,7 +34,7 @@ public class CategoryController {
     public List<CategoryDTO> getStorageCategories(String storageName)
     {
         List<CategoryDTO> result = new LinkedList<>();
-        String query = "SELECT category FROM ? WHERE storageName = ?";    
+        String query = "SELECT Category FROM ? WHERE StorageName = ?";    
         try 
         {
             Connection conn = this.connect(); //connect to the db
@@ -44,7 +44,7 @@ public class CategoryController {
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
-                String category = rs.getString("category");
+                String category = rs.getString("Category");
                 result.add(new CategoryDTO(storageName,category));
             }
 
