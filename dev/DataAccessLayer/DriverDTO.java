@@ -27,6 +27,5 @@ public class DriverDTO {
         DriverToLicenseDTO newLicense  = new DriverToLicenseDTO(id,license);
         licenses. add(newLicense);
         return newLicense.addLicense();
-        //save on DB????
     }
 }

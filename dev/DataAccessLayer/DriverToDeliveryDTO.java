@@ -19,4 +19,12 @@ public class DriverToDeliveryDTO {
     public boolean delete(){
         return controller.delete(this);
     }
+
+    public String getDriverID() {
+        return driverID;
+    }
+
+    public int getDeliveryNumber() {
+        return deliveryNumber;
+    }
 }

@@ -19,7 +19,8 @@ public class DeliveryDTO {
     private DeliveryController controller;
 
 
-    public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, int truckWeight, String driverID, String deliveryStatus, LocalDateTime endTime){
+    //site origin??????
+    public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, double truckWeight, String driverID, String deliveryStatus, LocalDateTime endTime){
         this.deliveryNumber= deliveryNumber;
         this.date=date;
         this.departureTime= departureTime;
@@ -48,7 +49,7 @@ public class DeliveryDTO {
         return update();
     }
 
-    public boolean setEntTime(LocalDateTime endTime) {
+    public boolean setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
         return update();
     }
@@ -73,5 +74,46 @@ public class DeliveryDTO {
         return controller.add(this);
     }
 
+    public int getDeliveryNumber(){
+        return deliveryNumber;
+    }
 
+    public java.sql.Timestamp getSQLDate(){
+        return java.sql.Timestamp.valueOf(date);
+    }
+    public java.sql.Timestamp getSQLDepartureTime(){
+        return java.sql.Timestamp.valueOf(departureTime);
+    }
+
+    public LocalDateTime getDate(){
+        return date;
+    }
+    public LocalDateTime getDepartureTime(){
+        return departureTime;
+    }
+
+    public int getTruckNumber(){
+        return truckNumber;
+    }
+
+
+    public double getTruckWeight() {
+        return truckWeight;
+    }
+
+    public String getDriverID() {
+        return driverID;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public java.sql.Timestamp getSQLEndTime(){
+        return java.sql.Timestamp.valueOf(endTime);
+    }
 }

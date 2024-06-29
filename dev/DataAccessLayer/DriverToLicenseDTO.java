@@ -17,4 +17,13 @@ public class DriverToLicenseDTO {
     public boolean addLicense(){
         return controller.addLicense(this);
     }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public String getLicense(){
+        return license;
+    }
 }
