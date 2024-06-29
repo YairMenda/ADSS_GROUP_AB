@@ -1,4 +1,5 @@
 package dev.PresantationLayer;
+import dev.BusinessLayer.StorageFacade;
 import dev.ServiceLayer.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -12,22 +13,27 @@ public class StorageHandler {
     private StorageService storageService ;
     private ProductService productService ;
 
+    private DataService dataService ;
+
     public StorageHandler(){
             
-        storageInit = new StorageInit();
-        storageService = storageInit.getStorageService();
-        productService = storageInit.getProductService();
+        //storageInit = new StorageInit();
         //storageInit.init();
+        StorageFacade storageFacade = new StorageFacade();
+        this.storageService = new StorageService(storageFacade);
+        this.productService = new ProductService(storageFacade);
+        this.dataService = new DataService(storageFacade);
+
     }
 
     
     public void StorageLoop() {
+        dataService.LoadData();
         Scanner s = new Scanner(System.in);
         boolean exit = false;
         System.out.print("Enter storage name to manage: ");
         String storageName = s.nextLine();
         while (!exit) {
-            
             System.out.println("Please select an action: ");
             System.out.println("1. Add category of products");
             System.out.println("2. Add sub-category of products");

@@ -16,7 +16,7 @@ public class SubCategoryController {
 
     public SubCategoryController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.subCategoryTable = "SubCategories";
     }
@@ -60,6 +60,22 @@ public class SubCategoryController {
         }
         
         return result;
+    }
+
+    public void insert(String storageName, String categoryName, String subCategoryName)
+    {
+        String sql = "INSERT INTO " + this.subCategoryTable + " (StorageName, Category, SubCategory) VALUES(?, ?, ?)";
+
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, storageName);
+            pstmt.setString(2, categoryName);
+            pstmt.setString(3, subCategoryName);
+            pstmt.executeUpdate();
+            System.out.println("Sub-Category inserted successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
     
 }

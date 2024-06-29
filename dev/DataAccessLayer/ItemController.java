@@ -18,7 +18,7 @@ public class ItemController
 
     public ItemController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.itemsTable = "Items";
         this.itemDataTable = "ItemsData";

@@ -1,8 +1,6 @@
 package dev.BusinessLayer;
 
-import dev.DataAccessLayer.CategoryDTO;
-import dev.DataAccessLayer.StorageController;
-import dev.DataAccessLayer.StorageDTO;
+import dev.DataAccessLayer.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -13,11 +11,14 @@ public class StorageFacade {
 
     private HashMap<String, Storage> storages;
     private StorageController storageController = new StorageController();
+    private CategoryController categoryController = new CategoryController();
+    private SubCategoryController subCategoryController = new SubCategoryController();
+    private ProductController productController = new ProductController();
     
     public StorageFacade()
     {
         this.storages = new HashMap<String,Storage>();
-        loadData();
+
     }
 
     public boolean addStorage(String storageName)
@@ -41,6 +42,7 @@ public class StorageFacade {
     {
         if(storages.get(storageName).doesCatExists(categoryName))
             throw new Exception ("Category already exist");
+        categoryController.insert(storageName,categoryName);
         return this.storages.get(storageName).addCategory(categoryName);
     }
     
@@ -61,6 +63,7 @@ public class StorageFacade {
             throw new Exception ("Category doesnt exist");
         if(storages.get(storageName).doesSubCatExists(categoryName, subCategoryName))
             throw new Exception ("Sub Category already exist");
+        subCategoryController.insert(storageName,categoryName,subCategoryName);
         return this.storages.get(storageName).addSubCategory(categoryName, subCategoryName);
     }
 
@@ -119,8 +122,11 @@ public class StorageFacade {
         if(!storages.get(storageName).doesSubCatExists(category, subCategory))
             throw new Exception ("Sub Category doesn't exist");
         if(getProduct(storageName,productName) != null)
-           throw new Exception ("Product name already exists"); 
-        return this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice, minimumRequired);
+           throw new Exception ("Product name already exists");
+
+        this.storages.get(storageName).addProduct(category, subCategory, productName, supplierName, size, price, supplierPrice, minimumRequired);
+        this.productController.insert(this.getProduct(storageName,productName).getId(),storageName,category,subCategory,productName,supplierName,size,price,supplierPrice,minimumRequired);
+        return true;
     }
 
 

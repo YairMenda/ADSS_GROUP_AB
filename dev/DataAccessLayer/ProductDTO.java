@@ -17,6 +17,8 @@ public class ProductDTO {
     private ProductController productController = new ProductController();
     private ItemController itemController = new ItemController();
 
+
+
     public ProductDTO(String storageName, String category, String subCategory,int productId, String productName, String supplierName,
      double size, int minimumRequired)
     {

@@ -16,7 +16,7 @@ public class CategoryController {
 
     public CategoryController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.categoriesTable = "Categories";
     }
@@ -59,5 +59,19 @@ public class CategoryController {
         
         return result;
     }
-    
+
+    public void insert(String storageName, String categoryName)
+    {
+        String sql = "INSERT INTO " + this.categoriesTable + " (StorageName, Category) VALUES(?, ?)";
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, storageName);
+            pstmt.setString(2, categoryName);
+            pstmt.executeUpdate();
+            System.out.println("Category inserted successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

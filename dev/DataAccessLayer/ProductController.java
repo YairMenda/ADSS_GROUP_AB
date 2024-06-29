@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.sql.Types;
+
 
 public class ProductController {
 
@@ -19,7 +21,7 @@ public class ProductController {
 
     public ProductController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.productsTable = "Products";
         this.productsDataTable = "ProductsData";
@@ -116,6 +118,45 @@ public class ProductController {
             }
         }
         return result;
+    }
+
+    public void insert(int productId, String storageName, String category, String subCategory, String productName,
+                       String supplierName, double size, double price, double supplierPrice, int minimumRequired)
+    {
+        String sql1 = "INSERT INTO " + this.productsTable + " (StorageName, Category, SubCategory, ProductId) VALUES(?, ?, ?, ?)";
+        String sql2 = "INSERT INTO " + this.productsDataTable + " (ProductId, ProductName, SupplierName, Size, MinimumRequired) VALUES(?, ?, ?, ?, ?)";
+        String sql3 = "INSERT INTO " + this.priceToProductTable + " (ProductId, StoragePrice, SupplierPrice, Days, Discount, StartDate) VALUES(?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql1)) {
+            pstmt.setString(1, storageName);
+            pstmt.setString(2, category);
+            pstmt.setString(3, subCategory);
+            pstmt.setInt(4, productId);
+            pstmt.executeUpdate();
+
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+            pstmt2.setInt(1, productId);
+            pstmt2.setString(2, productName);
+            pstmt2.setString(3, supplierName);
+            pstmt2.setDouble(4, size);
+            pstmt2.setInt(5, minimumRequired);
+            pstmt2.executeUpdate();
+
+            PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+            pstmt3.setInt(1, productId);
+            pstmt3.setDouble(2, price);
+            pstmt3.setDouble(3, supplierPrice);
+            pstmt3.setNull(4, Types.INTEGER);  // Set Days to NULL
+            pstmt3.setNull(5, Types.DOUBLE);   // Set Discount to NULL
+            pstmt3.setNull(6, Types.DATE);
+            pstmt3.executeUpdate();
+
+
+            System.out.println("Product was inserted successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     
