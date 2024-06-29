@@ -60,7 +60,7 @@ public class Product {
         LinkedList<Item> result = new LinkedList<>();
         for(ItemDTO iDTO : items)
         {
-            if(iDTO.getSoldPrice() == null)
+            if(iDTO.getSellDate() == null)
                 result.add(new Item(iDTO,this.productName));
         }
         return result;
@@ -71,7 +71,7 @@ public class Product {
         LinkedList<Item> result = new LinkedList<>();
         for(ItemDTO iDTO : items)
         {
-            if(iDTO.getSoldPrice() != null)
+            if(iDTO.getSellDate() != null)
                 result.add(new Item(iDTO,this.productName));
         }
         return result;

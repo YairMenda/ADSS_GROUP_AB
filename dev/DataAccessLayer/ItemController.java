@@ -75,7 +75,7 @@ public class ItemController
                 while (rs.next()) {
                     String expDate = rs.getString("ExpDate");
                     String location = rs.getString("Location");
-                    Boolean damaged = rs.getInt("Damaged") == 0 ? true : false;
+                    Boolean damaged = rs.getInt("Damaged") == 0 ? false : true;
                     Double boughtPrice = rs.getDouble("BoughtPrice");
                     Double soldPrice = rs.getDouble("SoldPrice");
                     String sellDate = rs.getString("SellDate");
