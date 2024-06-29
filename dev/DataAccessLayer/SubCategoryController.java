@@ -12,13 +12,13 @@ import java.util.List;
 public class SubCategoryController {
 
     private String connectionString;
-    private String tableName;
+    private String subCategoryTable;
 
     public SubCategoryController()
     {
         String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName = "Sub_Categories";
+        this.subCategoryTable = "SubCategories";
     }
 
     private Connection connect() 
@@ -40,7 +40,7 @@ public class SubCategoryController {
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.tableName); // replacing ? into parameters
+            pstmt.setString(1, this.subCategoryTable); // replacing ? into parameters
             pstmt.setString(2, storageName);
             pstmt.setString(3, category);
             ResultSet rs = pstmt.executeQuery(); // execute query

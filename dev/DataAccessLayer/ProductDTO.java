@@ -16,7 +16,6 @@ public class ProductDTO {
     private List<ItemDTO> items;
     private ProductController productController;
     private ItemController itemController = new ItemController();
-    private PriceToProductController priceToProductController = new PriceToProductController();
 
     public ProductDTO(String storageName, String category, String subCategory,int productId, String productName, String supplierName,
      double size, int minimumRequired)
@@ -30,7 +29,7 @@ public class ProductDTO {
         this.size = size;
         this.minimumRequired = minimumRequired;
         this.items = this.itemController.getItems(productId);
-        this.priceToProduct = this.priceToProductController.getPriceToProduct(productId);
+        this.priceToProduct = createPricesDTO(productId);
         this.productController = new ProductController();
     }
 
@@ -78,6 +77,11 @@ public class ProductDTO {
     public ProductController getProductController()
     {
         return this.productController;
+    }
+
+    public PriceToProductDTO createPricesDTO(int productId)
+    {
+        return productController.createPricesDTO(productId);
     }
     
 }

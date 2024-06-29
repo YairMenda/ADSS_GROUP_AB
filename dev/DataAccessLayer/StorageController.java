@@ -12,13 +12,13 @@ import java.util.List;
 public class StorageController 
 {
     private String connectionString;
-    private String tableName;
+    private String storagesTable;
 
     public StorageController()
     {
         String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName = "Storages";
+        this.storagesTable = "Storages";
     }
 
     private Connection connect() {
@@ -39,7 +39,7 @@ public class StorageController
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.tableName); // replacing ? into parameters
+            pstmt.setString(1, this.storagesTable); // replacing ? into parameters
             ResultSet rs = pstmt.executeQuery(); // execute query
             List<String> storages = new LinkedList<>();
 

@@ -13,15 +13,17 @@ import java.util.List;
 public class ProductController {
 
     private String connectionString;
-    private String tableName1;
-    private String tableName2;
+    private String productsTable;
+    private String productsDataTable;
+    private String priceToProductTable;
 
     public ProductController()
     {
         String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName1 = "Products";
-        this.tableName2 = "ProductsData";
+        this.productsTable = "Products";
+        this.productsDataTable = "ProductsData";
+        this.priceToProductTable = "PriceToProduct";
     }
 
     private Connection connect() 
@@ -35,6 +37,32 @@ public class ProductController {
         return conn;
     }
 
+    public PriceToProductDTO createPricesDTO(int productId)
+    {
+        PriceToProductDTO result = null;
+        String query = "SELECT storagePrice, supplierPrice, discount, startDate FROM ? WHERE productId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, this.priceToProductTable); // replacing ? into parameters
+            pstmt.setInt(2, productId);
+            ResultSet rs = pstmt.executeQuery(); // execute query
+
+            while (rs.next()) {
+                double storagePrice = rs.getDouble("storagePrice");
+                double supplierPrice = rs.getDouble("supplierPrice");
+                int discount = rs.getInt("discount");
+                String startDate = rs.getString("startDate");
+                result = new PriceToProductDTO(storagePrice,supplierPrice,discount,startDate);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
     public List<Integer> getProductsId(String storageName, String category, String subCategory)
     {
         List<Integer> products = new LinkedList<>();
@@ -43,10 +71,10 @@ public class ProductController {
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.tableName1); // replacing ? into parameters
+            pstmt.setString(1, this.productsTable); // replacing ? into parameters
             pstmt.setString(2, storageName);
             pstmt.setString(3, category);
-            pstmt.setString(4, category);
+            pstmt.setString(4, subCategory);
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
@@ -71,7 +99,7 @@ public class ProductController {
             {
                 Connection conn = this.connect(); //connect to the db
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setString(1, this.tableName2); // replacing ? into parameters
+                pstmt.setString(1, this.productsDataTable); // replacing ? into parameters
                 pstmt.setInt(2, productID);
 
                 ResultSet rs = pstmt.executeQuery(); // execute query
