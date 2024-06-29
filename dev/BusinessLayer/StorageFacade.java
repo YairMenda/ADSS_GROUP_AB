@@ -1,16 +1,23 @@
 package dev.BusinessLayer;
 
+import dev.DataAccessLayer.CategoryDTO;
+import dev.DataAccessLayer.StorageController;
+import dev.DataAccessLayer.StorageDTO;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class StorageFacade {
 
     private HashMap<String, Storage> storages;
+    private StorageController storageController = new StorageController();
     
     public StorageFacade()
     {
         this.storages = new HashMap<String,Storage>();
+        loadData();
     }
 
     public boolean addStorage(String storageName)
@@ -271,6 +278,15 @@ public class StorageFacade {
             throw new Exception("product name doesnt exist");
         p.setProductPrice(productPrice);
         return true;
+    }
+
+    public void loadData()
+    {
+        List<StorageDTO> storagesDTO = this.storageController.getAllStorages();
+        for(StorageDTO sDTO : storagesDTO)
+        {
+            this.storages.put(sDTO.getStorageName(),new Storage(sDTO));
+        }
     }
     
 

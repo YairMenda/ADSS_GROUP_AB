@@ -16,7 +16,7 @@ public class StorageController
 
     public StorageController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.storagesTable = "Storages";
     }
@@ -33,15 +33,14 @@ public class StorageController
 
     public List<StorageDTO> getAllStorages()
     {
-        List<StorageDTO> result = new LinkedList<>();  
-        String query = "SELECT StorageName FROM ?";    
+        List<StorageDTO> result = new LinkedList<>();
+        List<String> storages = new LinkedList<>();
+        String query = "SELECT StorageName FROM " + this.storagesTable;
         try 
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.storagesTable); // replacing ? into parameters
             ResultSet rs = pstmt.executeQuery(); // execute query
-            List<String> storages = new LinkedList<>();
 
             // Process the result set
             while (rs.next()) {
@@ -49,13 +48,12 @@ public class StorageController
                 storages.add(storageName);
             }
 
-            // Create StorageDTO objects
-            for (String storage : storages) {
-                result.add(new StorageDTO(storage));
-            }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+
+        for (String storage : storages) {
+            result.add(new StorageDTO(storage));
         }
         return result;
     }

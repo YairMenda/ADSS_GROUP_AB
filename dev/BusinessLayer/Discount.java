@@ -1,6 +1,9 @@
 package dev.BusinessLayer;
 
+import dev.DataAccessLayer.PriceToProductDTO;
+
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Discount {
@@ -18,6 +21,16 @@ public class Discount {
         this.startDate = null;
         this.days = 0;
         this.discountPre = 0;
+    }
+
+    public Discount(PriceToProductDTO ptpDTO)
+    {
+        this.supplierDiscountPrice = ptpDTO.getSupplierPrice();
+        this.storageDiscountPrice = ptpDTO.getStoragePrice();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.startDate = ptpDTO.getStartDate() == null ? null : LocalDate.parse(ptpDTO.getStartDate(),formatter);
+        this.days = ptpDTO.getDays();
+        this.discountPre = ptpDTO.getDiscount();
     }
 
     public double getSupplierDiscountPrice()

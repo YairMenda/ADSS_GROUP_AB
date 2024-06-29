@@ -17,7 +17,7 @@ public class StorageHandler {
         storageInit = new StorageInit();
         storageService = storageInit.getStorageService();
         productService = storageInit.getProductService();
-        storageInit.init();
+        //storageInit.init();
     }
 
     

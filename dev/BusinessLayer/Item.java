@@ -1,5 +1,8 @@
 package dev.BusinessLayer;
+import dev.DataAccessLayer.ItemDTO;
+
 import java.time.LocalDate; // import the LocalDate class
+import java.time.format.DateTimeFormatter;
 
 public class Item {
     private static int idNum = 1;
@@ -9,7 +12,7 @@ public class Item {
     private String location;
     private boolean damaged;
     private double boughtPrice;
-    private double soldPrice;
+    private Double soldPrice;
     private LocalDate sellDate;
 
     // Constructor for items
@@ -20,8 +23,21 @@ public class Item {
         this.location = "Warehouse";
         this.damaged = false;
         this.boughtPrice = boughtPrice;
-        this.soldPrice = -1;
+        this.soldPrice = null;
         this.sellDate = null;
+    }
+
+    public Item(ItemDTO iDTO, String productName)
+    {
+        this.id = iDTO.getItemId();
+        this.productName = productName;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        this.expData = LocalDate.parse(iDTO.getExpDate(),formatter);
+        this.location = iDTO.getLocation();
+        this.damaged = iDTO.isDamaged();
+        this.boughtPrice = iDTO.getBoughtPrice();
+        this.soldPrice = iDTO.getSoldPrice();
+        this.sellDate = iDTO.getSellDate() == null ? null : LocalDate.parse(iDTO.getSellDate(),formatter);
     }
     
     public String toString()

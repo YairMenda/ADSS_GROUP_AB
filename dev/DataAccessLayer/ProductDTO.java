@@ -14,7 +14,7 @@ public class ProductDTO {
     private int minimumRequired;
     private PriceToProductDTO priceToProduct;
     private List<ItemDTO> items;
-    private ProductController productController;
+    private ProductController productController = new ProductController();
     private ItemController itemController = new ItemController();
 
     public ProductDTO(String storageName, String category, String subCategory,int productId, String productName, String supplierName,
@@ -30,7 +30,6 @@ public class ProductDTO {
         this.minimumRequired = minimumRequired;
         this.items = this.itemController.getItems(productId);
         this.priceToProduct = createPricesDTO(productId);
-        this.productController = new ProductController();
     }
 
     public int getProductId() {

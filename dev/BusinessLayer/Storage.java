@@ -1,6 +1,10 @@
 package dev.BusinessLayer;
+import dev.DataAccessLayer.CategoryDTO;
+import dev.DataAccessLayer.StorageDTO;
+
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Storage {
 
@@ -11,6 +15,16 @@ public class Storage {
     {
         this.storageName = storageName;
         this.categories = new HashMap<>();
+    }
+
+    public Storage(StorageDTO sDTO)
+    {
+        this.storageName = sDTO.getStorageName();
+        this.categories = new HashMap<>();
+        for(CategoryDTO cDTO: sDTO.getCategories())
+        {
+            this.categories.put(cDTO.getCategoryName(),new Category(cDTO));
+        }
     }
 
     public String getStorageName()

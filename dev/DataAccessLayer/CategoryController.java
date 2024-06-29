@@ -16,7 +16,7 @@ public class CategoryController {
 
     public CategoryController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.categoriesTable = "Categories";
     }
@@ -34,22 +34,27 @@ public class CategoryController {
     public List<CategoryDTO> getStorageCategories(String storageName)
     {
         List<CategoryDTO> result = new LinkedList<>();
-        String query = "SELECT Category FROM ? WHERE StorageName = ?";    
+        List<String> categories = new LinkedList<>();
+        String query = "SELECT StorageName, Category FROM " + this.categoriesTable + " WHERE StorageName = ?";
         try 
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.categoriesTable); // replacing ? into parameters
-            pstmt.setString(2, storageName);
+            pstmt.setString(1, storageName);
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
                 String category = rs.getString("Category");
-                result.add(new CategoryDTO(storageName,category));
+                categories.add(category);
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+
+        for(String category : categories)
+        {
+            result.add(new CategoryDTO(storageName,category));
         }
         
         return result;

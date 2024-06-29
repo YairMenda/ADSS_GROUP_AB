@@ -13,15 +13,15 @@ public class ItemController
 {
 
     private String connectionString;
-    private String tableName1;
-    private String tableName2;
+    private String itemsTable;
+    private String itemDataTable;
 
     public ItemController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName1 = "Items";
-        this.tableName2 = "ItemsData";
+        this.itemsTable = "Items";
+        this.itemDataTable = "ItemsData";
     }
 
     private Connection connect() 
@@ -38,14 +38,12 @@ public class ItemController
     public List<Integer> getItemsId(int productId)
     {
         List<Integer> items = new LinkedList<>();
-        String query = "SELECT ItemId FROM ? WHERE ProductId = ?";    
+        String query = "SELECT ItemId FROM " + this.itemsTable + " WHERE ProductId = ?";
         try 
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.tableName1); // replacing ? into parameters
-            pstmt.setInt(2, productId);
-
+            pstmt.setInt(1, productId);
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
@@ -63,27 +61,25 @@ public class ItemController
     {
         List<ItemDTO> result = new LinkedList<>();
         List<Integer> itemsId = getItemsId(productId);
-        String query = "SELECT ItemId, ExpDate, Location, Damaged, BoughtPrice, SoldPrice, SellDate FROM ? WHERE ProductID = ?";
         for(Integer id : itemsId)
-        {    
+        {
+            String query = "SELECT ExpDate, Location, Damaged, BoughtPrice, SoldPrice, SellDate FROM " + this.itemDataTable +
+                    " WHERE ItemId = ?";
             try 
             {
                 Connection conn = this.connect(); //connect to the db
                 PreparedStatement pstmt = conn.prepareStatement(query);
-                pstmt.setString(1, this.tableName2); // replacing ? into parameters
-                pstmt.setInt(2, id);
-
+                pstmt.setInt(1, id);
                 ResultSet rs = pstmt.executeQuery(); // execute query
 
                 while (rs.next()) {
-                    Integer itemId = rs.getInt("ItemId");
                     String expDate = rs.getString("ExpDate");
                     String location = rs.getString("Location");
-                    Boolean damaged = rs.getBoolean("Damaged");
+                    Boolean damaged = rs.getInt("Damaged") == 0 ? true : false;
                     Double boughtPrice = rs.getDouble("BoughtPrice");
                     Double soldPrice = rs.getDouble("SoldPrice");
                     String sellDate = rs.getString("SellDate");
-                    result.add(new ItemDTO(itemId,expDate,location,damaged,boughtPrice,soldPrice,sellDate));
+                    result.add(new ItemDTO(id,expDate,location,damaged,boughtPrice,soldPrice,sellDate));
                 }
 
             } catch (SQLException e) {

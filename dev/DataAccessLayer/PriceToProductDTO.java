@@ -6,13 +6,15 @@ public class PriceToProductDTO
     private double supplierPrice;
     private int discount;
     private String startDate;
+    private int days;
 
-    public PriceToProductDTO(double storagePrice, double supplierPrice, int discount, String startDate)
+    public PriceToProductDTO(double storagePrice, double supplierPrice,int days, int discount, String startDate)
     {
         this.storagePrice = storagePrice;
         this.supplierPrice = supplierPrice;
         this.discount = discount;
         this.startDate = startDate;
+        this.days = days;
     }
 
     public double getStoragePrice() {
@@ -30,5 +32,10 @@ public class PriceToProductDTO
 
     public String getStartDate() {
         return startDate;
+    }
+
+    public int getDays()
+    {
+        return this.days;
     }
 }

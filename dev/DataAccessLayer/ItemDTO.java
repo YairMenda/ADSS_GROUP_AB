@@ -10,11 +10,11 @@ public class ItemDTO {
     private String location;
     private boolean damaged;
     private double boughtPrice;
-    private double soldPrice;
+    private Double soldPrice;
     private String sellDate;
     private ItemController itemController;
 
-    public ItemDTO(int itemId, String expDate, String location, boolean damaged, double boughtPrice, double soldPrice, String sellDate)
+    public ItemDTO(int itemId, String expDate, String location, boolean damaged, double boughtPrice, Double soldPrice, String sellDate)
     {
         this.itemId = itemId;
         this.expDate = expDate;
@@ -48,7 +48,7 @@ public class ItemDTO {
         return boughtPrice;
     }
     
-    public double getSoldPrice() {
+    public Double getSoldPrice() {
         return soldPrice;
     }
     

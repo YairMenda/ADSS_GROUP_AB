@@ -1,7 +1,11 @@
 package dev.BusinessLayer;
 
+import dev.DataAccessLayer.CategoryDTO;
+import dev.DataAccessLayer.SubCategoryDTO;
+
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Category {
 
@@ -12,6 +16,16 @@ public class Category {
     {
         this.subCategories = new HashMap<>();
         this.categoryName = name;
+    }
+
+    public Category(CategoryDTO cDTO)
+    {
+        this.categoryName = cDTO.getCategoryName();
+        this.subCategories = new HashMap<>();
+        for(SubCategoryDTO scDTO : cDTO.getSubCategories())
+        {
+            this.subCategories.put(scDTO.getSubCategoryName(), new SubCategory(scDTO));
+        }
     }
     
     
@@ -146,5 +160,6 @@ public class Category {
     {
         return this.categoryName;
     }
+
     
 }

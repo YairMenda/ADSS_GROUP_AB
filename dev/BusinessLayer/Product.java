@@ -1,7 +1,11 @@
 package dev.BusinessLayer;
+import dev.DataAccessLayer.ItemDTO;
+import dev.DataAccessLayer.ProductDTO;
+
 import java.util.LinkedList;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 public class Product {
@@ -34,6 +38,43 @@ public class Product {
         this.size = size;
         this.minimumRequired = minimumRequired;
         this.discount = new Discount(supplierPrice,this.price);
+    }
+
+    public Product(ProductDTO pDTO)
+    {
+        this.productId = pDTO.getProductId();
+        this.productName = pDTO.getProductName();
+        this.category = pDTO.getCategory();
+        this.subCategory = pDTO.getSubCategory();
+        this.supplierName = pDTO.getSupplierName();
+        this.discount = new Discount(pDTO.getPriceToProductDTO());
+        this.items = fillAvailableItems(pDTO.getItems());
+        this.soldItems = fillSoldItems(pDTO.getItems());
+        this.size = pDTO.getSize();
+        this.minimumRequired = pDTO.getMinimumRequired();
+
+    }
+
+    public LinkedList<Item> fillAvailableItems(List<ItemDTO> items)
+    {
+        LinkedList<Item> result = new LinkedList<>();
+        for(ItemDTO iDTO : items)
+        {
+            if(iDTO.getSoldPrice() == null)
+                result.add(new Item(iDTO,this.productName));
+        }
+        return result;
+    }
+
+    public LinkedList<Item> fillSoldItems(List<ItemDTO> items)
+    {
+        LinkedList<Item> result = new LinkedList<>();
+        for(ItemDTO iDTO : items)
+        {
+            if(iDTO.getSoldPrice() != null)
+                result.add(new Item(iDTO,this.productName));
+        }
+        return result;
     }
 
 

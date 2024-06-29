@@ -16,7 +16,7 @@ public class SubCategoryController {
 
     public SubCategoryController()
     {
-        String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
+        String path = (Paths.get("").toAbsolutePath()).resolve("ADSS_GROUP_AB").resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
         this.subCategoryTable = "SubCategories";
     }
@@ -35,23 +35,28 @@ public class SubCategoryController {
     public List<SubCategoryDTO> getSubCategories(String storageName, String category)
     {
         List<SubCategoryDTO> result = new LinkedList<>();
-        String query = "SELECT SubCategory FROM ? WHERE StorageName = ? AND Category = ?";    
+        List<String> subCategories = new LinkedList<>();
+        String query = "SELECT SubCategory FROM " + this.subCategoryTable + " WHERE StorageName = ? AND Category = ?";
         try 
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, this.subCategoryTable); // replacing ? into parameters
-            pstmt.setString(2, storageName);
-            pstmt.setString(3, category);
+            pstmt.setString(1, storageName);
+            pstmt.setString(2, category);
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
                 String subCategory = rs.getString("SubCategory");
-                result.add(new SubCategoryDTO(storageName,category,subCategory));
+                subCategories.add(subCategory);
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+
+        for(String subCat : subCategories)
+        {
+            result.add(new SubCategoryDTO(storageName,category,subCat));
         }
         
         return result;

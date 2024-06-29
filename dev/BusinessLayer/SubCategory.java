@@ -1,6 +1,11 @@
 package dev.BusinessLayer;
+import dev.DataAccessLayer.PriceToProductDTO;
+import dev.DataAccessLayer.ProductDTO;
+import dev.DataAccessLayer.SubCategoryDTO;
+
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SubCategory {
 
@@ -15,6 +20,19 @@ public class SubCategory {
         this.namesToId = new HashMap<String,Integer>();
         this.category = categoryName;
         this.subCategoryName = subCategoryname;
+    }
+
+    public SubCategory(SubCategoryDTO scDTO)
+    {
+        this.subCategoryName = scDTO.getSubCategoryName();
+        this.category = scDTO.getCategoryName();
+        this.products = new HashMap<Integer,Product>();
+        this.namesToId = new HashMap<String,Integer>();
+        for(ProductDTO pDTO : scDTO.getProducts())
+        {
+            this.namesToId.put(pDTO.getProductName(),pDTO.getProductId());
+            this.products.put(pDTO.getProductId(),new Product(pDTO));
+        }
     }
    
 
