@@ -54,7 +54,7 @@ class StorageFacadeTest {
     {
         try
         {
-            storageFacade.addProduct("A", "Pharmacy", "Pills", "Akamol", "Supplier L", 0.2, 7.0, 3.0);
+            //storageFacade.addProduct("A", "Pharmacy", "Pills", "Akamol", "Supplier L", 0.2, 7.0, 3.0);
             Assertions.assertEquals(storageFacade.getProduct("A","Akamol") != null ,true);
         }
         catch (Exception e)

@@ -1,4 +1,7 @@
 package dev.PresantationLayer;
+
+import dev.DataAccessLayer.ProductController;
+
 public class Main {
     
    
@@ -6,8 +9,10 @@ public class Main {
     //needs to add storage.init()
     public static void main(String[] args) 
     {
-        StorageHandler storageHandler = new StorageHandler();
-        storageHandler.StorageLoop();
+        // StorageHandler storageHandler = new StorageHandler();
+        // storageHandler.StorageLoop();
+        ProductController pc = new ProductController();
+        pc.getAllProducts(null, null, null);
     }
 
 }

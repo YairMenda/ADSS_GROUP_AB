@@ -1,6 +1,5 @@
 package dev.DataAccessLayer;
 
-
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,18 +9,19 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ProductController {
+public class ItemController 
+{
 
     private String connectionString;
     private String tableName1;
     private String tableName2;
 
-    public ProductController()
+    public ItemController()
     {
         String path = (Paths.get("").toAbsolutePath()).resolve("Super-li.db").toString();
         this.connectionString = "jdbc:sqlite:" + path; // need to connect the path 
-        this.tableName1 = "Products";
-        this.tableName2 = "ProductsData";
+        this.tableName1 = "Items";
+        this.tableName2 = "ItemsData";
     }
 
     private Connection connect() 
@@ -35,53 +35,55 @@ public class ProductController {
         return conn;
     }
 
-    public List<Integer> getProductsId(String storageName, String category, String subCategory)
+    public List<Integer> getItemsId(int productId)
     {
-        List<Integer> products = new LinkedList<>();
-        String query = "SELECT ProductId FROM ? WHERE StorageName = ? AND Category = ? AND SubCategory = ?";    
+        List<Integer> items = new LinkedList<>();
+        String query = "SELECT ItemId FROM ? WHERE ProductId = ?";    
         try 
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, this.tableName1); // replacing ? into parameters
-            pstmt.setString(2, storageName);
-            pstmt.setString(3, category);
-            pstmt.setString(4, category);
+            pstmt.setInt(2, productId);
+
             ResultSet rs = pstmt.executeQuery(); // execute query
 
             while (rs.next()) {
-                Integer productId = rs.getInt("ProductId");
-                products.add(productId);
+                Integer itemId = rs.getInt("ItemId");
+                items.add(itemId);
             }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return products;
+        return items;
     }
 
-    public List<ProductDTO> getAllProducts(String storageName, String category, String subCategory)
+    public List<ItemDTO> getItems(int productId)
     {
-        List<ProductDTO> result = new LinkedList<>();
-        List<Integer> productsID = this.getProductsId(storageName, category, subCategory);
-        String query = "SELECT ProductName, SupplierName, Size, MinimumRequired FROM ? WHERE ProductID = ?";
-        for(Integer productID : productsID)
+        List<ItemDTO> result = new LinkedList<>();
+        List<Integer> itemsId = getItemsId(productId);
+        String query = "SELECT ItemId, ExpDate, Location, Damaged, BoughtPrice, SoldPrice, SellDate FROM ? WHERE ProductID = ?";
+        for(Integer id : itemsId)
         {    
             try 
             {
                 Connection conn = this.connect(); //connect to the db
                 PreparedStatement pstmt = conn.prepareStatement(query);
                 pstmt.setString(1, this.tableName2); // replacing ? into parameters
-                pstmt.setInt(2, productID);
+                pstmt.setInt(2, id);
 
                 ResultSet rs = pstmt.executeQuery(); // execute query
 
                 while (rs.next()) {
-                    String productName = rs.getString("ProductName");
-                    String supplierName = rs.getString("SupplierName");
-                    Double size = rs.getDouble("Size");
-                    Integer minimumRequired = rs.getInt("MinimumRequired");
-                    result.add(new ProductDTO(storageName, category, subCategory, productID, productName, supplierName, size, minimumRequired));
+                    Integer itemId = rs.getInt("ItemId");
+                    String expDate = rs.getString("ExpDate");
+                    String location = rs.getString("Location");
+                    Boolean damaged = rs.getBoolean("Damaged");
+                    Double boughtPrice = rs.getDouble("BoughtPrice");
+                    Double soldPrice = rs.getDouble("SoldPrice");
+                    String sellDate = rs.getString("SellDate");
+                    result.add(new ItemDTO(itemId,expDate,location,damaged,boughtPrice,soldPrice,sellDate));
                 }
 
             } catch (SQLException e) {
@@ -90,6 +92,4 @@ public class ProductController {
         }
         return result;
     }
-
-    
 }

@@ -1,5 +1,7 @@
 package dev.DataAccessLayer;
 
+import java.util.List;
+
 public class ProductDTO {
 
     private int productId;
@@ -10,9 +12,11 @@ public class ProductDTO {
     private String supplierName;
     private double size;
     private int minimumRequired;
+    private PriceToProductDTO priceToProduct;
     private List<ItemDTO> items;
     private ProductController productController;
-    private ItemController itemController;
+    private ItemController itemController = new ItemController();
+    private PriceToProductController priceToProductController = new PriceToProductController();
 
     public ProductDTO(String storageName, String category, String subCategory,int productId, String productName, String supplierName,
      double size, int minimumRequired)
@@ -26,6 +30,7 @@ public class ProductDTO {
         this.size = size;
         this.minimumRequired = minimumRequired;
         this.items = this.itemController.getItems(productId);
+        this.priceToProduct = this.priceToProductController.getPriceToProduct(productId);
         this.productController = new ProductController();
     }
 
@@ -59,6 +64,20 @@ public class ProductDTO {
 
     public int getMinimumRequired() {
         return minimumRequired;
+    }
+
+    public PriceToProductDTO getPriceToProductDTO(){
+        return this.priceToProduct;
+    }
+
+    public List<ItemDTO> getItems()
+    {
+        return this.items;
+    }
+
+    public ProductController getProductController()
+    {
+        return this.productController;
     }
     
 }

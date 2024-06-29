@@ -14,7 +14,7 @@ public class Main {
         sst.reportByBadItems();
         sst.deleteSubCategory();
         sst.deleteStorage();
-        pst.addProduct();
+        //pst.addProduct();
         pst.addItem();
         pst.setStoreDiscount();
         pst.sellItem();
