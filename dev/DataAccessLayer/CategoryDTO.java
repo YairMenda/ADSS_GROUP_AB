@@ -38,4 +38,9 @@ public class CategoryDTO {
     {
         return this.categoryController;
     }
+
+    public boolean deleteCategory()
+    {
+        return this.categoryController.deleteCategory(this);
+    }
 }

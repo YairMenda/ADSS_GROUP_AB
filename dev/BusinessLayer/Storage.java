@@ -10,12 +10,15 @@ public class Storage {
 
     private String storageName;
     private HashMap<String, Category> categories;
+    private StorageDTO storageDTO;
 
     public Storage(String storageName)
     {
         this.storageName = storageName;
         this.categories = new HashMap<>();
+        this.storageDTO = new StorageDTO(storageName);
     }
+
 
     public Storage(StorageDTO sDTO)
     {
@@ -25,6 +28,12 @@ public class Storage {
         {
             this.categories.put(cDTO.getCategoryName(),new Category(cDTO));
         }
+        this.storageDTO = sDTO;
+    }
+
+    public StorageDTO getStorageDTO()
+    {
+        return this.storageDTO;
     }
 
     public String getStorageName()
@@ -35,13 +44,17 @@ public class Storage {
     // adds new category to dictionary. return true if added, false otherwise
     public boolean addCategory(String categoryName)
     {
-        return this.categories.put(categoryName, new Category(categoryName)) == null ? true : false;
+        return this.categories.put(categoryName, new Category(this.storageName,categoryName)) == null ? true : false;
     }
 
     // remove category from dictionary. return true if removed, false otherwise
     public boolean deleteCategory(String categoryName)
     {
-        return this.categories.remove(categoryName) == null ? false : true;
+        Category category = this.categories.get(categoryName);
+        if(category == null)
+            return false;
+        this.categories.remove(categoryName);
+        return category.getCategoryDTO().deleteCategory();
     }
 
     // trying add subcategory by calling category::addCategory function

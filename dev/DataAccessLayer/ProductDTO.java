@@ -84,5 +84,11 @@ public class ProductDTO {
     {
         return productController.createPricesDTO(productId);
     }
+
+    public boolean deleteProduct()
+    {
+        return this.productController.deleteProduct(this);
+    }
+
     
 }

@@ -14,6 +14,7 @@ public class Product {
     private String productName;
     private String category;
     private String subCategory;
+    private String storageName;
     private String supplierName; // Changed to String assuming 'supplierName' should be textual
     private double price;
     private double supplierPrice;
@@ -22,10 +23,12 @@ public class Product {
     private double size;
     private int minimumRequired;
     private Discount discount; // -1 equals no discount
+    private ProductDTO pDTO;
 
     // Constructor
-    public Product(String productName, String category, String subCategory, String supplierName,
+    public Product(String storageName,String productName, String category, String subCategory, String supplierName,
                     double size , double price, double supplierPrice, int minimumRequired) {
+        this.storageName = storageName;
         this.productId = productIdNum++;
         this.productName = productName;
         this.category = category;
@@ -38,10 +41,12 @@ public class Product {
         this.size = size;
         this.minimumRequired = minimumRequired;
         this.discount = new Discount(supplierPrice,this.price);
+        this.pDTO = new ProductDTO(storageName,category,subCategory,productId,productName,supplierName,size,minimumRequired);
     }
 
     public Product(ProductDTO pDTO)
     {
+        this.storageName = pDTO.getStorageName();
         this.productId = pDTO.getProductId();
         this.productName = pDTO.getProductName();
         this.category = pDTO.getCategory();
@@ -52,7 +57,12 @@ public class Product {
         this.soldItems = fillSoldItems(pDTO.getItems());
         this.size = pDTO.getSize();
         this.minimumRequired = pDTO.getMinimumRequired();
+        this.pDTO = pDTO;
+    }
 
+    public ProductDTO getProductDTO()
+    {
+        return this.pDTO;
     }
 
     public LinkedList<Item> fillAvailableItems(List<ItemDTO> items)
@@ -273,6 +283,7 @@ public class Product {
         {
             if(item.getId() == id)
             {
+                item.getItemDTO().deleteItem();
                 this.items.remove(item);
                 return true;
             }

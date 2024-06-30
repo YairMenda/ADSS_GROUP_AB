@@ -88,4 +88,26 @@ public class ItemController
         }
         return result;
     }
+
+    public boolean deleteItem(ItemDTO iDTO)
+    {
+        boolean result = true;
+        String query = "DELETE FROM " + this.itemsTable + " WHERE ItemId = ?";
+        String query2 = "DELETE FROM " + this.itemDataTable + " WHERE ItemId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, iDTO.getItemId());
+            PreparedStatement pstmt2 = conn.prepareStatement(query2);
+            pstmt2.setInt(1, iDTO.getItemId());
+            result = pstmt.executeUpdate() == 0 ? false : true;
+            result = result && pstmt2.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return result;
+    }
 }

@@ -13,17 +13,22 @@ public class SubCategory {
     private HashMap<String,Integer> namesToId;
     private String subCategoryName;
     private String category;
+    private String storageName;
+    private SubCategoryDTO subCategoryDTO;
 
-    public SubCategory(String categoryName, String subCategoryname)
+    public SubCategory(String storageName, String categoryName, String subCategoryname)
     {
+        this.storageName = storageName;
         this.products = new HashMap<Integer,Product>();
         this.namesToId = new HashMap<String,Integer>();
         this.category = categoryName;
         this.subCategoryName = subCategoryname;
+        this.subCategoryDTO = new SubCategoryDTO(storageName, category, subCategoryName);
     }
 
     public SubCategory(SubCategoryDTO scDTO)
     {
+        this.storageName = scDTO.getStorageName();
         this.subCategoryName = scDTO.getSubCategoryName();
         this.category = scDTO.getCategoryName();
         this.products = new HashMap<Integer,Product>();
@@ -33,6 +38,12 @@ public class SubCategory {
             this.namesToId.put(pDTO.getProductName(),pDTO.getProductId());
             this.products.put(pDTO.getProductId(),new Product(pDTO));
         }
+        this.subCategoryDTO = scDTO;
+    }
+
+    public SubCategoryDTO getSubCategoryDTO()
+    {
+        return this.subCategoryDTO;
     }
    
 
@@ -48,7 +59,12 @@ public class SubCategory {
     //delete product from products dictionary. return true if deleted, false otherwise
     public boolean deleteProduct(int id)
     {
-        return this.products.remove(id) != null;
+        Product p = this.products.get(id);
+        if(p == null)
+            return false;
+        this.products.remove(id);
+        this.namesToId.remove(p.getProductName());
+        return p.getProductDTO().deleteProduct();
     }
     
     //return products list of current subcategory
@@ -109,7 +125,7 @@ public class SubCategory {
     {
         if(this.namesToId.containsKey(productName))
             return false;
-        Product p = new Product(productName, category, subCategoryName, supplierName, size, price, supplierPrice, minimumRequired);
+        Product p = new Product(this.storageName,productName, category, subCategoryName, supplierName, size, price, supplierPrice, minimumRequired);
         this.products.put(p.getId(),p);
         this.namesToId.put(p.getProductName(), p.getId());
         return true;

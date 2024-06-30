@@ -74,4 +74,28 @@ public class CategoryController {
             System.out.println(e.getMessage());
         }
     }
+
+    public boolean deleteCategory(CategoryDTO cDTO)
+    {
+        boolean result = true;
+        String query = "DELETE FROM " + this.categoriesTable + " WHERE StorageName = ? AND Category = ?";
+        try 
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, cDTO.getStorageName());
+            pstmt.setString(2, cDTO.getCategoryName());
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        for(SubCategoryDTO scDTO : cDTO.getSubCategories())
+        {
+            result = result && scDTO.deleteSubCategory();
+        }
+        return result;
+    }
 }

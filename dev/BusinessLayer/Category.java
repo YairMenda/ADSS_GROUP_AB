@@ -11,35 +11,49 @@ public class Category {
 
     private HashMap<String,SubCategory> subCategories;
     private String categoryName;
+    private String storageName;
+    private CategoryDTO categoryDTO;
 
-    public Category(String name)
+    public Category(String storageName, String name)
     {
+        this.storageName = storageName;
         this.subCategories = new HashMap<>();
         this.categoryName = name;
+        this.categoryDTO = new CategoryDTO(storageName,name);
     }
+
 
     public Category(CategoryDTO cDTO)
     {
+        this.storageName = cDTO.getStorageName();
         this.categoryName = cDTO.getCategoryName();
         this.subCategories = new HashMap<>();
         for(SubCategoryDTO scDTO : cDTO.getSubCategories())
         {
             this.subCategories.put(scDTO.getSubCategoryName(), new SubCategory(scDTO));
         }
+        this.categoryDTO = cDTO;
     }
-    
-    
+
+    public CategoryDTO getCategoryDTO()
+    {
+        return this.categoryDTO;
+    }
 
     //add new subcategory to dictionary. true if added, false otherwise
     public boolean addSubCategory(String subCategoryName)
     {
-        return this.subCategories.put(subCategoryName, new SubCategory(this.categoryName, subCategoryName)) == null;
+        return this.subCategories.put(subCategoryName, new SubCategory(this.storageName,this.categoryName, subCategoryName)) == null;
     }
 
     //delete subcategory from dictionary. true if removed, false otherwise
     public boolean deleteSubCategory(String subCategory)
     {
-        return this.subCategories.remove(subCategory) != null;
+        SubCategory sc = this.subCategories.get(subCategory);
+        if(subCategory == null)
+            return false;
+        this.subCategories.remove(subCategory);
+        return sc.getSubCategoryDTO().deleteSubCategory();
     }
 
 

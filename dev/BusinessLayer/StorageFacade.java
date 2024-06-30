@@ -14,11 +14,11 @@ public class StorageFacade {
     private CategoryController categoryController = new CategoryController();
     private SubCategoryController subCategoryController = new SubCategoryController();
     private ProductController productController = new ProductController();
+    private ItemController itemController = new ItemController();
     
     public StorageFacade()
     {
         this.storages = new HashMap<String,Storage>();
-
     }
 
     public boolean addStorage(String storageName)
@@ -28,7 +28,11 @@ public class StorageFacade {
     
     public boolean deleteStorage(String storageName)
     {
-        return this.storages.remove(storageName) == null;
+        Storage storage = this.storages.get(storageName);
+        if(storage == null)
+            return false;
+        this.storages.remove(storageName);
+        return storage.getStorageDTO().deleteStorage();
     }
 
     public boolean isExist(String storageName)

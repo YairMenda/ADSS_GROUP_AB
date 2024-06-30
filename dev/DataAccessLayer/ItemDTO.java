@@ -60,4 +60,9 @@ public class ItemDTO {
     {
         return this.itemController;
     }
+
+    public boolean deleteItem()
+    {
+        return this.itemController.deleteItem(this);
+    }
 }

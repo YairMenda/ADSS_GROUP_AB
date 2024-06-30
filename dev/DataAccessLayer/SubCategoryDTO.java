@@ -47,5 +47,9 @@ public class SubCategoryDTO {
     {
         return this.subCategoryController;
     }
+    public boolean deleteSubCategory()
+    {
+        return this.subCategoryController.deleteSubCategory(this);
+    }
     
 }

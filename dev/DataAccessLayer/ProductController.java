@@ -159,5 +159,37 @@ public class ProductController {
         }
     }
 
+    public boolean deleteProduct(ProductDTO pDTO)
+    {
+        boolean result = true;
+        String query = "DELETE FROM " + this.productsTable + " WHERE ProductId = ?";
+        String query2 = "DELETE FROM " + this.productsDataTable + " WHERE ProductId = ?";
+        String query3 = "DELETE FROM " + this.priceToProductTable + " WHERE ProductId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, pDTO.getProductId());
+            PreparedStatement pstmt2 = conn.prepareStatement(query2);
+            pstmt2.setInt(1, pDTO.getProductId());
+            PreparedStatement pstmt3 = conn.prepareStatement(query3);
+            pstmt3.setInt(1, pDTO.getProductId());
+            result = pstmt.executeUpdate() == 0 ? false : true;
+            result = result && pstmt2.executeUpdate() == 0 ? false : true;
+            result = result && pstmt3.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        //delete items DTO
+        for(ItemDTO iDTO : pDTO.getItems())
+        {
+            result = result && iDTO.deleteItem();
+        }
+
+        return result;
+    }
+
     
 }

@@ -14,6 +14,7 @@ public class Item {
     private double boughtPrice;
     private Double soldPrice;
     private LocalDate sellDate;
+    private ItemDTO iDTO;
 
     // Constructor for items
     public Item(LocalDate expData, double boughtPrice, String productName) {
@@ -25,6 +26,7 @@ public class Item {
         this.boughtPrice = boughtPrice;
         this.soldPrice = null;
         this.sellDate = null;
+        this.iDTO = new ItemDTO(id,expData.toString(),location,damaged,boughtPrice,soldPrice,sellDate.toString());
     }
 
     public Item(ItemDTO iDTO, String productName)
@@ -38,6 +40,12 @@ public class Item {
         this.boughtPrice = iDTO.getBoughtPrice();
         this.soldPrice = iDTO.getSoldPrice();
         this.sellDate = iDTO.getSellDate() == null ? null : LocalDate.parse(iDTO.getSellDate(),formatter);
+        this.iDTO = iDTO;
+    }
+
+    public ItemDTO getItemDTO()
+    {
+        return this.iDTO;
     }
     
     public String toString()

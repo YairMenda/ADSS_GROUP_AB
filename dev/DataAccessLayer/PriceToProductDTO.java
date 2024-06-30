@@ -38,4 +38,5 @@ public class PriceToProductDTO
     {
         return this.days;
     }
+
 }

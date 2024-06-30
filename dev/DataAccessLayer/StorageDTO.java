@@ -29,5 +29,10 @@ public class StorageDTO {
     {
         return this.storageController;
     }
+
+    public boolean deleteStorage()
+    {
+        return this.storageController.deleteStorage(this);
+    }
     
 }

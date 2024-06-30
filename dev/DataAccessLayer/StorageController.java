@@ -58,5 +58,28 @@ public class StorageController
         return result;
     }
 
+    public boolean deleteStorage(StorageDTO storageDTO)
+    {
+        boolean result = true;
+        String query = "DELETE FROM " + this.storagesTable + " WHERE StorageName = ?";
+        try 
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, storageDTO.getStorageName());
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        
+        for(CategoryDTO cDTO : storageDTO.getCategories())
+        {
+            result = result && cDTO.deleteCategory();
+        }
+        return result;
+    }
+
 
 }

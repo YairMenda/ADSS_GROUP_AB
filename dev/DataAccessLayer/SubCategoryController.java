@@ -77,5 +77,30 @@ public class SubCategoryController {
             System.out.println(e.getMessage());
         }
     }
+
+    public boolean deleteSubCategory(SubCategoryDTO scDTO)
+    {
+        boolean result = true;
+        String query = "DELETE FROM " + this.subCategoryTable + " WHERE StorageName = ? AND Category = ? AND SubCategory = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, scDTO.getStorageName());
+            pstmt.setString(2, scDTO.getCategoryName());
+            pstmt.setString(3, scDTO.getSubCategoryName());
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        for(ProductDTO pDTO : scDTO.getProducts())
+        {
+            result = result && pDTO.deleteProduct();
+        }
+        return result;
+    }
     
 }
