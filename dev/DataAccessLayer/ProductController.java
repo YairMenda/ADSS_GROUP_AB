@@ -191,5 +191,67 @@ public class ProductController {
         return result;
     }
 
+    public boolean updateStoragePrice(Double newPrice, int productId)
+    {
+        boolean result = true;
+        String query = "UPDATE " + this.priceToProductTable + " SET StoragePrice = ? WHERE ProductId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setDouble(1, newPrice);
+            pstmt.setInt(2, productId);
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return result;
+    }
+
+    public boolean updateSupPrice(Double newPrice, int productId)
+    {
+        boolean result = true;
+        String query = "UPDATE " + this.priceToProductTable + " SET SupplierPrice = ? WHERE ProductId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setDouble(1, newPrice);
+            pstmt.setInt(2, productId);
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return result;
+    }
+
+    public boolean updateDiscount(int discount, String startDate, int days, int productId)
+    {
+        boolean result = true;
+        String query = "UPDATE " + this.priceToProductTable + " SET Discount = ?, StartDate = ?, Days = ? WHERE ProductId = ?";
+        try
+        {
+            Connection conn = this.connect(); //connect to the db
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1, discount);
+            pstmt.setString(2, startDate);
+            pstmt.setInt(3, days);
+            pstmt.setInt(4, productId);
+            result = pstmt.executeUpdate() == 0 ? false : true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+        return result;
+    }
+
     
 }

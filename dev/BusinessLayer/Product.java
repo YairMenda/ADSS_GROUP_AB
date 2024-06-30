@@ -192,12 +192,14 @@ public class Product {
     {
         this.discount.setStorageDiscount(this.price*(1-((double)storageDiscount/100)), days);
         this.discount.setDiscountPre(storageDiscount);
+        this.pDTO.updateDiscount(storageDiscount,LocalDate.now().toString(),days);
     }
 
     //set new supplier price by specific discount
     public void setSupplierDiscount(int supplierDiscount)
     {
         this.discount.setSupplierDiscount(this.supplierPrice*(1-(supplierDiscount/100)));
+        this.pDTO.updateSupPrice(this.discount.getSupplierDiscountPrice());
     }
 
     public Discount geDiscount(){return discount;}

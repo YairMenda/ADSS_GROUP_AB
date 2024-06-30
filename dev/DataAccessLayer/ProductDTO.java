@@ -90,5 +90,23 @@ public class ProductDTO {
         return this.productController.deleteProduct(this);
     }
 
+    public boolean updateStoragePrice(Double newPrice)
+    {
+        this.priceToProduct.setStoragePrice(newPrice);
+        return this.productController.updateStoragePrice(newPrice, this.productId);
+    }
+
+    public boolean updateSupPrice(Double newPrice)
+    {
+        this.priceToProduct.setSupplierPrice(newPrice);
+        return this.productController.updateSupPrice(newPrice,this.productId);
+    }
+
+    public boolean updateDiscount(int discount, String startDate, int days)
+    {
+        this.priceToProduct.setDiscount(discount,startDate,days);
+        return this.productController.updateDiscount(discount,startDate,days,this.productId);
+    }
+
     
 }
