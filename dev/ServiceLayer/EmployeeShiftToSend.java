@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EmployeeShiftToSend {
 
-    private int employeeID;
+    private String employeeID;
     private List<LocalDateTime> shifts;
 
     public EmployeeShiftToSend(EmployeeShift other){
@@ -23,6 +23,6 @@ public class EmployeeShiftToSend {
     public List<LocalDateTime> getShifts(){
         return shifts;
     }
-    public int getEmployeeID(){ return employeeID;}
+    public String getEmployeeID(){ return employeeID;}
 
 }
