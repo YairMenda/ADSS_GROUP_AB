@@ -18,6 +18,7 @@ public class ProductController {
     private String productsTable;
     private String productsDataTable;
     private String priceToProductTable;
+    private String itemsToProductTable;
 
     public ProductController()
     {
@@ -26,6 +27,7 @@ public class ProductController {
         this.productsTable = "Products";
         this.productsDataTable = "ProductsData";
         this.priceToProductTable = "PriceToProduct";
+        this.itemsToProductTable = "Items";
     }
 
     private Connection connect() 
@@ -251,6 +253,21 @@ public class ProductController {
         }
 
         return result;
+    }
+
+    public boolean addItem(int productID, int itemID){
+        String sql1 = "INSERT INTO " + this.itemsToProductTable + " (ProductId, ItemId) VALUES(?, ?)";
+
+
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql1)) {
+            pstmt.setInt(1, productID);
+            pstmt.setInt(2, itemID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return true;
     }
 
     

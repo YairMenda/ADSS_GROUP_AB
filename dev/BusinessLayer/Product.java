@@ -1,5 +1,6 @@
 package dev.BusinessLayer;
 import dev.DataAccessLayer.ItemDTO;
+import dev.DataAccessLayer.ProductController;
 import dev.DataAccessLayer.ProductDTO;
 
 import java.util.LinkedList;
@@ -48,6 +49,8 @@ public class Product {
     {
         this.storageName = pDTO.getStorageName();
         this.productId = pDTO.getProductId();
+        if(this.productId >= productIdNum)
+            productIdNum = productId + 1;
         this.productName = pDTO.getProductName();
         this.category = pDTO.getCategory();
         this.subCategory = pDTO.getSubCategory();
@@ -105,6 +108,7 @@ public class Product {
             if(i.getId() == itemId){
                 i.setsoldPrice(getStoragePrice());
                 i.setSellDate(LocalDate.now());
+                i.getItemDTO().updateSale(getStoragePrice(), LocalDate.now().toString());
                 soldItems.add(i);
             }
             else
@@ -135,14 +139,16 @@ public class Product {
         LinkedList<Item> newList = new LinkedList<>();
         for(Item i : items)
         {
-            if(i.isExpired())
+            if(i.isExpired()) {
                 exProducts.add(i);
+                i.getItemDTO().deleteItem();
+            }
             else
                 newList.add(i);
         }
         setItems(newList);
         if(belowMin())
-            System.out.println("Product " + productName + " is reaching its end!\nOnly " + itemsLeft() + " left\nThe average month selling rate of this item is " + avgSoldInMonth());
+            System.out.println("Product " + productName + " is below its minimum quantity!\nOnly " + itemsLeft() + " left\nThe average month selling rate of this item is " + avgSoldInMonth());
         return exProducts;
     }
 
@@ -159,8 +165,10 @@ public class Product {
         LinkedList<Item> newList = new LinkedList<>();
         for (Item it : this.items)
         {
-            if(it.isDamaged())
+            if(it.isDamaged()) {
                 damagedList.add(it);
+                it.getItemDTO().deleteItem();
+            }
             else
                 newList.add(it);
         }
@@ -168,9 +176,11 @@ public class Product {
         return damagedList;
     }
 
-    public void addItem(LocalDate expDate)
+    public Item addItem(LocalDate expDate)
     {
-        items.add(new Item(expDate,getSupplierPrice(),this.productName));
+        Item i = new Item(expDate,getSupplierPrice(),this.productName);
+        items.add(i);
+        return i;
     }
 
     public String toString()
@@ -297,8 +307,10 @@ public class Product {
     {
         for (Item item : items) 
         {
-            if(item.getId() == id)
+            if(item.getId() == id) {
                 item.setDamaged();
+                item.getItemDTO().setDamaged();
+            }
         }
     }
 

@@ -24,16 +24,21 @@ public class Item {
         this.location = "Warehouse";
         this.damaged = false;
         this.boughtPrice = boughtPrice;
-        this.soldPrice = null;
-        this.sellDate = null;
-        this.iDTO = new ItemDTO(id,expData.toString(),location,damaged,boughtPrice,soldPrice,sellDate.toString());
+        this.soldPrice = null; // Assuming soldPrice is initially null
+        this.sellDate = null; // Assuming sellDate is initially null
+
+        String sellDateDto = (sellDate != null) ? sellDate.toString() : null;
+
+        this.iDTO = new ItemDTO(id, expData.toString(), location, damaged, boughtPrice, soldPrice, sellDateDto);
     }
 
     public Item(ItemDTO iDTO, String productName)
     {
         this.id = iDTO.getItemId();
+        if(this.id >= idNum)
+            idNum = id+1;
         this.productName = productName;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.expData = LocalDate.parse(iDTO.getExpDate(),formatter);
         this.location = iDTO.getLocation();
         this.damaged = iDTO.isDamaged();
@@ -56,7 +61,7 @@ public class Item {
                 + "Location: " + this.location + "\n"
                 + "Damaged: " + this.damaged + "\n"
                 + "Bought price: " + this.boughtPrice + "\n"
-                + "Sold price: " + (this.soldPrice == -1 ? "none" : this.soldPrice) + "\n"
+                + "Sold price: " + ((this.soldPrice == null || this.soldPrice == -1) ? "none" : this.soldPrice) + "\n"
                 + "Sell date: " + sellDateString() + "\n";
         return s;
     }

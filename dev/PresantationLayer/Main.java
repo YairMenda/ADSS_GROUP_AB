@@ -12,7 +12,6 @@ public class Main {
     {
          StorageHandler storageHandler = new StorageHandler();
          storageHandler.StorageLoop();
-         System.out.println("debug");
     }
 
 }

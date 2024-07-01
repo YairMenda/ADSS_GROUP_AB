@@ -113,7 +113,9 @@ public class StorageFacade {
             throw new Exception("Cant add 0 or less items");
         while(quantity != 0)
         {
-            p.addItem(expDate);
+            Item i = p.addItem(expDate);
+            i.getItemDTO().insert();
+            productController.addItem(p.getId(),i.getId());
             quantity--;
         }
     }
@@ -171,7 +173,9 @@ public class StorageFacade {
     //return report of items of expired or damaged items
     public ItemReport reportByBadItems(String storageName)
     {
-        return this.storages.get(storageName).reportByBadItems();
+        ItemReport itr = this.storages.get(storageName).reportByBadItems();
+
+        return itr;
     }
 
     // return report of products by specific subCategory

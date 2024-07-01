@@ -27,7 +27,7 @@ public class Discount {
     {
         this.supplierDiscountPrice = ptpDTO.getSupplierPrice();
         this.storageDiscountPrice = ptpDTO.getStoragePrice();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.startDate = ptpDTO.getStartDate() == null ? null : LocalDate.parse(ptpDTO.getStartDate(),formatter);
         this.days = ptpDTO.getDays();
         this.discountPre = ptpDTO.getDiscount();
