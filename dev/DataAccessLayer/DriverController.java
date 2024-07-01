@@ -11,6 +11,10 @@ public class DriverController {
     private String DB_Path= "jdbc:sqlite:"+(Paths.get("").toAbsolutePath()).resolve("Super-Li.db").toString();
 
     private String tableName = "Drivers";
+    private DriverToLicenseController licenseController = new DriverToLicenseController();
+    private DriverToDeliveryController deliveryController =new DriverToDeliveryController();
+    private EmployeeShiftController shiftController = new EmployeeShiftController();
+
 
     private Connection connect()
     {
@@ -32,7 +36,7 @@ public class DriverController {
         while(rs.next()){
             String driverID = rs.getString("driverID");
             String name = rs.getString("name");
-            DriverDTO d = new DriverDTO(driverID,name);
+            DriverDTO d = new DriverDTO(driverID,name,licenseController.select(driverID),shiftController.select(driverID),deliveryController.select(driverID));
             drivers.add(d);
         }
         return drivers;

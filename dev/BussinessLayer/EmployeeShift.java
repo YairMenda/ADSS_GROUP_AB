@@ -9,14 +9,14 @@ import java.util.List;
 
 public class EmployeeShift {
 
-    private int employeeID;
+    private String employeeID;
     private List<LocalDateTime> shiftsDates;
 
     private List<EmployeeShiftDTO> shiftsDTO;
 
     final static int shiftDuration = 8;
 
-    public EmployeeShift(int employeeID,List<LocalDateTime> shiftsDates)
+    public EmployeeShift(String employeeID,List<LocalDateTime> shiftsDates)
     {
         this.employeeID = employeeID;
         this.shiftsDates = shiftsDates;
@@ -36,7 +36,7 @@ public class EmployeeShift {
             shiftsDates.add(es.getShift());
     }
 
-    public int getEmployeeID() {
+    public String getEmployeeID() {
         return employeeID;
     }
 

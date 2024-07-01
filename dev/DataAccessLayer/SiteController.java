@@ -12,6 +12,11 @@ public class SiteController {
 
     private String tableName = "Sites";
 
+    private EmployeeToSiteController empSiteCon;
+
+
+    private EmployeeShiftController employeeShiftController;
+
     private Connection connect()
     {
         Connection conn = null;
@@ -62,25 +67,29 @@ public class SiteController {
             return false;}
         return true;
     }
-//
-//    public List<DeliveryDTO> select()throws Exception{
-//        List<DeliveryDTO> deliveries = new ArrayList<>();
-//        connection = DriverManager.getConnection(DB_Path);
-//        Statement stmt = connection.createStatement();
-//        ResultSet rs = stmt.executeQuery("SELECT * FROM tableName");
-//        while(rs.next()){
-//            int deliveryID = rs.getInt("deliveryID");
-//            int truckNumber = rs.getInt("truckNumber");
-//            double truckWeight = rs.getDouble("truckWeight");
-//            String driverID = rs.getString("driverID");
-//            String Status = rs.getString("deliveryStatus");
-//            LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
-//            LocalDateTime departureTime = rs.getTimestamp("departureTime").toLocalDateTime();
-//            LocalDateTime endTime = rs.getTimestamp("endTime").toLocalDateTime();
-//            DeliveryDTO d = new DeliveryDTO(deliveryID,date,departureTime,truckNumber,truckWeight,driverID,Status,endTime);
-//            deliveries.add(d);
-//        }
-//        return deliveries;
-//    }
+
+    public List<SiteDTO> select()throws Exception{
+        List<SiteDTO> sites = new ArrayList<>();
+        Connection connection = this.connect();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM "+ tableName);
+        while(rs.next()) {
+            int deliveryID = rs.getInt("deliveryID");
+            String address = rs.getString("address");
+            String phoneNumber = rs.getString("phoneNumber");
+            String contactName = rs.getString("contactName");
+            String shippingArea = rs.getString("shippingArea");
+            List<EmployeeShiftDTO> siteShifts = new ArrayList<>();
+            List<EmployeeToSiteDTO> ests = this.empSiteCon.select(address);
+            for (EmployeeToSiteDTO etsDTO: ests ){
+                List<EmployeeShiftDTO> eShifts = this.employeeShiftController.select(etsDTO.getEmployeeID());
+                for (EmployeeShiftDTO s : eShifts){
+                    siteShifts.add(s);
+                }
+            }
+            sites.add(new SiteDTO(address, phoneNumber, contactName, shippingArea, siteShifts));
+        }
+        return sites;
+    }
 
 }

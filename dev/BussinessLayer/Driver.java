@@ -23,7 +23,7 @@ public class Driver {
         this.licenses = licenses;
         this.futureDeliveryDates = new DeliveryDates();
         this.shifts = shifts;
-        this.driverDTO = new DriverDTO(this.id,this.name,this.licenses,this.shifts.getShiftsDTO(),new LinkedList<DriverToDeliveryDTO>());
+        this.driverDTO = new DriverDTO(this.id,this.name,this.licenses,this.shifts.getShiftsDTO());
     }
 
     public Driver(DriverDTO driverDTO,EmployeeShift es,List<Delivery> deliveries)

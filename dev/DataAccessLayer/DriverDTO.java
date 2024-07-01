@@ -15,21 +15,19 @@ public class DriverDTO {
     private List<DriverToDeliveryDTO> deliveries;
     private DriverController controller = new DriverController();
 
-    public DriverDTO(String id,String name, List<String> licenses,List<EmployeeShiftDTO> shifts,List<DriverToDeliveryDTO> deliveries ){
+    public DriverDTO(String id,String name, List<DriverToLicenseDTO> licenses,List<EmployeeShiftDTO> shifts,List<DriverToDeliveryDTO> deliveries ){
         this.id = id;
         this.name = name;
         this.shifts = shifts;
-        this.licenses = new LinkedList<>();
-        for (String s: licenses){
-            this.licenses.add(new DriverToLicenseDTO(id,s));
-        }
+        this.licenses =licenses;
         this.deliveries=deliveries;
     }
-
-    public DriverDTO(String driverID,String name) {
-        this.id= driverID;
-        this.name=name;
-        this.shifts= new LinkedList<>();
+    public DriverDTO(String id,String name, List<String> licenses,List<EmployeeShiftDTO> shifts){
+        this.id = id;
+        this.name = name;
+        this.shifts = shifts;
+        for (String license : licenses)
+            this.licenses.add(new DriverToLicenseDTO(this.id,license));
         this.deliveries=new LinkedList<>();
     }
 

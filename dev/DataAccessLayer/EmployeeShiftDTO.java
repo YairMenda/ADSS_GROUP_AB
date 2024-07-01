@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class EmployeeShiftDTO {
     private LocalDateTime shift;
-    private int employeeID;
+    private String employeeID;
 
-    public EmployeeShiftDTO(int employeeID,LocalDateTime shift)
+    public EmployeeShiftDTO(String employeeID,LocalDateTime shift)
     {
         this.employeeID=employeeID;
         this.shift=shift;
@@ -17,7 +17,7 @@ public class EmployeeShiftDTO {
         return shift;
     }
 
-    public int getEmployeeID() {
+    public String getEmployeeID() {
         return employeeID;
     }
 }

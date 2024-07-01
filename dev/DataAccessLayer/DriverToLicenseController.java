@@ -37,14 +37,14 @@ public class DriverToLicenseController {
         return true;
     }
 
-    public List<String> select(String driverID) throws Exception{
-            List<String> licenses = new ArrayList<>();
+    public List<DriverToLicenseDTO> select(String driverID) throws Exception{
+            List<DriverToLicenseDTO> licenses = new ArrayList<>();
             Connection conn = this.connect();
             PreparedStatement stmt = conn.prepareStatement("SELECT license FROM " +tableName+" WHERE driverID=?");
             stmt.setString(1,driverID);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                licenses.add(rs.getString("license "));
+                licenses.add(new DriverToLicenseDTO(driverID,rs.getString("license")));
             }
             return licenses;
 

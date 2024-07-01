@@ -54,14 +54,14 @@ public class DriverToDeliveryController {
     }
 
 
-    public List<Integer> select(String DriverID) throws Exception{
-        List<Integer> deliveries = new ArrayList<>();
+    public List<DriverToDeliveryDTO> select(String driverID) throws Exception{
+        List<DriverToDeliveryDTO> deliveries = new ArrayList<>();
         Connection conn = this.connect();
         PreparedStatement stmt = conn.prepareStatement("SELECT deliveryNumber FROM "+tableName +" WHERE driverID=?");
-        stmt.setString(1,DriverID);
+        stmt.setString(1,driverID);
         ResultSet rs = stmt.executeQuery();
         while(rs.next()){
-            deliveries.add(rs.getInt("deliveryNumber"));
+            deliveries.add(new DriverToDeliveryDTO(driverID,rs.getInt("deliveryNumber")));
         }
         return deliveries;
     }

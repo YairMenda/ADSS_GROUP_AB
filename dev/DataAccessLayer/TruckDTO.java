@@ -23,6 +23,17 @@ public class TruckDTO {
         this.truckTODelivery=new LinkedList<TruckToDeliveryDTO>();
     }
 
+    public TruckDTO(int licenseNumber,String model,double weightWitoutCargo,double maxWeight,String licenseCategory,List<TruckToDeliveryDTO> td)
+    {
+        this.licenseNumber=licenseNumber;
+        this.model=model;
+        this.weightWitoutCargo=weightWitoutCargo;
+        this.maxWeight=maxWeight;
+        this.licenseCategory=licenseCategory;
+        this.controller=new TruckController();
+        this.truckTODelivery=td;
+    }
+
     public int getLicenseNumber() {
         return licenseNumber;
     }
