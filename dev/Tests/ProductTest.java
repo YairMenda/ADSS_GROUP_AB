@@ -17,7 +17,7 @@ class ProductTest {
     public void init()
     {
         Random r = new Random();
-        //p = new Product("Tea","Drinks","Hot-Drinks",                "Test-Supplier",1.5,10,3);
+        p = new Product("A","Tea","Drinks","Hot-Drinks","Test-Supplier",1.5,10,3,1);
         p.addItem(LocalDate.now().minusDays(r.nextInt(365)));
         p.addItem(LocalDate.now().plusDays(r.nextInt(365)));
         p.addItem(LocalDate.now().plusDays(r.nextInt(365)));

@@ -81,5 +81,19 @@ public class StorageController
         return result;
     }
 
+    public void insert(String storageName)
+    {
+        String sql = "INSERT INTO " + this.storagesTable + " (StorageName) VALUES(?)";
+
+        try (Connection conn = this.connect();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, storageName);
+            pstmt.executeUpdate();
+            System.out.println("Storage inserted successfully.");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }

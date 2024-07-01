@@ -21,8 +21,11 @@ public class StorageFacade {
         this.storages = new HashMap<String,Storage>();
     }
 
-    public boolean addStorage(String storageName)
+    public boolean addStorage(String storageName) throws Exception
     {
+        if(this.storages.get(storageName) != null)
+            throw new Exception("Storage already exist");
+        this.storageController.insert(storageName);
         return this.storages.put(storageName, new Storage(storageName)) == null;
     }
     

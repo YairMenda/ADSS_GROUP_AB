@@ -13,9 +13,9 @@ public class ProductServiceTest {
 
     public ProductServiceTest()
     {
-        this.storageInit = new StorageInit();
+
         this.productService = this.storageInit.getProductService();
-        this.storageInit.init();
+
     }
 
     //add new product test

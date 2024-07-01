@@ -161,7 +161,7 @@ public class ItemController
         {
             Connection conn = this.connect(); //connect to the db
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setBoolean(1, true);
+            pstmt.setInt(1, 1);
             pstmt.setInt(2, itemId);
             result = pstmt.executeUpdate() == 0 ? false : true;
 
