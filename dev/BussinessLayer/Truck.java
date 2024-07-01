@@ -1,4 +1,6 @@
 package BussinessLayer;
+import DataAccessLayer.TruckDTO;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -9,7 +11,7 @@ public class Truck {
     private double maxWeight;
     private String licenseCategory;
     private DeliveryDates futureDeliveryDates;
-
+    private TruckDTO tDTO;
 
 
 
@@ -24,6 +26,20 @@ public Truck(int licenseNumber, String model, double weightWithoutCargo,double m
    }
    this.licenseCategory=licenseCategory;
    this.futureDeliveryDates= new DeliveryDates();
+   this.tDTO=new TruckDTO(this.licenseNumber,this.model,this.weightWithoutCargo,this.maxWeight,this.licenseCategory);
+   this.tDTO.addNewTruck();
+
+}
+
+public Truck(TruckDTO tDTO,List<Delivery> deliveries)
+{
+    this.licenseNumber=tDTO.getLicenseNumber();
+    this.model=tDTO.getModel();
+    this.weightWithoutCargo=tDTO.getWeightWitoutCargo();
+    this.maxWeight= tDTO.getMaxWeight();
+    this.licenseCategory=tDTO.getLicenseCategory();
+    this.tDTO = tDTO;
+    this.futureDeliveryDates = new DeliveryDates(deliveries);
 }
 public int getLicenseNumber(){
     return licenseNumber;
@@ -62,11 +78,13 @@ public void deliveryAcomplishment(int deliveryNumber){
     
 public void addDelivery(Delivery d) throws Exception{
     futureDeliveryDates.addDelivery(d);
+    this.tDTO.addNewDelivery(d.getDeliveryNumber());
 }
 
 public void removeDelivery(int deliveryNumber)
 {
     futureDeliveryDates.removeDelivery(deliveryNumber);
+    this.tDTO.removeDelivery(deliveryNumber);
 }
  
 
@@ -77,4 +95,7 @@ public boolean isAvailableForReplace(Delivery d)
 }
 
 
+    public TruckDTO gettDTO() {
+        return tDTO;
+    }
 }

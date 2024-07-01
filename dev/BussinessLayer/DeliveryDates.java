@@ -12,6 +12,12 @@ public class DeliveryDates {
     public DeliveryDates() {
         this.dates = new HashMap<>();
     }
+    public DeliveryDates(List<Delivery> deliveries)
+    {
+        dates = new HashMap<>();
+        for (Delivery d : deliveries)
+            dates.put(d.getDeliveryNumber(),d);
+    }
 
     public Map<Integer, Delivery> getDates() {
         return dates;

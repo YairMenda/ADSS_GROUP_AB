@@ -1,22 +1,32 @@
 package DataAccessLayer;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DriverToLicenseController {
 
-    private String DB_Path= "need to put the data base address";
+    private String DB_Path= "jdbc:sqlite:"+(Paths.get("").toAbsolutePath()).resolve("Super-Li.db").toString();
 
-    private String tableName = "the name of the table";
+    private String tableName = "DriversToLicenses";
 
-    private Connection connection = null;
-
-
-    public boolean addLicense(DriverToLicenseDTO d){
+    private Connection connect()
+    {
+        Connection conn = null;
         try{
-            //Class.forName("com.mysql.cj.jdbc.Driver");????????
-            connection = DriverManager.getConnection(DB_Path);
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO tableName (driverID, license) VALUES (?, ?)");
+            conn = DriverManager.getConnection(DB_Path);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return conn;
+
+    }
+    public boolean addLicense(DriverToLicenseDTO d){
+        String query = "INSERT INTO "+tableName +" (driverID, license) VALUES (?, ?)";
+        try{
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, d.getId());
             statement.setString(2, d.getLicense());
             statement.executeUpdate();
@@ -29,13 +39,12 @@ public class DriverToLicenseController {
 
     public List<String> select(String driverID) throws Exception{
             List<String> licenses = new ArrayList<>();
-            //Class.forName("com.mysql.cj.jdbc.Driver");???????
-            connection = DriverManager.getConnection(DB_Path);
-            PreparedStatement stmt = connection.prepareStatement("SELECT license FROM tableName WHERE driverID=?");
+            Connection conn = this.connect();
+            PreparedStatement stmt = conn.prepareStatement("SELECT license FROM " +tableName+" WHERE driverID=?");
             stmt.setString(1,driverID);
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                licenses.add(rs.getString("license"));
+                licenses.add(rs.getString("license "));
             }
             return licenses;
 

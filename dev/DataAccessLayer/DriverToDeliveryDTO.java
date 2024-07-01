@@ -15,11 +15,9 @@ public class DriverToDeliveryDTO {
     public boolean add(){
         return controller.add(this);
     }
-
-    public boolean delete(){
-        return controller.delete(this);
+    public boolean remove(){
+        return controller.remove(this);
     }
-
     public String getDriverID() {
         return driverID;
     }

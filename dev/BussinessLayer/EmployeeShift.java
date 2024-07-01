@@ -1,5 +1,7 @@
 package BussinessLayer;
 
+import DataAccessLayer.EmployeeShiftDTO;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -10,12 +12,28 @@ public class EmployeeShift {
     private int employeeID;
     private List<LocalDateTime> shiftsDates;
 
+    private List<EmployeeShiftDTO> shiftsDTO;
+
     final static int shiftDuration = 8;
 
     public EmployeeShift(int employeeID,List<LocalDateTime> shiftsDates)
     {
         this.employeeID = employeeID;
         this.shiftsDates = shiftsDates;
+        this.shiftsDTO=new LinkedList<>();
+        for (LocalDateTime date : this.shiftsDates)
+        {
+            this.shiftsDTO.add(new EmployeeShiftDTO(employeeID,date));
+        }
+    }
+
+    public EmployeeShift(List<EmployeeShiftDTO> shiftsDTO)
+    {
+        this.employeeID=shiftsDTO.getFirst().getEmployeeID();
+        this.shiftsDTO=shiftsDTO;
+        this.shiftsDates = new LinkedList<>();
+        for (EmployeeShiftDTO es : this.shiftsDTO)
+            shiftsDates.add(es.getShift());
     }
 
     public int getEmployeeID() {
@@ -35,5 +53,10 @@ public class EmployeeShift {
                 return true;
         }
         return  false;
+    }
+
+    public List<EmployeeShiftDTO> getShiftsDTO()
+    {
+        return this.shiftsDTO;
     }
 }

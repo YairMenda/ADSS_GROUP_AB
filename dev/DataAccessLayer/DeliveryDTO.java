@@ -18,9 +18,9 @@ public class DeliveryDTO {
 
     private DeliveryController controller;
 
+    private String origin;
 
-    //site origin??????
-    public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, double truckWeight, String driverID, String deliveryStatus, LocalDateTime endTime){
+    public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, double truckWeight, String driverID, String deliveryStatus, LocalDateTime endTime,String origin){
         this.deliveryNumber= deliveryNumber;
         this.date=date;
         this.departureTime= departureTime;
@@ -30,6 +30,7 @@ public class DeliveryDTO {
         this.deliveryStatus = deliveryStatus;
         destinationDocs = new LinkedList<>();
         this.endTime = endTime;
+        this.origin=origin;
         this.controller = new DeliveryController();
     }
 
@@ -39,7 +40,7 @@ public class DeliveryDTO {
         return update();
     }
 
-    public boolean setTruckWeight(int truckWeight){
+    public boolean setTruckWeight(double truckWeight){
         this.truckWeight = truckWeight;
         return update();
     }
@@ -57,8 +58,7 @@ public class DeliveryDTO {
     //need to check if to the function recives DstDoc or DstDocDTO
     public boolean addDstDoc(DstDocDTO ddd){
         destinationDocs.add(ddd);
-        return true;//only for now
-        //return ddd.add();
+        return ddd.add();
 
     }
 
@@ -115,5 +115,17 @@ public class DeliveryDTO {
 
     public java.sql.Timestamp getSQLEndTime(){
         return java.sql.Timestamp.valueOf(endTime);
+    }
+
+    public boolean removeDstDoc(DstDocDTO dstDocDTO)
+    {
+        this.destinationDocs.remove(dstDocDTO);
+        return dstDocDTO.remove();
+
+
+    }
+
+    public String getOrigin() {
+        return origin;
     }
 }

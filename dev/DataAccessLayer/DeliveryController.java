@@ -1,6 +1,7 @@
 package DataAccessLayer;
 import BussinessLayer.Delivery;
 
+import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,20 +9,32 @@ import java.util.List;
 
 public class DeliveryController {
 
-    private String DB_Path= "need to put the data base address";
+    private String DB_Path= "jdbc:sqlite:"+(Paths.get("").toAbsolutePath()).resolve("Super-Li.db").toString();
 
-    private String tableName = "the name of the table";
+    private String tableName = "Deliveries";
 
-    private Connection connection = null;
+    private Connection connect()
+    {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(DB_Path);
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return conn;
 
-
+    }
 
     public boolean add(DeliveryDTO deliveryDTO){
+
+        String query = "INSERT INTO "+ tableName + " (deliveryNumber, date, departureTime, truckNumber,truckWeight,driverID, deliveryStatus,endTime,origin)" +
+                " VALUES (?,?,?,?,?,?,?,?,?)";
+
+
         try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(DB_Path);
-            PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO tableName (deliveryNumber, date, departureTime, truckNumber,truckWeight,driverID, deliveryStatus,endTime) VALUES (?,?,?,?,?,?,?,?)");
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1, deliveryDTO.getDeliveryNumber());
             statement.setTimestamp(2, deliveryDTO.getSQLDate());
             statement.setTimestamp(3, deliveryDTO.getSQLDepartureTime());
@@ -30,8 +43,13 @@ public class DeliveryController {
             statement.setString(6,deliveryDTO.getDriverID());
             statement.setString(7,deliveryDTO.getDeliveryStatus());
             statement.setTimestamp(8,deliveryDTO.getSQLEndTime());
+            statement.setString(9,deliveryDTO.getOrigin());
             statement.executeUpdate();
 
+
+            //ResultSet rs = statement.excuteQuery();
+            //while(rs.next)
+            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
         }catch(Exception e){
             return false;
         }
@@ -39,10 +57,10 @@ public class DeliveryController {
     }
 
     public boolean remove(DeliveryDTO deliveryDTO){
-      try {
-          //Class.forName("com.mysql.cj.jdbc.Driver");???????
-          connection = DriverManager.getConnection(DB_Path);
-          PreparedStatement stmt = connection.prepareStatement("DELETE FROM tableName WHERE deliveryID = ?");
+        String query = "DELETE FROM "+ tableName + " WHERE deliveryID = ?";
+        try {
+          Connection conn = this.connect();
+          PreparedStatement stmt = conn.prepareStatement(query);
           stmt.setInt(1, deliveryDTO.getDeliveryNumber());
           stmt.executeUpdate();
       }catch(Exception e){
@@ -50,19 +68,15 @@ public class DeliveryController {
       return true;
     }
     public boolean update(DeliveryDTO deliveryDTO){
+        String query = "UPDATE tableName SET truckNumber = ?, truckWeight = ?, deliveryStatus = ?, endTime = ? WHERE deliveryNumber = ?";
         try {
-            //Class.forName("com.mysql.cj.jdbc.Driver");????????
-            connection = DriverManager.getConnection(DB_Path);
-            PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE tableName SET date = ?, departureTime = ?,truckNumber = ?, truckWeight = ?, driverID = ?, deliveryStatus = ?, endTime = ?  WHERE deliveryNumber = ?");
-            statement.setTimestamp(1, deliveryDTO.getSQLDate());
-            statement.setTimestamp(2, deliveryDTO.getSQLDepartureTime());
-            statement.setInt(3, deliveryDTO.getTruckNumber());
-            statement.setDouble(4, deliveryDTO.getTruckWeight());
-            statement.setString(5,deliveryDTO.getDriverID());
-            statement.setString(6,deliveryDTO.getDeliveryStatus());
-            statement.setTimestamp(7,deliveryDTO.getSQLEndTime());
-            statement.setInt(8,deliveryDTO.getDeliveryNumber());
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setInt(1, deliveryDTO.getTruckNumber());
+            statement.setDouble(2, deliveryDTO.getTruckWeight());
+            statement.setString(3,deliveryDTO.getDeliveryStatus());
+            statement.setTimestamp(4,deliveryDTO.getSQLEndTime());
+            statement.setInt(5,deliveryDTO.getDeliveryNumber());
             statement.executeUpdate();
         }catch(Exception e){
             return false;}
@@ -71,11 +85,11 @@ public class DeliveryController {
 
     public List<DeliveryDTO> select()throws Exception{
         List<DeliveryDTO> deliveries = new ArrayList<>();
-        connection = DriverManager.getConnection(DB_Path);
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM tableName");
+        Connection conn = this.connect();
+        Statement stmt =  conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM "+tableName);
         while(rs.next()){
-            int deliveryID = rs.getInt("deliveryID");
+            int deliveryID = rs.getInt("deliveryNumber");
             int truckNumber = rs.getInt("truckNumber");
             double truckWeight = rs.getDouble("truckWeight");
             String driverID = rs.getString("driverID");
@@ -83,7 +97,8 @@ public class DeliveryController {
             LocalDateTime date = rs.getTimestamp("date").toLocalDateTime();
             LocalDateTime departureTime = rs.getTimestamp("departureTime").toLocalDateTime();
             LocalDateTime endTime = rs.getTimestamp("endTime").toLocalDateTime();
-            DeliveryDTO d = new DeliveryDTO(deliveryID,date,departureTime,truckNumber,truckWeight,driverID,Status,endTime);
+            String origin = rs.getString("origin");
+            DeliveryDTO d = new DeliveryDTO(deliveryID,date,departureTime,truckNumber,truckWeight,driverID,Status,endTime,origin);
             deliveries.add(d);
         }
         return deliveries;

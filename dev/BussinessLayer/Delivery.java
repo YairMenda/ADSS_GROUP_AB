@@ -1,4 +1,6 @@
 package BussinessLayer;
+import DataAccessLayer.DeliveryDTO;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,6 +19,7 @@ public class Delivery {
     private List<DstDoc> destinationDocs;
 
     private LocalDateTime endTime;
+    private DeliveryDTO deliveryDTO;
 
     public static enum status {waiting,approved,inProgress,complete};
 
@@ -36,6 +39,24 @@ public class Delivery {
         deliveryStatus = status.waiting;
         this.destinationDocs = new LinkedList<DstDoc>();
         this.endTime = depTime;
+        this.deliveryDTO = new DeliveryDTO(this.deliveryNumber,this.date,this.departureTime,this.truckNumber,this.truckWeight
+                ,this.driverID,this.deliveryStatus.toString(),this.endTime,this.origin.getAddress());
+        this.deliveryDTO.add();
+    }
+
+    public Delivery(DeliveryDTO deliveryDTO,Site site,List<DstDoc> destinationDocs)
+    {
+        this.deliveryNumber=deliveryDTO.getDeliveryNumber();
+        this.date=deliveryDTO.getDate();
+        this.departureTime=deliveryDTO.getDepartureTime();
+        this.truckNumber=deliveryDTO.getTruckNumber();
+        this.truckWeight=deliveryDTO.getTruckWeight();
+        this.driverID=deliveryDTO.getDriverID();
+        this.endTime=deliveryDTO.getEndTime();
+        this.deliveryStatus=status.valueOf(deliveryDTO.getDeliveryStatus());
+        this.origin=site;
+        this.destinationDocs=destinationDocs;
+        this.deliveryDTO=deliveryDTO;
     }
      public LocalDateTime getEndTime()
      {
@@ -80,6 +101,7 @@ public class Delivery {
     public void setTruckWeight(double truckWeight) {
         this.truckWeightHistory.add(truckWeight);
         this.truckWeight = truckWeight;
+        this.deliveryDTO.setTruckWeight(truckWeight);
     }
 
     public String getDriverID() {
@@ -123,14 +145,16 @@ public class Delivery {
             throw new Exception("you have to weight the truck before approval");
         if (this.deliveryStatus != status.waiting)
             throw new Exception("this delivery is already approved, inProress, or complete");
-        deliveryStatus = status.approved; 
+        deliveryStatus = status.approved;
+        this.deliveryDTO.setDeliveryStatus(deliveryStatus.toString());
     }
 
     public void inProgressDelivery() throws Exception
     {
         if (this.deliveryStatus!=status.approved)
             throw new Exception("you have to approve the delivery before");
-        deliveryStatus = status.inProgress; 
+        deliveryStatus = status.inProgress;
+        this.deliveryDTO.setDeliveryStatus(deliveryStatus.toString());
     }
 
 
@@ -138,7 +162,8 @@ public class Delivery {
     {
         if (this.deliveryStatus!=status.inProgress)
             throw new Exception("you can't compete an order which is not in progress");   
-        deliveryStatus = status.complete; 
+        deliveryStatus = status.complete;
+        this.deliveryDTO.setDeliveryStatus(deliveryStatus.toString());
     }
 
     public void disapproveDelivery() throws Exception
@@ -147,7 +172,8 @@ public class Delivery {
             throw new Exception("can't disapprove completed delivery");
         }
         deliveryStatus = status.waiting; 
-        truckWeight=-1;
+        setTruckWeight(-1);
+        this.deliveryDTO.setDeliveryStatus(deliveryStatus.toString());
     }
 
     public boolean addDstDoc(DstDoc dd) throws Exception
@@ -171,6 +197,7 @@ public class Delivery {
             this.endTime = dd.getEstimatedArrivalTime().plusMinutes(gapTime);
 
         destinationDocs.add(dd);
+        this.deliveryDTO.addDstDoc(dd.getDstDocDTO());
         return true;
         
     }
@@ -180,12 +207,13 @@ public class Delivery {
             for (DstDoc dd : destinationDocs) {
                 if (dd.getDocNumber()==docNumber){
                     destinationDocs.remove(dd);
+                    this.deliveryDTO.removeDstDoc(dd.getDstDocDTO());
                     if (endTime.equals(dd.getEstimatedArrivalTime().plusMinutes(gapTime)))
                         updateEndTimeAfterDstDocRemove();
                     return true;
-                } 
+
+                }
             }
-            
         }
         return false;
    
@@ -200,14 +228,20 @@ public class Delivery {
                 newEndTime = d.getEstimatedArrivalTime();
         }
 
-        this.endTime = newEndTime.plusMinutes(gapTime);
+        setEndTime(newEndTime.plusMinutes(gapTime));
     }
 
+    public void setEndTime(LocalDateTime endTime)
+    {
+        this.endTime=endTime;
+        this.deliveryDTO.setEndTime(endTime);
+    }
     public boolean remove(Site site) throws Exception{
         if (openToChanges()){
              for(DstDoc dd: destinationDocs){
                  if (dd.getDestination() == site){
                    destinationDocs.remove(dd);
+                   this.deliveryDTO.removeDstDoc(dd.getDstDocDTO());
                    updateEndTimeAfterDstDocRemove();
                 }
              return true;
@@ -255,10 +289,10 @@ public class Delivery {
     }
 
     //replaces the truck and  cancels the last weight
-    public void replaceTruck(int newTruckNumber){
-        this.truckNumber= newTruckNumber;
-        this.truckWeight=-1;
-        this.deliveryStatus= status.waiting;
+    public void replaceTruck(int newTruckNumber) throws Exception{
+        setTruckNumber(newTruckNumber);
+        setTruckWeight(-1);
+        disapproveDelivery();
     }
 
     public boolean depTimeTOEstimatedTime(LocalDateTime estimatedTime)
