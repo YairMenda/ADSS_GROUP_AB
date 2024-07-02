@@ -12,18 +12,20 @@ public class EmployeeShift {
     private String employeeID;
     private List<LocalDateTime> shiftsDates;
 
+    private String site;
     private List<EmployeeShiftDTO> shiftsDTO;
 
     final static int shiftDuration = 8;
 
-    public EmployeeShift(String employeeID,List<LocalDateTime> shiftsDates)
+    public EmployeeShift(String employeeID,List<LocalDateTime> shiftsDates,String address)
     {
         this.employeeID = employeeID;
         this.shiftsDates = shiftsDates;
+        this.site=address;
         this.shiftsDTO=new LinkedList<>();
         for (LocalDateTime date : this.shiftsDates)
         {
-            this.shiftsDTO.add(new EmployeeShiftDTO(employeeID,date));
+            this.shiftsDTO.add(new EmployeeShiftDTO(employeeID,date,address));
         }
     }
 

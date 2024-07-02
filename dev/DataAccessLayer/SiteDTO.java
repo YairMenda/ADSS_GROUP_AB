@@ -9,7 +9,7 @@ public class SiteDTO {
     private String phoneNumber;
     private String contactName;
     private String shippingArea;
-    private List<EmployeeShiftDTO> shifts;
+    private List<EmployeeShiftDTO> employees;
     private SiteController controller;
 
 
@@ -19,7 +19,7 @@ public class SiteDTO {
         this.phoneNumber = phoneNumber;
         this.contactName=contactName;
         this.shippingArea=shippingArea;
-        this.shifts=employees;
+        this.employees=employees;
         this.controller=new SiteController();
     }
     public boolean setPhoneNumber(String phoneNumber)
@@ -65,10 +65,12 @@ public class SiteDTO {
     }
 
     public boolean addSite(){
+        for (EmployeeShiftDTO es : this.employees)
+            es.add();
         return controller.add(this);
     }
     public List<EmployeeShiftDTO> getEmployees() {
-        return shifts;
+        return employees;
     }
 
 }

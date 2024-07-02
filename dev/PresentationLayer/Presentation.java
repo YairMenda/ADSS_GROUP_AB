@@ -8,24 +8,27 @@ import java.util.List;
 import java.util.Scanner;
 
 import BussinessLayer.EmployeeShift;
-import ServiceLayer.DeliveryDatesToSend;
-import ServiceLayer.DeliveryService;
-import ServiceLayer.DeliveryToSend;
-import ServiceLayer.DriverService;
-import ServiceLayer.InitSystem;
-import ServiceLayer.Response;
-import ServiceLayer.SiteService;
-import ServiceLayer.TruckService;
-import ServiceLayer.TruckToSend;
+import ServiceLayer.*;
 
 public class Presentation {
-    InitSystem ios = new InitSystem();
-        DeliveryService deliveryService =  ios.getDeliveryService();
-        DriverService ds = ios.getDs();
-        TruckService ts = ios.getTs();
-        SiteService ss = ios.getSs();
-        Scanner s = new Scanner(System.in);
 
+
+        InitSystem ios;
+        DeliveryService deliveryService;
+        DriverService ds;
+        TruckService ts;
+        SiteService ss;
+        Scanner s;
+
+    public Presentation() throws Exception
+    {
+        ios = new InitSystem();
+        deliveryService =  ios.getDeliveryService();
+        ds = ios.getDs();
+        ts = ios.getTs();
+        ss = ios.getSs();
+        s = new Scanner(System.in);
+    }
     public void runSystem()
     {
     
@@ -251,6 +254,7 @@ public class Presentation {
         System.out.println();
         System.out.println("DRIVER MENU");
         System.out.println();
+            System.out.println("Driver Information  - PRESS 0");
         System.out.println("GET ALL DRIVERS  - PRESS 1");
         System.out.println("GET DRIVERS BY LICENSE  - PRESS 2");
         System.out.println("GET DRIVERS BY LICENSE AND DATE - PRESS 3");
@@ -264,6 +268,9 @@ public class Presentation {
         }while(action.length() == 0 );
 
         switch (action) {
+            case "0":
+                getDriverInfo();
+                break;
             case "1":
                 getAllDrivers();
                 break;
@@ -282,6 +289,28 @@ public class Presentation {
         }
     }
     }
+    public void getDriverInfo()
+    {
+        System.out.print("Enter driver ID - ");
+        String id = "";
+        do{
+            id = s.nextLine();
+        }while(id.length() == 0 );
+
+        System.out.println();
+
+        Response r = ds.getDriver(id);
+
+        if (r.ErrorOccured())
+        {
+            System.out.println(r.errorMessage);
+        }
+        else
+        {
+            DriverToSend  d = (DriverToSend)r.getReturnValue();
+            System.out.println(d.toString());
+        }
+    }
     
     public void siteMenu(){
         boolean exit = false;
@@ -290,12 +319,12 @@ public class Presentation {
         System.out.println();
         System.out.println("SITE MENU");
         System.out.println();
-        System.out.println("FOR ADDING NEW SITE  - PRESS 1");
-        System.out.println("FOR SITE INFORMATION  - PRESS 2");
-        System.out.println("FOR PRINT ALL SITES - PRESS 3");
-        System.out.println("FOR UPDATING PHONE NUMBER OF A SITE - PRESS 4");
-        System.out.println("FOR UPDATING CONTACT NAME OF A SITE - PRESS 5");
-        System.out.println("MAIN MENU  - PRESS 6");
+        //System.out.println("FOR ADDING NEW SITE  - PRESS 1");
+        System.out.println("FOR SITE INFORMATION  - PRESS 1");
+        System.out.println("FOR PRINT ALL SITES - PRESS 2");
+        System.out.println("FOR UPDATING PHONE NUMBER OF A SITE - PRESS 3");
+        System.out.println("FOR UPDATING CONTACT NAME OF A SITE - PRESS 4");
+        System.out.println("MAIN MENU  - PRESS 5");
           
         String action;
         do{
@@ -304,64 +333,61 @@ public class Presentation {
 
         switch (action) {
             case "1":
-                addSite();
-                break;
-            case "2":
                 getSite();
                 break;
-            case "3":
+            case "2":
                 getAllSites();
                 break;
-            case "4":
+            case "3":
                 updateSiteNUM();
                 break;
-            case "5":
+            case "4":
                 updateSiteCON();
                 break;
-            case "6":
+            case "5":
                 exit = true;
                 break;
         }
     }}
 
-    public void addSite(){
-        System.out.print("Enter Address : ");
-        String address;
-        do{  address = s.nextLine();}while(address.length() == 0);
-        System.out.println();
-        System.out.print("Enter Phone Number : ");
-        String phoneNum ;
-        do{ phoneNum = s.nextLine();}while(phoneNum.length() == 0);
-        System.out.println();
-        System.out.print("Enter Contact Name : ");
-        String contactName;
-        do{  contactName = s.nextLine();}while(contactName.length() == 0);
-        System.out.println();
-        String shippingArea;
-        do{   shippingArea = s.nextLine();}while( shippingArea.length() == 0);
-        System.out.println();
-
-        //########
-        List<LocalDateTime> shiftsDates = new LinkedList<>();
-        shiftsDates.add(LocalDateTime.of(2024,8,1,12,0));
-        shiftsDates.add(LocalDateTime.of(2024,9,1,12,0));
-
-        List<EmployeeShift> shifts = new LinkedList<>();
-        EmployeeShift e1 = new EmployeeShift(1,shiftsDates);
-        shifts.add(e1);
-
-        EmployeeShift e2 = new EmployeeShift(2,shiftsDates);
-        shifts.add(e2);
-        //######
-        Response r =ss.addNewSite(address,phoneNum,contactName, shippingArea,shifts);
-        if (r.ErrorOccured())
-        {
-           System.out.println(r.errorMessage);
-        }
-        else{
-            System.out.println("Site "+ address+ " added succsesfully");
-        }
-    }
+//    public void addSite(){
+//        System.out.print("Enter Address : ");
+//        String address;
+//        do{  address = s.nextLine();}while(address.length() == 0);
+//        System.out.println();
+//        System.out.print("Enter Phone Number : ");
+//        String phoneNum ;
+//        do{ phoneNum = s.nextLine();}while(phoneNum.length() == 0);
+//        System.out.println();
+//        System.out.print("Enter Contact Name : ");
+//        String contactName;
+//        do{  contactName = s.nextLine();}while(contactName.length() == 0);
+//        System.out.println();
+//        String shippingArea;
+//        do{   shippingArea = s.nextLine();}while( shippingArea.length() == 0);
+//        System.out.println();
+//
+//        //########
+//        List<LocalDateTime> shiftsDates = new LinkedList<>();
+//        shiftsDates.add(LocalDateTime.of(2024,8,1,12,0));
+//        shiftsDates.add(LocalDateTime.of(2024,9,1,12,0));
+//
+//        List<EmployeeShift> shifts = new LinkedList<>();
+//        EmployeeShift e1 = new EmployeeShift("1",shiftsDates,"Matan");
+//        shifts.add(e1);
+//
+//        EmployeeShift e2 = new EmployeeShift("2",shiftsDates,"Matan");
+//        shifts.add(e2);
+//        //######
+//        Response r =ss.addNewSite(address,phoneNum,contactName, shippingArea,shifts);
+//        if (r.ErrorOccured())
+//        {
+//           System.out.println(r.errorMessage);
+//        }
+//        else{
+//            System.out.println("Site "+ address+ " added succsesfully");
+//        }
+//    }
 
 
 

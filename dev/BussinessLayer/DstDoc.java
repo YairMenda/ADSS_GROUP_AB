@@ -26,7 +26,7 @@ public class DstDoc {
         List< ItemToDstDocDTO> itemsDTO = new LinkedList<>();
         for (int itemNumber : items)
             itemsDTO.add(new ItemToDstDocDTO(this.docNumber,itemNumber));
-        this.dstDocDTO = new DstDocDTO(this.docNumber,this.deliveryNumber,itemsDTO,s.getsDTO(),this.estimatedArrivalTime);
+        this.dstDocDTO = new DstDocDTO(this.docNumber,this.deliveryNumber,itemsDTO,s.getAddress(),this.estimatedArrivalTime);
         this.dstDocDTO.add();
     }
 

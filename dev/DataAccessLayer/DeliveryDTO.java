@@ -13,6 +13,7 @@ public class DeliveryDTO {
     private String driverID;
     private String deliveryStatus;
     private List<DstDocDTO> destinationDocs;
+    private List<DeliveryToWeightDTO> weightHistory;
 
     private LocalDateTime endTime;
 
@@ -31,17 +32,40 @@ public class DeliveryDTO {
         destinationDocs = new LinkedList<>();
         this.endTime = endTime;
         this.origin=origin;
+        this.weightHistory=new LinkedList<DeliveryToWeightDTO>();
         this.controller = new DeliveryController();
     }
 
+    public DeliveryDTO(int deliveryNumber, LocalDateTime date, LocalDateTime departureTime, int truckNumber, double truckWeight,
+                       String driverID, String deliveryStatus, LocalDateTime endTime,String origin,List<DeliveryToWeightDTO> weightHistory){
+        this.deliveryNumber= deliveryNumber;
+        this.date=date;
+        this.departureTime= departureTime;
+        this.truckNumber = truckNumber;
+        this.truckWeight = truckWeight;
+        this.driverID = driverID;
+        this.deliveryStatus = deliveryStatus;
+        destinationDocs = new LinkedList<>();
+        this.endTime = endTime;
+        this.origin=origin;
+        this.weightHistory=weightHistory;
+        this.controller = new DeliveryController();
+    }
 
     public boolean setTruckNumber(int truckNumber) {
         this.truckNumber = truckNumber;
         return update();
     }
+    public void setDestinationDocs(List<DstDocDTO> destinationDocs)
+    {
+        this.destinationDocs=destinationDocs;
+    }
 
     public boolean setTruckWeight(double truckWeight){
         this.truckWeight = truckWeight;
+        DeliveryToWeightDTO dw = new DeliveryToWeightDTO(deliveryNumber,truckWeight);
+        weightHistory.add(dw);
+        dw.add();
         return update();
     }
 
@@ -127,5 +151,10 @@ public class DeliveryDTO {
 
     public String getOrigin() {
         return origin;
+    }
+
+    public List<DeliveryToWeightDTO> getWeightHistory()
+    {
+        return this.weightHistory;
     }
 }

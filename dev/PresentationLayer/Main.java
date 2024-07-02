@@ -22,12 +22,12 @@ public class Main {
         /*ManualTests t = new ManualTests();
         t.runManualTests();*/
 
+        try {
+            Presentation p = new Presentation();
+            p.runSystem();
+        }
+        catch (Exception e){}
 
-
-
-
-        Presentation p = new Presentation();
-        p.runSystem();
 
     }
 

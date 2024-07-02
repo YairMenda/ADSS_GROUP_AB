@@ -56,6 +56,8 @@ public class TruckDTO {
 
     public boolean addNewTruck()
     {
+        for (TruckToDeliveryDTO td : this.truckTODelivery)
+            td.add();
         return controller.add(this);
     }
 

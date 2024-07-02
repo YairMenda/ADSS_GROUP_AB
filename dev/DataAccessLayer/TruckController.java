@@ -38,9 +38,6 @@ public class TruckController {
             statement.setDouble(4, truckDTO.getMaxWeight());
             statement.setString(5, truckDTO.getLicenseCategory());
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
 
         } catch (Exception e) {
             return false;

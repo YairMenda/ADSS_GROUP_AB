@@ -35,10 +35,6 @@ public class TruckToDeliveryController {
             statement.setInt(1,truckToDeliveryDTO.getTruckNumber());
             statement.setInt(2,truckToDeliveryDTO.getDeliveryNumber());
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
-
         }catch(Exception e){
             return false;
         }
@@ -55,10 +51,6 @@ public class TruckToDeliveryController {
             statement.setInt(1,truckToDeliveryDTO.getTruckNumber());
             statement.setInt(2,truckToDeliveryDTO.getDeliveryNumber());
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
-
         }catch(Exception e){
             return false;
         }

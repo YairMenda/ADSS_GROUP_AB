@@ -1,10 +1,10 @@
 package DataAccessLayer;
 
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemToDstDocController {
 
@@ -36,12 +36,6 @@ public class ItemToDstDocController {
             statement.setInt(1,itemToDstDocDTO.getDocNumber());
             statement.setInt(2,itemToDstDocDTO.getItem());
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
-
-            //for (itemsToDstDoc item : dstDocDTO.getItems())
-            //item.add();
 
         }catch(Exception e){
             return false;
@@ -60,5 +54,23 @@ public class ItemToDstDocController {
         }catch(Exception e){
             return false;}
         return true;
+    }
+
+    public List<ItemToDstDocDTO> select(int docNumber) throws Exception
+    {
+        String query = "SELECT * FROM "+tableName + " WHERE docNumber = ?";
+        List<ItemToDstDocDTO> itemsDTOS = new ArrayList<>();
+        Connection conn = this.connect();
+        PreparedStatement stmt =  conn.prepareStatement(query);
+        stmt.setInt(1,docNumber);
+        ResultSet rs = stmt.executeQuery();
+
+        while(rs.next()){
+            int itemNumber = rs.getInt("itemNumber");
+            ItemToDstDocDTO i = new ItemToDstDocDTO(docNumber,itemNumber);
+            itemsDTOS.add(i);
+        }
+        return itemsDTOS;
+
     }
 }

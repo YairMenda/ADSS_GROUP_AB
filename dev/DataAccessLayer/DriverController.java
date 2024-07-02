@@ -1,5 +1,7 @@
 package DataAccessLayer;
 
+import BussinessLayer.Driver;
+
 import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -42,5 +44,22 @@ public class DriverController {
         return drivers;
     }
 
+
+    public boolean add(DriverDTO driverDTO){
+
+        String query = "INSERT INTO "+ tableName + " (driverID, name)" +
+                " VALUES (?,?)";
+        try{
+            Connection conn = this.connect();
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, driverDTO.getId());
+            statement.setString(2,driverDTO.getName());
+            statement.executeUpdate();
+
+        }catch(Exception e){
+            return false;
+        }
+        return true;
+    }
 
 }

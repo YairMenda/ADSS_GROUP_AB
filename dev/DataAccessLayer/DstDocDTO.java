@@ -7,12 +7,12 @@ public class DstDocDTO {
     private int docNumber;
     private int deliveryNumber;
     private List<ItemToDstDocDTO> items;
-    private SiteDTO destination;
+    private String destination;
     private LocalDateTime estimatedArrivalTime;
     private DstDocController controller;
 
 
-    public DstDocDTO(int docNumber, int deliveryNumber, List<ItemToDstDocDTO> items, SiteDTO destination, LocalDateTime estimatedArrivalTime) {
+    public DstDocDTO(int docNumber, int deliveryNumber, List<ItemToDstDocDTO> items, String destination, LocalDateTime estimatedArrivalTime) {
         this.docNumber = docNumber;
         this.deliveryNumber = deliveryNumber;
         this.items = items;
@@ -33,7 +33,7 @@ public class DstDocDTO {
         return items;
     }
 
-    public SiteDTO getDestination() {
+    public String getDestination() {
         return destination;
     }
 

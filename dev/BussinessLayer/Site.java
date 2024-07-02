@@ -4,9 +4,7 @@ import DataAccessLayer.EmployeeShiftDTO;
 import DataAccessLayer.SiteDTO;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 public class Site {
     private String address;
@@ -33,15 +31,27 @@ public class Site {
         this.sDTO.addSite();
     }
 
-    public Site(SiteDTO sDTO)
-    {
-        this.address=sDTO.getAddress();
-        this.phoneNumber= sDTO.getPhoneNumber();
-        this.ContactName=sDTO.getContactName();
-        this.shippingArea=sDTO.getShippingArea();
+    public Site(SiteDTO sDTO) {
+        this.address = sDTO.getAddress();
+        this.phoneNumber = sDTO.getPhoneNumber();
+        this.ContactName = sDTO.getContactName();
+        this.shippingArea = sDTO.getShippingArea();
+        this.shopKeeperShifts = new LinkedList<>();
+        HashMap<String, List<LocalDateTime>> employeeShiftsMap = new HashMap<>();
+        for (EmployeeShiftDTO es : sDTO.getEmployees()) {
+            if (employeeShiftsMap.containsKey(es.getEmployeeID()))
+                employeeShiftsMap.get(es.getEmployeeID()).add(es.getShift());
+            else {
+                List<LocalDateTime> l = new LinkedList<>();
+                l.add(es.getShift());
+                employeeShiftsMap.put(es.getEmployeeID(), l);
+            }
+        }
 
-        //this.shopkeeperShifts
-
+        for (Map.Entry<String,List<LocalDateTime>> entry : employeeShiftsMap.entrySet())
+        {
+            this.shopKeeperShifts.add(new EmployeeShift(entry.getKey(),entry.getValue(),address));
+        }
         this.sDTO=sDTO;
     }
     public boolean isShopKeeperAvailable(LocalDateTime estimatedArrivalTime)

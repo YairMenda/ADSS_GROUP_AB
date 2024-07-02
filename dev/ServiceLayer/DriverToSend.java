@@ -35,4 +35,14 @@ public class DriverToSend {
         this.licenses = licenses;
     }
 
+    public String toString()
+    {
+        String deliveries = "";
+        for (DeliveryToSend d : dates.getDates())
+        {
+            deliveries += "   delivery date - " + d.getDepartureTime();
+        }
+        return "Driver id - " + this.id + " Name - " + this.name + " License " + licenses + "\n" +
+                "Future Deliveries - " + deliveries;
+    }
 }

@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SiteController {
@@ -12,10 +13,7 @@ public class SiteController {
 
     private String tableName = "Sites";
 
-    private EmployeeToSiteController empSiteCon;
-
-
-    private EmployeeShiftController employeeShiftController;
+    private EmployeeShiftController employeeShiftController = new EmployeeShiftController();
 
     private Connection connect()
     {
@@ -43,9 +41,6 @@ public class SiteController {
             statement.setString(3,siteDTO.getContactName());
             statement.setString(4,siteDTO.getShippingArea());
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
 
         }catch(Exception e){
             return false;
@@ -63,6 +58,7 @@ public class SiteController {
             statement.setString(3,siteDTO.getShippingArea());
             statement.setString(4, siteDTO.getAddress());
             statement.executeUpdate();
+
         }catch(Exception e){
             return false;}
         return true;
@@ -74,19 +70,15 @@ public class SiteController {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM "+ tableName);
         while(rs.next()) {
-            int deliveryID = rs.getInt("deliveryID");
             String address = rs.getString("address");
             String phoneNumber = rs.getString("phoneNumber");
             String contactName = rs.getString("contactName");
             String shippingArea = rs.getString("shippingArea");
             List<EmployeeShiftDTO> siteShifts = new ArrayList<>();
-            List<EmployeeToSiteDTO> ests = this.empSiteCon.select(address);
-            for (EmployeeToSiteDTO etsDTO: ests ){
-                List<EmployeeShiftDTO> eShifts = this.employeeShiftController.select(etsDTO.getEmployeeID());
-                for (EmployeeShiftDTO s : eShifts){
+            List<EmployeeShiftDTO> eShifts = this.employeeShiftController.selectByaddress(address);
+            for (EmployeeShiftDTO s : eShifts){
                     siteShifts.add(s);
                 }
-            }
             sites.add(new SiteDTO(address, phoneNumber, contactName, shippingArea, siteShifts));
         }
         return sites;

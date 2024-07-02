@@ -9,6 +9,7 @@ public class DriverToDeliveryDTO {
     public DriverToDeliveryDTO(String driverID, int deliveryNumber){
         this.driverID = driverID;
         this.deliveryNumber = deliveryNumber;
+        this.controller=new DriverToDeliveryController();
     }
 
 

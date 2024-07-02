@@ -39,8 +39,16 @@ public class DriverService {
         }
         
     }
+    public Response getDriver(String id) {
+        try {
+            Driver driver = df.getDriverByID(id);
+            return new Response(new DriverToSend(driver), null);
+        } catch (Exception e) {
+            return new Response(null, e.getMessage());
+        }
+    }
 
-    //returns response with list of driversID, or error message if error occurs
+        //returns response with list of driversID, or error message if error occurs
     public Response getDriversByLicense(String license){
         try{
             List<Driver> drivers = df.getDriversByLicense(license);

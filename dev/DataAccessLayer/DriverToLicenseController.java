@@ -8,7 +8,7 @@ public class DriverToLicenseController {
 
     private String DB_Path= "jdbc:sqlite:"+(Paths.get("").toAbsolutePath()).resolve("Super-Li.db").toString();
 
-    private String tableName = "DriversToLicenses";
+    private String tableName = "DriverToLicenses";
 
     private Connection connect()
     {
@@ -30,7 +30,6 @@ public class DriverToLicenseController {
             statement.setString(1, d.getId());
             statement.setString(2, d.getLicense());
             statement.executeUpdate();
-
         }catch(Exception e){
             return false;
         }

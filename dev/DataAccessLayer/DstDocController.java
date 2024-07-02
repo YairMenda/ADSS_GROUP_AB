@@ -1,17 +1,17 @@
 package DataAccessLayer;
 
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DstDocController {
 
     private String DB_Path= "jdbc:sqlite:"+(Paths.get("").toAbsolutePath()).resolve("Super-Li.db").toString();
 
     private String tableName = "DstDocs";
-
+    private ItemToDstDocController controller= new ItemToDstDocController();
     private Connection connect()
     {
         Connection conn = null;
@@ -35,18 +35,10 @@ public class DstDocController {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setInt(1,dstDocDTO.getDocNumber());
             statement.setInt(2,dstDocDTO.getDeliveryNumber());
-            statement.setString(3,dstDocDTO.getDestination().getAddress());
-
-            //statement.setDate(4,dstDocDTO.getEstimatedArrivalTime());
+            statement.setString(3,dstDocDTO.getDestination());
+            statement.setString(4,dstDocDTO.getEstimatedArrivalTime().toString());
 
             statement.executeUpdate();
-            //ResultSet rs = statement.excuteQuery();
-            //while(rs.next)
-            //{rs.getDeliveryId RESULT = NEW PRICETOPRODUCT}
-
-            //for (itemsToDstDoc item : dstDocDTO.getItems())
-            //item.add();
-
         }catch(Exception e){
             return false;
         }
@@ -63,5 +55,21 @@ public class DstDocController {
         }catch(Exception e){
             return false;}
         return true;
+    }
+
+    public List<DstDocDTO> select()throws Exception{
+        List<DstDocDTO> dstDocs = new ArrayList<>();
+        Connection connection = this.connect();
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM "+ tableName);
+        while(rs.next()) {
+            int docNumber = rs.getInt("docNumber");
+            int deliveryNumber = rs.getInt("deliveryNumber");
+            String address = rs.getString("siteAddress");
+            LocalDateTime estimatedArrivalTime = LocalDateTime.parse(rs.getString("estimatedArrivalTime"));
+            List<ItemToDstDocDTO> items = controller.select(docNumber);
+            dstDocs.add(new DstDocDTO(docNumber,deliveryNumber, items ,address, estimatedArrivalTime));
+        }
+        return dstDocs;
     }
 }

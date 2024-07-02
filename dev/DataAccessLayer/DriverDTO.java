@@ -26,6 +26,7 @@ public class DriverDTO {
         this.id = id;
         this.name = name;
         this.shifts = shifts;
+        this.licenses=new LinkedList<>();
         for (String license : licenses)
             this.licenses.add(new DriverToLicenseDTO(this.id,license));
         this.deliveries=new LinkedList<>();
@@ -68,4 +69,26 @@ public class DriverDTO {
         return false;
     }
 
+    public boolean add()
+    {
+        for (DriverToDeliveryDTO dd : this.deliveries) {
+            dd.add();
+            }
+        for (DriverToLicenseDTO dt : this.licenses) {
+            dt.addLicense();
+        }
+        for (EmployeeShiftDTO es : this.shifts) {
+            es.add();
+        }
+        return this.controller.add(this);
+    }
+
+    public List<EmployeeShiftDTO> getShifts()
+    {
+        return this.shifts;
+    }
+    public List<DriverToDeliveryDTO> getDeliveries()
+    {
+        return this.deliveries;
+    }
 }

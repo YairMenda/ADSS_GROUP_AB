@@ -42,11 +42,12 @@ public class DriverToDeliveryController {
 
         String query = "DELETE FROM " +tableName+ " WHERE driverID = ? AND deliveryNumber = ?";
         try {
-            Connection connection = this.connect();
-            PreparedStatement stmt = connection.prepareStatement(query);
+            Connection conn = this.connect();
+            PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, dtd.getDriverID());
             stmt.setInt(2, dtd.getDeliveryNumber());
             stmt.executeUpdate();
+
         } catch (Exception e) {
             return false;
         }

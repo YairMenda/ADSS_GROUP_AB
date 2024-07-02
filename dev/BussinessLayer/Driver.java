@@ -2,7 +2,7 @@ package BussinessLayer;
 import DataAccessLayer.DriverDTO;
 import DataAccessLayer.DriverToDeliveryDTO;
 import DataAccessLayer.DriverToLicenseDTO;
-
+import DataAccessLayer.EmployeeShiftDTO;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,16 +24,24 @@ public class Driver {
         this.futureDeliveryDates = new DeliveryDates();
         this.shifts = shifts;
         this.driverDTO = new DriverDTO(this.id,this.name,this.licenses,this.shifts.getShiftsDTO());
+        this.driverDTO.add();
     }
 
-    public Driver(DriverDTO driverDTO,EmployeeShift es,List<Delivery> deliveries)
+    public Driver(DriverDTO driverDTO,List<Delivery> deliveries)
     {
         this.id=driverDTO.getId();
         this.name=driverDTO.getName();
         this.licenses = new LinkedList<>();
         for (DriverToLicenseDTO dl : driverDTO.getLicenses())
             this.licenses.add(dl.getLicense());
-        this.shifts=es;
+        List<LocalDateTime> shiftDates = new LinkedList<>();
+        String address = "";
+        for (EmployeeShiftDTO es : driverDTO.getShifts())
+        {
+            shiftDates.add(es.getShift());
+            address = es.getSite();
+        }
+        this.shifts= new EmployeeShift(id,shiftDates,address);
         this.futureDeliveryDates = new DeliveryDates(deliveries);
         this.driverDTO=driverDTO;
     }

@@ -1,5 +1,6 @@
 package BussinessLayer;
 import DataAccessLayer.DeliveryDTO;
+import DataAccessLayer.DeliveryToWeightDTO;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -56,6 +57,9 @@ public class Delivery {
         this.deliveryStatus=status.valueOf(deliveryDTO.getDeliveryStatus());
         this.origin=site;
         this.destinationDocs=destinationDocs;
+        this.truckWeightHistory = new LinkedList<>();
+        for (DeliveryToWeightDTO dw : deliveryDTO.getWeightHistory())
+            this.truckWeightHistory.add(dw.getTruckWeight());
         this.deliveryDTO=deliveryDTO;
     }
      public LocalDateTime getEndTime()
@@ -98,7 +102,9 @@ public class Delivery {
         return truckWeight;
     }
 
-    public void setTruckWeight(double truckWeight) {
+    public void setTruckWeight(double truckWeight) throws Exception{
+        if (this.destinationDocs.size()==0)
+            throw new Exception("You cant weight a truck without destination docs");
         this.truckWeightHistory.add(truckWeight);
         this.truckWeight = truckWeight;
         this.deliveryDTO.setTruckWeight(truckWeight);
@@ -141,6 +147,8 @@ public class Delivery {
 
     public void approveDelivery() throws Exception
     {
+        if (this.destinationDocs.size()==0)
+            throw new Exception("You cant approve a delivery without destination docs");
         if (this.truckWeight==-1)
             throw new Exception("you have to weight the truck before approval");
         if (this.deliveryStatus != status.waiting)

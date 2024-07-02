@@ -1,34 +1,109 @@
 package BussinessLayer;
 import java.io.EOFException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import BussinessLayer.Delivery.status;
+import DataAccessLayer.*;
 
 
 public class DeliveryFacade {
 
 private Map<Integer , Delivery> deliveries;
-private TruckFacade tf;
-private DriverFacade df;
-private SiteFacade sf;
+public TruckFacade tf;
+public DriverFacade df;
+public SiteFacade sf;
 private Integer currentID;
 private Integer currentDocNumber;
 
-public DeliveryFacade(TruckFacade tf , DriverFacade df, SiteFacade sf)
+public DeliveryFacade() throws Exception
 {
-    this.deliveries = new HashMap<>();
-    this.tf = tf;
-    this.df = df;
-    this.sf = sf;
-    this.currentID = 0;
-    this.currentDocNumber = 0 ;
+    LoadData();
 }
 
+public void LoadData() throws Exception
+{
+    this.deliveries = new HashMap<>();
+    this.currentID = 0;
+    this.currentDocNumber = 1;
 
+
+    //build order : site -> dstdoc -> deliveries -> truck - > driver
+    SiteController siteController = new SiteController();
+    List<SiteDTO> siteDTOS = siteController.select();
+    HashMap<String ,Site> addressToSites = new HashMap<>();
+    for (SiteDTO sd : siteDTOS)
+    {
+        addressToSites.put(sd.getAddress(),new Site(sd));
+    }
+
+    this.sf = new SiteFacade(addressToSites.values().stream().toList());
+    DstDocController dstDocController = new DstDocController();
+    List<DstDocDTO> dstDocDTOS = dstDocController.select();
+
+    List<DstDoc> dstDocs = new LinkedList<>();
+    for (DstDocDTO dstDTO : dstDocDTOS)
+        dstDocs.add(new DstDoc(dstDTO,addressToSites.get(dstDTO.getDestination())));
+
+    DeliveryController deliveryController = new DeliveryController();
+    List<DeliveryDTO> deliveryDTOS = deliveryController.select();
+    for (DeliveryDTO dto : deliveryDTOS){
+        List<DstDoc> ldd = new LinkedList<>();
+        List<DstDocDTO> lddDTOS = new LinkedList<>();
+        for(DstDoc d : dstDocs)
+        {
+            if (d.getDeliveryNumber() == dto.getDeliveryNumber()) {
+                ldd.add(d);
+                lddDTOS.add(d.getDstDocDTO());
+            }
+            if (d.getDocNumber() > this.currentDocNumber)
+                this.currentDocNumber = d.getDocNumber();
+        }
+        this.deliveries.put(dto.getDeliveryNumber(),new Delivery(dto,addressToSites.get(dto.getOrigin()),ldd));
+        if (dto.getDeliveryNumber() > this.currentID)
+            this.currentID = dto.getDeliveryNumber() + 1;
+        dto.setDestinationDocs(lddDTOS);
+    }
+
+
+
+    TruckController truckController = new TruckController();
+    List<TruckDTO> truckDTOS = truckController.select();
+    List<Truck> trucks = new LinkedList<>();
+    for (TruckDTO tdto : truckDTOS)
+    {
+        List<Delivery> truckDeliveris = new LinkedList<>();
+        for(TruckToDeliveryDTO tdd : tdto.getTruckTODelivery())
+        {
+            truckDeliveris.add(this.deliveries.get(tdd.getDeliveryNumber()));
+        }
+
+        trucks.add(new Truck(tdto,truckDeliveris));
+    }
+
+    this.tf = new TruckFacade(trucks);
+
+
+    DriverController driverController = new DriverController();
+    List<DriverDTO> driverDTOS = driverController.select();
+    List<Driver> drivers = new LinkedList<>();
+    for (DriverDTO dto: driverDTOS)
+    {
+        List<Delivery> driverDeliveries = new LinkedList<>();
+        for(DriverToDeliveryDTO dtd : dto.getDeliveries())
+        {
+            driverDeliveries.add(this.deliveries.get(dtd.getDeliveryNumber()));
+        }
+
+        drivers.add(new Driver(dto,driverDeliveries));
+    }
+
+    this.df = new DriverFacade(drivers);
+
+
+
+
+}
     /// <summary>
     /// the method adds new delivery to the system
     /// </summary>
@@ -259,4 +334,5 @@ public void validEstimatedTime(int deliveryNumber, String driverID,int truckNumb
           throw new Exception("The new estimated time collides with a different delivery of the driver : " + driverID);
 
 }
+
 }
