@@ -38,7 +38,7 @@ public class DeliveryDates {
 
     public boolean isAvailableByNewDelivery(LocalDateTime dateToCheck) {
         for (Delivery d : dates.values()) {
-            if ((dateToCheck.isAfter(d.getDepartureTime()) && dateToCheck.isBefore(d.getEndTime())))
+            if ((dateToCheck.isAfter(d.getDepartureTime()) && dateToCheck.isBefore(d.getEndTime())) || dateToCheck.equals(d.getDepartureTime()))
                 return false;
         }
         return true;

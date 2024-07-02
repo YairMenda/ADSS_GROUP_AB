@@ -20,7 +20,7 @@ public class TruckTests {
     }
 
     @Test
-    public void aviableTest(){
+    public void aviableTest1(){
         LocalDateTime date = LocalDateTime.of(2024, 12,12,3,30);
         try{
             Delivery newDel = new Delivery(1,date,date, 1,"1",new Site("","","",",",new ArrayList<>()));
@@ -28,6 +28,29 @@ public class TruckTests {
         catch(Exception c){}
         Assertions.assertEquals(t1.isAvailableByDelivery(date),false);
     }
+
+    @Test
+    public void aviableTest2(){
+        LocalDateTime date = LocalDateTime.of(2024, 12,12,3,30);
+        try{
+            t1.removeDelivery(1);
+        }
+        catch(Exception c){}
+        Assertions.assertEquals(t1.isAvailableByDelivery(date),true);
+    }
+
+    @Test
+    public void deliveryAccomplish(){
+        LocalDateTime date = LocalDateTime.of(2024, 12,12,3,30);
+        try{
+            Delivery newDel = new Delivery(1,date,date, 1,"1",new Site("","","",",",new ArrayList<>()));
+            t1.addDelivery(newDel);
+            t1.deliveryAcomplishment(1);
+        }
+        catch(Exception c){}
+        Assertions.assertEquals(t1.isAvailableByDelivery(date),true);
+    }
+
 
 
 }

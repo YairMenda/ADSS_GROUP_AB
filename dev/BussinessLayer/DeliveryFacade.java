@@ -21,6 +21,15 @@ public DeliveryFacade() throws Exception
     LoadData();
 }
 
+public DeliveryFacade(TruckFacade tf, DriverFacade df, SiteFacade sf){
+    this.sf =sf;
+    this.df = df;
+    this.tf = tf;
+    this.currentID = 0;
+    this.currentDocNumber=1;
+    this.deliveries = new HashMap<>();
+}
+
 public void LoadData() throws Exception
 {
     this.deliveries = new HashMap<>();

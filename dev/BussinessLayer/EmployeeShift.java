@@ -31,7 +31,7 @@ public class EmployeeShift {
 
     public EmployeeShift(List<EmployeeShiftDTO> shiftsDTO)
     {
-        this.employeeID=shiftsDTO.getFirst().getEmployeeID();
+        this.employeeID=shiftsDTO.get(0).getEmployeeID();
         this.shiftsDTO=shiftsDTO;
         this.shiftsDates = new LinkedList<>();
         for (EmployeeShiftDTO es : this.shiftsDTO)

@@ -55,14 +55,7 @@ public class SiteDTO {
     }
 
 
-    public List<LocalDateTime> getAllShifts(){
-        List<LocalDateTime> shifts = new LinkedList<>();
-        for(EmployeeShiftDTO es : this.getEmployees())
-        {
-            shifts.add(es.getShift());
-        }
-        return shifts;
-    }
+    
 
     public boolean addSite(){
         for (EmployeeShiftDTO es : this.employees)

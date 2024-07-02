@@ -19,16 +19,18 @@ public class Main {
     {
 
         //manual tests
-        /*ManualTests t = new ManualTests();
-        t.runManualTests();*/
+//        try{
+//        ManualTests t = new ManualTests();
+//        t.runManualTests();}
+//        catch (Exception e){}
 
         try {
             Presentation p = new Presentation();
             p.runSystem();
         }
-        catch (Exception e){}
-
-
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
