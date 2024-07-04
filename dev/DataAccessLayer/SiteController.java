@@ -65,6 +65,7 @@ public class SiteController {
     }
 
     public List<SiteDTO> select()throws Exception{
+        System.out.println(DB_Path);
         List<SiteDTO> sites = new ArrayList<>();
         Connection connection = this.connect();
         Statement stmt = connection.createStatement();
