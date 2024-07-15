@@ -1,0 +1,96 @@
+User Instructions
+Group AB - Deliveries & Storage
+ID 207273558
+ID 206061319
+ID 322274259
+ID 207764374
+
+Welcome to Super Li SYSTEM!
+
+
+The initial data:
+Deliveries - 
+
+#Data that initialized automatically when the software starts.
+- Drivers ((DriverID : 1 ,driverName: omer, licences : {“a” , “b”}, (DriverID : 2 ,driverName:
+roi, licences : {“a “, “b”},)
+- Trucks ((licenseNumber : 1 , model “A”, weightWithoutCargo: 10.0 ,maxWeight: 20.0
+category:“a “)((licenseNumber : 2,model: “S” , weightWithoutCargo : 10.0, maxWeight :
+20.0 category : “b “))
+– Sites ((address : “Matan” , phoneNumber : “0300301212”, contactName : “yair”,
+shippingArea : “south” ) ( address : “Ness Ziona” , phoneNumber : “0355501212”,
+contactName : “omer”, shippingArea : “south” ))
+-Deliveries (Number:1,departureTime: 2024-08-01T12:00,
+truckNumber:1,truckWeight:17,driverID:1, delivery Status:approved, endTime: 2024-08-01T12:00
+Origin: Matan)
+-Employee shifts ((1, 2024-08-01T12:00)(1, 2024-09-01T12:00) (2, 2024-08-01T12:00)
+(2, 2024-09-01T12:00))
+-Destination
+Documents(docNumber:1,deliveryNumber:1,SiteAddress:Matan,EstimatedArrivalTime:
+2024-08-01T14:00)
+
+
+Storage-
+
+Storages: Matan          Categories: Snacks         Sub-Categories: Snacks - Chocolates		Products : Chocolates - Milk Chocolate
+	  		         Drinks				Snacks - Salties			   Chocolates - Dark Chocolate
+	    		         Pharmacy			Drinks - Alchohol                          Chocolates - White Chocolate
+	                         Toys				Drinks - Soft-Drinks			   Salties - Salted Chips
+								Pharmacy - Shower		           Salties - Pretzels
+								Pharmacy - Pills			   Salties - Popcorn
+								Toys - Lego				   Soft-Drinks - Beer
+													   Soft-Drinks - Wine
+													   Soft-Drinks - Whiskey
+													   Shower - Coke
+													   Shower- Sprite
+													   Shower - Fanta
+													   Pills - Shampoo
+													   Pills - Body Wash
+													   Pills - Conditioner
+													   Lego - Lego City
+													   Lego - Lego Friends
+													   Lego - Lego Technic
+
+Every products also have some items, some of them are expired and the rest are still standing the dates
+With this project you can easily manage a full system of storages or stores.
+
+Main Menu & User flow of use : 
+
+ Our user interface is via terminal text commands. Type your chase and press enter,
+follow the basic instructions given by the software while using the software.
+
+ As a user you have the option to do a vast number of functions in multiple sections. In
+
+our main menu – you can choose the specific section.
+1. Trucks 2. Drivers 3.Sites 4.Deliveries 5.Exit
+
+In every sub menu you always have the option to return to the main menu by choosing
+the last functions suggested.
+You can choose to use the default data given by the software or add data by your own.
+
+#The user is responsible for the input.
+
+
+Delivery Flow
+First of all, you must have both truck and driver available at the requested date(There
+are specific functions within the driver and trucks menu for this purpose – a match
+between the truck’s category to the driver’s license is needed, You can also ask for
+driver the match both date availability and license).
+ In addition, origin site must be exist in the system before using it within a delivery.
+After you assert the basic entities or choose to use the default entities given, you can
+start the delivery process.
+ After creating the delivery you can manage The following :
+- Truck : - weight the truck, replace the truck etc
+- Destination docs – Add & remove Destination documents, remove products, get
+destination doc by categories.
+- Destinations – removing destination(as a result, removing the destination docs related
+to).
+- Delivery – Status control (waiting, approved,complete,in progress), get delivery
+information Add & remove Deliveries.
+-Driver – Get driver information by Category
+ # Note that You must weight the truck(and it should be in the valid range) before
+changing the delivery’s status, and that delivery must contain one document. 
+
+
+Enjoy using our system!
+	

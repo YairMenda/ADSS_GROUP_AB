@@ -188,9 +188,9 @@ public Delivery getDelivery(int deliveryNumber) throws Exception
     /// <returns>the new document, throws exception if fails</returns>
 public DstDoc addDstDoc(int deliveryNumber, List<Integer> items ,String address,LocalDateTime estimatedArrivalTime ) throws Exception
 {
+        this.currentDocNumber++;
         DstDoc dd = new DstDoc(currentDocNumber, deliveryNumber, items, sf.getSite(address), estimatedArrivalTime);
         validEstimatedTime(deliveryNumber,getDelivery(deliveryNumber).getDriverID(),getDelivery(deliveryNumber).getTruckNumber(), estimatedArrivalTime);
-        this.currentDocNumber++;
         getDelivery(deliveryNumber).addDstDoc(dd);
         return dd;
 }

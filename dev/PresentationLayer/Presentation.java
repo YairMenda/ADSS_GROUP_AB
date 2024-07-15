@@ -7,8 +7,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import BussinessLayer.StorageFacade;
+import ServiceLayer.ProductService;
 import BussinessLayer.EmployeeShift;
 import ServiceLayer.*;
+
+import javax.xml.crypto.Data;
 
 public class Presentation {
 
@@ -18,6 +22,11 @@ public class Presentation {
         DriverService ds;
         TruckService ts;
         SiteService ss;
+
+        DataService storageDataService;
+
+        ProductService ps;
+
         Scanner s;
 
     public Presentation() throws Exception
@@ -27,7 +36,11 @@ public class Presentation {
         ds = ios.getDs();
         ts = ios.getTs();
         ss = ios.getSs();
+        StorageFacade sf = new StorageFacade();
+        this.ps = new ProductService(sf);
+        this.storageDataService = new DataService(sf);
         s = new Scanner(System.in);
+
     }
     public void runSystem()
     {
@@ -971,8 +984,7 @@ public class Presentation {
         }
     }
 
-    public void addDstDoc()
-    {
+    public void addDstDoc() {
         System.out.print("Enter delivery number - ");
         int dNum = s.nextInt();
         System.out.println();
@@ -980,10 +992,10 @@ public class Presentation {
         String address;
 
 
-        do{
+        do {
             address = s.nextLine();
-        }while(address.length() == 0);
-        
+        } while (address.length() == 0);
+
         System.out.println();
         System.out.println("Estimated Arrival Time : ");
         System.out.print("Enter specific year - ");
@@ -1007,37 +1019,58 @@ public class Presentation {
         System.out.println();
 
         int itemNumber = 0;
-        String input;
+        String input="";
         List<Integer> items = new LinkedList<Integer>();
-        
-        do
-        {
+
+        do {
             System.out.print("Enter Item number - ");
             itemNumber = s.nextInt();
             ///// Integration
             //check item availability
-            items.add(itemNumber);
-            //remove item from storage
+            storageDataService.LoadData();
 
-            System.out.print("You want to enter another item ? yes / no - ");
-            do{
-                input = s.nextLine();
-            }while(input.length() == 0);
+            Response re = deliveryService.getSiteName(dNum);
+            String storageName = "";
+            if (re.ErrorOccured()) {
+                System.out.println(re.errorMessage);
 
+            } else {
+                storageName = re.returnValue.toString();
+
+                if (ps.getProduct(storageName, itemNumber) == null)
+                    System.out.println("Product wasn't found");
+
+                else {
+
+                    Response r = ps.sellItem(storageName, itemNumber);
+                    if (r.ErrorOccured())
+                        System.out.println(r.getErrorMessage());
+                    else
+                        items.add(itemNumber);
+
+                }
+                System.out.print("You want to enter another item ? yes / no - ");
+                do {
+                    input = s.nextLine();
+                } while (input.length() == 0);
+
+
+            }
         }
-        while (!input.equals("no"));
+            while (!input.equals("no")) ;
 
-        Response r = deliveryService.addDestinationDoc(dNum,items,address,LocalDateTime.of(year,month,day,hour,min));
+                    Response r = deliveryService.addDestinationDoc(dNum, items, address, LocalDateTime.of(year, month, day, hour, min));
 
-        if (r.ErrorOccured())
-        {
-           System.out.println(r.errorMessage);
-        }
-        else
-        {
-            System.out.println("Document number - " + r.getReturnValue() + " Added successfully");
-        }
-    }
+                    if (r.ErrorOccured()) {
+                        System.out.println(r.errorMessage);
+                    } else {
+                        System.out.println("Document number - " + r.getReturnValue() + " Added successfully");
+                    }
+
+
+            }
+
+
 
     public void removeDstDoc()
     {

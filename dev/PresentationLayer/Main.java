@@ -5,11 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import BussinessLayer.Truck;
-import ServiceLayer.DeliveryService;
-import ServiceLayer.DriverService;
-import ServiceLayer.InitSystem;
-import ServiceLayer.SiteService;
-import ServiceLayer.TruckService;
+import ServiceLayer.*;
 import Tests.ManualTests;
 
 public class Main {
@@ -54,8 +50,10 @@ public class Main {
 
                 case "2":
                     try {
-                        Presentation p = new Presentation();
-                        p.runSystem();
+                        StorageHandler sh = new StorageHandler();
+                        StorageInit si = new StorageInit();
+                        si.init();
+                        sh.StorageLoop();
                     }
                     catch (Exception e){
                         e.printStackTrace();

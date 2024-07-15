@@ -177,6 +177,17 @@ public class DeliveryService {
         }    
     }
 
+    public Response getSiteName(int deliveryNum){
+        try
+        {
+            String s = df.getDelivery(deliveryNum).getSite().getAddress();
+            return new Response(s, null);
+        }
+        catch(Exception e)
+        {
+            return new Response(null, e.getMessage());
+        }
+    }
     //returns response with deliveryNumber, or error message if error occurs
     public Response inProgressDelivery(int deliveryNum){
         try

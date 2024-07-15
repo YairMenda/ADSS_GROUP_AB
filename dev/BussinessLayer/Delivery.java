@@ -101,6 +101,9 @@ public class Delivery {
     public double getTruckWeight() {
         return truckWeight;
     }
+    public Site getSite() {
+        return origin;
+    }
 
     public void setTruckWeight(double truckWeight) throws Exception{
         if (this.destinationDocs.size()==0)
@@ -204,7 +207,7 @@ public class Delivery {
         if (dd.getEstimatedArrivalTime().isAfter(endTime))
             this.endTime = dd.getEstimatedArrivalTime().plusMinutes(gapTime);
 
-        dd.getDstDocDTO().add();
+        //dd.getDstDocDTO().add();
         destinationDocs.add(dd);
         this.deliveryDTO.addDstDoc(dd.getDstDocDTO());
         return true;

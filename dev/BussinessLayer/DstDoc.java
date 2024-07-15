@@ -27,7 +27,7 @@ public class DstDoc {
         for (int itemNumber : items)
             itemsDTO.add(new ItemToDstDocDTO(this.docNumber,itemNumber));
         this.dstDocDTO = new DstDocDTO(this.docNumber,this.deliveryNumber,itemsDTO,s.getAddress(),this.estimatedArrivalTime);
-        this.dstDocDTO.add();
+        //this.dstDocDTO.add();
     }
 
     public DstDoc(DstDocDTO dstDocDTO,Site site)
