@@ -204,6 +204,7 @@ public class Delivery {
         if (dd.getEstimatedArrivalTime().isAfter(endTime))
             this.endTime = dd.getEstimatedArrivalTime().plusMinutes(gapTime);
 
+        dd.getDstDocDTO().add();
         destinationDocs.add(dd);
         this.deliveryDTO.addDstDoc(dd.getDstDocDTO());
         return true;

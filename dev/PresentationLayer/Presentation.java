@@ -69,7 +69,6 @@ public class Presentation {
             case "5":
                 System.out.println("Thank you");
                 exit=true;
-                s.close();
                 break;
         }}
     }
@@ -1015,7 +1014,10 @@ public class Presentation {
         {
             System.out.print("Enter Item number - ");
             itemNumber = s.nextInt();
+            ///// Integration
+            //check item availability
             items.add(itemNumber);
+            //remove item from storage
 
             System.out.print("You want to enter another item ? yes / no - ");
             do{
